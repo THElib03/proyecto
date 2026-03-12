@@ -54,11 +54,12 @@ const Promos = () => {
   }
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Current Promotions</h1>
-        <p>Check out our latest sales and special offers</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Current Promotions</h1>
+          <p>Check out our latest sales and special offers</p>
+        </div>
 
       {loading ? (
         <div className="loading">Loading promotions...</div>
@@ -75,17 +76,17 @@ const Promos = () => {
                 <h3>{promo.title}</h3>
               </div>
               <div className="card-body">
-                <p style={{ marginBottom: '1rem' }}>{promo.description}</p>
-                <div style={{ marginBottom: '1rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
-                  <p style={{ textAlign: 'center', color: '#007bff', fontSize: '1.5rem', fontWeight: 'bold' }}>
+                <p className="mb-4">{promo.description}</p>
+                <div className="mb-4 p-4 bg-slate-100 rounded">
+                  <p className="text-center text-blue-500 text-xl font-bold">
                     {promo.discount}
                   </p>
-                  <p style={{ textAlign: 'center', color: '#666', fontSize: '0.9rem' }}>Code: <strong>{promo.code}</strong></p>
+                  <p className="text-center text-slate-600 text-sm">Code: <strong>{promo.code}</strong></p>
                 </div>
-                <p style={{ color: '#999', fontSize: '0.9rem' }}>Expires: {promo.expiry}</p>
+                <p className="text-slate-400 text-sm">Expires: {promo.expiry}</p>
               </div>
               <div className="card-footer">
-                <button className="btn btn-primary" onClick={() => handleApplyPromo(promo.code)} style={{ width: '100%' }}>
+                <button className="btn btn-primary w-full" onClick={() => handleApplyPromo(promo.code)}>
                   Apply Code
                 </button>
               </div>
@@ -93,6 +94,7 @@ const Promos = () => {
           ))}
         </div>
       )}
+    </div>
     </div>
   )
 }

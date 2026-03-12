@@ -24,11 +24,12 @@ const Login = () => {
   }
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Sign In</h1>
-        <p>Welcome back! Please login to your account</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Sign In</h1>
+          <p>Welcome back! Please login to your account</p>
+        </div>
 
       <div className="form-container">
         {error && <div className="alert alert-error">{error}</div>}
@@ -58,20 +59,21 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%' }}>
+          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+        <div className="mt-6 text-center">
           <p>
             Don't have an account?{' '}
-            <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>
+            <Link to="/register" className="text-blue-500 no-underline">
               Create one
             </Link>
           </p>
         </div>
       </div>
+    </div>
     </div>
   )
 }

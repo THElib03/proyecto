@@ -33,7 +33,7 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <div className="flex-1 p-8 mx-auto w-full max-w-7xl">
       {/* Hero Section */}
       <div className="bg-blue-600 text-white py-12 px-8 text-center">
         <h1 className="text-5xl mb-4">Book Your Bus Ticket</h1>
@@ -41,43 +41,46 @@ const Home = () => {
       </div>
 
       {/* Search Section */}
-      <div className="page-container">
-        <div className="card mb-8">
-          <div className="card-header">
-            <h3>Search Trips</h3>
+      <div className="bg-white rounded-lg p-8 shadow-md animate-fadeIn">
+        <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow mb-8">
+          <div className="border-b border-slate-200 pb-4 mb-4">
+            <h3 className="text-blue-500 text-xl">Search Trips</h3>
           </div>
-          <div className="card-body">
-            <div className="grid grid-cols-4 gap-4 items-end">
-              <div className="form-group">
-                <label>From</label>
+          <div className="leading-relaxed">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+              <div className="mb-6">
+                <label className="block mb-2 font-medium text-slate-800">From</label>
                 <input
                   type="text"
                   name="source"
                   value={formData.source}
                   onChange={handleInputChange}
                   placeholder="New York"
+                  className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </div>
-              <div className="form-group">
-                <label>To</label>
+              <div className="mb-6">
+                <label className="block mb-2 font-medium text-slate-800">To</label>
                 <input
                   type="text"
                   name="destination"
                   value={formData.destination}
                   onChange={handleInputChange}
                   placeholder="Boston"
+                  className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </div>
-              <div className="form-group">
-                <label>Departure Date</label>
+              <div className="mb-6">
+                <label className="block mb-2 font-medium text-slate-800">Departure Date</label>
                 <input
                   type="date"
                   name="departureDate"
                   value={formData.departureDate}
                   onChange={handleInputChange}
+                  className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </div>
-              <button className="btn btn-primary" onClick={handleSearch}>
+              <button className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700" onClick={handleSearch}>
                 Search
               </button>
             </div>
@@ -85,25 +88,25 @@ const Home = () => {
         </div>
 
         {/* Popular Routes */}
-        <div className="page-header">
-          <h2>Popular Routes</h2>
-          <p>Check out our most popular destinations</p>
+        <div className="mb-8 pb-4 border-b-2 border-blue-500">
+          <h2 className="text-2xl text-blue-500 mb-2">Popular Routes</h2>
+          <p className="text-slate-600 text-sm">Check out our most popular destinations</p>
         </div>
 
-        <div className="grid grid-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {popularRoutes.map((route, index) => (
-            <div key={index} className="card">
-              <div className="card-header">
-                <h3>
+            <div key={index} className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg">
+              <div className="border-b border-slate-200 pb-4 mb-4">
+                <h3 className="text-blue-500 text-xl">
                   {route.from} → {route.to}
                 </h3>
               </div>
-              <div className="card-body">
+              <div className="leading-relaxed">
                 <p className="text-2xl text-blue-600 font-bold">{route.price}</p>
               </div>
-              <div className="card-footer">
+              <div className="border-t border-slate-200 pt-4 mt-4">
                 <button
-                  className="btn btn-primary w-full"
+                  className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
                   onClick={() => {
                     setFormData((prev) => ({
                       ...prev,
@@ -124,38 +127,38 @@ const Home = () => {
 
         {/* Quick Links */}
         <div className="mt-12">
-          <div className="page-header">
-            <h2>Special Offers</h2>
-            <p>Don't miss our current deals</p>
+          <div className="mb-8 pb-4 border-b-2 border-blue-500">
+            <h2 className="text-2xl text-blue-500 mb-2">Special Offers</h2>
+            <p className="text-slate-600 text-sm">Don't miss our current deals</p>
           </div>
 
-          <div className="grid grid-2">
-            <div className="card">
-              <div className="card-header">
-                <h3>Travel Bonds</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg">
+              <div className="border-b border-slate-200 pb-4 mb-4">
+                <h3 className="text-blue-500 text-xl">Travel Bonds</h3>
               </div>
-              <div className="card-body">
+              <div className="leading-relaxed">
                 <p>Get exclusive discounts with our monthly travel bonds</p>
               </div>
-              <div className="card-footer">
+              <div className="border-t border-slate-200 pt-4 mt-4">
                 <button
-                  className="btn btn-primary w-full"
+                  className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
                   onClick={() => navigate('/bonds')}
                 >
                   Explore Bonds
                 </button>
               </div>
             </div>
-            <div className="card">
-              <div className="card-header">
-                <h3>Promotions</h3>
+            <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg">
+              <div className="border-b border-slate-200 pb-4 mb-4">
+                <h3 className="text-blue-500 text-xl">Promotions</h3>
               </div>
-              <div className="card-body">
+              <div className="leading-relaxed">
                 <p>Check out our latest sales and promotional offers</p>
               </div>
-              <div className="card-footer">
+              <div className="border-t border-slate-200 pt-4 mt-4">
                 <button
-                  className="btn btn-primary w-full"
+                  className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
                   onClick={() => navigate('/promos')}
                 >
                   View Promos

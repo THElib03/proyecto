@@ -134,19 +134,20 @@ const Settings = () => {
   }
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Settings</h1>
-        <p>Manage your account preferences and settings</p>
-      </div>
-
-      {message && (
-        <div className={`alert ${message.includes('Error') ? 'alert-error' : 'alert-success'}`}>
-          {message}
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Settings</h1>
+          <p>Manage your account preferences and settings</p>
         </div>
-      )}
 
-      <div className="grid grid-2" style={{ maxWidth: '900px' }}>
+        {message && (
+          <div className={`alert ${message.includes('Error') ? 'alert-error' : 'alert-success'}`}>
+            {message}
+          </div>
+        )}
+
+        <div className="grid grid-2 max-w-4xl">
         {/* Profile Settings */}
         <div className="card">
           <div className="card-header">
@@ -154,7 +155,7 @@ const Settings = () => {
           </div>
           <form onSubmit={handleSaveProfile}>
             <div className="card-body">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="grid grid-cols-2 gap-4">
                 <div className="form-group">
                   <label>First Name</label>
                   <input
@@ -265,7 +266,7 @@ const Settings = () => {
                 <option value="auto">Auto (System)</option>
               </select>
             </div>
-            <p style={{ color: '#666', fontSize: '0.9rem', marginTop: '0.5rem' }}>
+            <p className="text-slate-600 text-sm mt-2">
               Current: <strong>{theme.charAt(0).toUpperCase() + theme.slice(1)} Mode</strong>
             </p>
           </div>
@@ -282,34 +283,34 @@ const Settings = () => {
             <h3>Notification Preferences</h3>
           </div>
           <div className="card-body">
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '0.75rem' }}>
+            <div className="mb-4">
+              <label className="flex items-center cursor-pointer mb-3">
                 <input
                   type="checkbox"
                   name="email"
                   checked={notifications.email}
                   onChange={handleNotificationChange}
-                  style={{ marginRight: '0.75rem', width: 'auto', padding: 0 }}
+                  className="mr-3 w-auto p-0"
                 />
                 <span>Email Notifications</span>
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '0.75rem' }}>
+              <label className="flex items-center cursor-pointer mb-3">
                 <input
                   type="checkbox"
                   name="sms"
                   checked={notifications.sms}
                   onChange={handleNotificationChange}
-                  style={{ marginRight: '0.75rem', width: 'auto', padding: 0 }}
+                  className="mr-3 w-auto p-0"
                 />
                 <span>SMS Notifications</span>
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+              <label className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
                   name="push"
                   checked={notifications.push}
                   onChange={handleNotificationChange}
-                  style={{ marginRight: '0.75rem', width: 'auto', padding: 0 }}
+                  className="mr-3 w-auto p-0"
                 />
                 <span>Push Notifications</span>
               </label>
@@ -327,6 +328,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

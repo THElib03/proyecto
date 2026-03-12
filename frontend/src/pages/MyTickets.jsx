@@ -56,13 +56,14 @@ const MyTickets = () => {
   const filteredTickets = filter === 'all' ? tickets : tickets.filter((t) => t.status === filter)
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>My Tickets</h1>
-        <p>View and manage your bookings</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>My Tickets</h1>
+          <p>View and manage your bookings</p>
+        </div>
 
-      <div style={{ marginBottom: '2rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div className="mb-8 flex gap-2 flex-wrap">
         {['all', 'active', 'completed', 'cancelled'].map((status) => (
           <button
             key={status}
@@ -72,7 +73,7 @@ const MyTickets = () => {
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </button>
         ))}
-      </div>
+        </div>
 
       {loading ? (
         <div className="loading">Loading your tickets...</div>
@@ -89,7 +90,7 @@ const MyTickets = () => {
                 <h3>{ticket.route}</h3>
               </div>
               <div className="card-body">
-                <div style={{ marginBottom: '0.75rem' }}>
+                <div className="mb-3">
                   <p>
                     <strong>Departure:</strong> {ticket.departure}
                   </p>
@@ -108,7 +109,7 @@ const MyTickets = () => {
                 </div>
               </div>
               <div className="card-footer">
-                <div className="btn-group" style={{ flexDirection: 'column' }}>
+                <div className="btn-group flex-col">
                   <button className="btn btn-sm btn-primary" onClick={() => handleDownloadTicket(ticket.id)}>
                     Download
                   </button>
@@ -123,6 +124,7 @@ const MyTickets = () => {
           ))}
         </div>
       )}
+    </div>
     </div>
   )
 }

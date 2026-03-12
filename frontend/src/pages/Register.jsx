@@ -39,17 +39,18 @@ const Register = () => {
   }
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Create Account</h1>
-        <p>Join us and start booking your tickets</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Create Account</h1>
+          <p>Join us and start booking your tickets</p>
+        </div>
 
       <div className="form-container">
         {error && <div className="alert alert-error">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div className="grid grid-cols-2 gap-4">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
               <input
@@ -116,20 +117,21 @@ const Register = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%' }}>
+          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+        <div className="mt-6 text-center">
           <p>
             Already have an account?{' '}
-            <Link to="/login" style={{ color: '#007bff', textDecoration: 'none' }}>
+            <Link to="/login" className="text-blue-500 no-underline">
               Sign in
             </Link>
           </p>
         </div>
       </div>
+    </div>
     </div>
   )
 }

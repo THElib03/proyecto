@@ -70,11 +70,12 @@ const Stations = () => {
   )
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Stations Management</h1>
-        <p>Manage bus stations and terminals</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Stations Management</h1>
+          <p>Manage bus stations and terminals</p>
+        </div>
 
       <div className="btn-group">
         <button
@@ -90,12 +91,12 @@ const Stations = () => {
       </div>
 
       {showForm && (
-        <div className="card" style={{ marginBottom: '2rem' }}>
+        <div className="card mb-8">
           <div className="card-header">
             <h3>{editingId ? 'Edit Station' : 'Add New Station'}</h3>
           </div>
           <div className="card-body">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="grid grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Station Name</label>
                 <input
@@ -157,7 +158,7 @@ const Stations = () => {
         </div>
       )}
 
-      <div style={{ marginBottom: '1.5rem' }}>
+      <div className="mb-6">
         <input
           type="text"
           className="search-input"
@@ -216,6 +217,7 @@ const Stations = () => {
           </table>
         </div>
       )}
+    </div>
     </div>
   )
 }

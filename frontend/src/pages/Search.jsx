@@ -63,20 +63,21 @@ const Search = () => {
   }
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Search Results</h1>
-        <p>
-          {source} → {destination}
-        </p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Search Results</h1>
+          <p>
+            {source} → {destination}
+          </p>
+        </div>
 
-      <div className="card" style={{ marginBottom: '2rem' }}>
+      <div className="card mb-8">
         <div className="card-header">
           <h3>Search Filters</h3>
         </div>
         <div className="card-body">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="form-group">
               <label>Departure Date</label>
               <input
@@ -103,8 +104,8 @@ const Search = () => {
                 onChange={(e) => setFilters((prev) => ({ ...prev, passengers: e.target.value }))}
               />
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <button className="btn btn-primary" onClick={handleSearch} style={{ width: '100%' }}>
+            <div className="flex items-end">
+              <button className="btn btn-primary w-full" onClick={handleSearch}>
                 Search Trips
               </button>
             </div>
@@ -122,23 +123,23 @@ const Search = () => {
       ) : (
         <div>
           {results.map((trip) => (
-            <div key={trip.id} className="card" style={{ marginBottom: '1rem' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr auto', gap: '1rem', alignItems: 'center' }}>
+            <div key={trip.id} className="card mb-4">
+              <div className="grid grid-cols-5 gap-4 items-center">
                 <div>
-                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{trip.departure}</p>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Departure</p>
+                  <p className="text-lg font-bold">{trip.departure}</p>
+                  <p className="text-slate-600 text-sm">Departure</p>
                 </div>
                 <div>
-                  <p style={{ color: '#666' }}>━ {trip.duration} ━</p>
-                  <p style={{ color: '#999', fontSize: '0.9rem' }}>{trip.bus}</p>
+                  <p className="text-slate-600">━ {trip.duration} ━</p>
+                  <p className="text-slate-500 text-sm">{trip.bus}</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{trip.arrival}</p>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Arrival</p>
+                  <p className="text-lg font-bold">{trip.arrival}</p>
+                  <p className="text-slate-600 text-sm">Arrival</p>
                 </div>
                 <div>
-                  <p style={{ color: '#28a745', fontWeight: 'bold' }}>{trip.available} seats</p>
-                  <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#007bff' }}>{trip.price}</p>
+                  <p className="text-green-500 font-bold">{trip.available} seats</p>
+                  <p className="text-lg font-bold text-blue-500">{trip.price}</p>
                 </div>
                 <button className="btn btn-primary" onClick={() => handleSelectTrip(trip.id)}>
                   Select
@@ -148,6 +149,7 @@ const Search = () => {
           ))}
         </div>
       )}
+    </div>
     </div>
   )
 }

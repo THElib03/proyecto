@@ -76,18 +76,19 @@ const Bonds = () => {
   )
 
   return (
-    <div className="page-container">
-      <div className="page-header">
-        <h1>Travel Bonds</h1>
-        <p>Exclusive discounts and offers on frequent routes</p>
-      </div>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Travel Bonds</h1>
+          <p>Exclusive discounts and offers on frequent routes</p>
+        </div>
 
-      <div className="card" style={{ marginBottom: '2rem' }}>
+      <div className="card mb-8">
         <div className="card-header">
           <h3>Search Bonds</h3>
         </div>
         <div className="card-body">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
+          <div className="grid grid-cols-3 gap-4">
             <div className="form-group">
               <label>From</label>
               <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)}>
@@ -110,14 +111,13 @@ const Bonds = () => {
                 ))}
               </select>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+            <div className="flex items-end">
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary w-full"
                 onClick={() => {
                   setSourceFilter('')
                   setDestFilter('')
                 }}
-                style={{ width: '100%' }}
               >
                 Reset Filters
               </button>
@@ -141,16 +141,16 @@ const Bonds = () => {
                 <h3>{bond.route}</h3>
               </div>
               <div className="card-body">
-                <p style={{ marginBottom: '1rem' }}>{bond.description}</p>
-                <div style={{ marginBottom: '1rem', padding: '1rem', backgroundColor: '#e7f3ff', borderRadius: '4px', borderLeft: '4px solid #007bff' }}>
-                  <p style={{ color: '#007bff', fontSize: '1.3rem', fontWeight: 'bold', marginBottom: '0.25rem' }}>
+                <p className="mb-4">{bond.description}</p>
+                <div className="mb-4 p-4 bg-blue-100 rounded border-l-4 border-blue-500">
+                  <p className="text-blue-500 text-lg font-bold mb-1">
                     Save {bond.discount}
                   </p>
-                  <p style={{ color: '#666', fontSize: '0.9rem' }}>Monthly price: <strong>{bond.price}</strong></p>
+                  <p className="text-slate-600 text-sm">Monthly price: <strong>{bond.price}</strong></p>
                 </div>
               </div>
               <div className="card-footer">
-                <button className="btn btn-primary" onClick={() => handlePurchaseBond(bond.id)} style={{ width: '100%' }}>
+                <button className="btn btn-primary w-full" onClick={() => handlePurchaseBond(bond.id)}>
                   Purchase Bond
                 </button>
               </div>
@@ -158,6 +158,7 @@ const Bonds = () => {
           ))}
         </div>
       )}
+    </div>
     </div>
   )
 }

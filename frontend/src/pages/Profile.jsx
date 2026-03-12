@@ -31,14 +31,17 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="page-container">
-        <div className="loading">Loading your profile...</div>
+      <div className="app-container">
+        <div className="page-container">
+          <div className="loading">Loading your profile...</div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="page-container">
+    <div className="app-container">
+      <div className="page-container">
       <div className="page-header">
         <h1>My Profile</h1>
         <p>View and manage your personal information</p>
@@ -51,7 +54,7 @@ const Profile = () => {
               <h3>Personal Information</h3>
             </div>
             <div className="card-body">
-              <div style={{ marginBottom: '1rem' }}>
+              <div className="mb-4">
                 <p>
                   <strong>Name:</strong> {user.name}
                 </p>
@@ -67,7 +70,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="card-footer">
-              <Link to="/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+              <Link to="/settings" className="btn btn-primary text-white!">
                 Edit Profile
               </Link>
             </div>
@@ -78,13 +81,13 @@ const Profile = () => {
               <h3>Quick Stats</h3>
             </div>
             <div className="card-body">
-              <div style={{ textAlign: 'center', padding: '1rem 0' }}>
-                <div style={{ fontSize: '2.5rem', color: '#007bff', marginBottom: '0.5rem' }}>{user.totalTickets}</div>
-                <p style={{ color: '#666' }}>Total Tickets Booked</p>
+              <div className="text-center py-4">
+                <div className="text-5xl text-blue-500 mb-2">{user.totalTickets}</div>
+                <p className="text-slate-600">Total Tickets Booked</p>
               </div>
             </div>
             <div className="card-footer">
-              <Link to="/my-tickets" className="btn btn-primary" style={{ textDecoration: 'none', width: '100%', textAlign: 'center' }}>
+              <Link to="/my-tickets" className="btn btn-primary text-white! w-full text-center">
                 View My Tickets
               </Link>
             </div>
@@ -95,14 +98,14 @@ const Profile = () => {
               <h3>Account Settings</h3>
             </div>
             <div className="card-body">
-              <ul style={{ listStyle: 'none', padding: 0 }}>
-                <li style={{ marginBottom: '0.75rem' }}>
-                  <Link to="/settings" style={{ color: '#007bff', textDecoration: 'none' }}>
+              <ul className="list-none p-0">
+                <li className="mb-3">
+                  <Link to="/settings" className="text-blue-500 no-underline">
                     ⚙️ Settings
                   </Link>
                 </li>
-                <li style={{ marginBottom: '0.75rem' }}>
-                  <Link to="/my-tickets" style={{ color: '#007bff', textDecoration: 'none' }}>
+                <li className="mb-3">
+                  <Link to="/my-tickets" className="text-blue-500 no-underline">
                     🎫 My Tickets
                   </Link>
                 </li>
@@ -111,6 +114,7 @@ const Profile = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   )
 }

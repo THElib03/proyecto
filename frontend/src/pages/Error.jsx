@@ -7,21 +7,23 @@ const Error = () => {
   const errorDescription = 'The page you are looking for does not exist or has been moved.'
 
   return (
-    <div className="page-container">
-      <div style={{ textAlign: 'center', padding: '3rem 0' }}>
-        <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>⚠️</div>
-        <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem', color: '#dc3545' }}>{errorCode}</h1>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#333' }}>{errorTitle}</h2>
-        <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
-          {errorDescription}
-        </p>
-        <div className="btn-group" style={{ justifyContent: 'center' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/')}>
-            Go to Home
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigate(-1)}>
-            Go Back
-          </button>
+    <div className="app-container">
+      <div className="page-container">
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h1 className="text-5xl mb-2 text-red-600">{errorCode}</h1>
+          <h2 className="text-3xl mb-4 text-slate-800">{errorTitle}</h2>
+          <p className="text-lg text-slate-600 mb-8 max-w-md mx-auto">
+            {errorDescription}
+          </p>
+          <div className="btn-group justify-center">
+            <button className="btn btn-primary" onClick={() => navigate('/')}>
+              Go to Home
+            </button>
+            <button className="btn btn-secondary" onClick={() => navigate(-1)}>
+              Go Back
+            </button>
+          </div>
         </div>
       </div>
     </div>
