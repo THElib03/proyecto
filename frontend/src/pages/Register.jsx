@@ -1,139 +1,150 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+    const { register } = useAuth();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const [formData, setFormData] = useState({
+        username: "",
+        mail: "",
+        password: "",
+        confirmPassword: "",
+        citId: "",
+    });
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
-      return
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
 
-    setLoading(true)
-    try {
-      // TODO: Implement actual registration API call
-      console.log('Register attempt:', formData)
-      // const response = await fetch('/api/register', { ... })
-    } catch (err) {
-      setError('Registration failed. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+        setLoading(true);
 
-  return (
-    <div className="app-container">
-      <div className="page-container">
-        <div className="page-header">
-          <h1>Create Account</h1>
-          <p>Join us and start booking your tickets</p>
-        </div>
+        try {
+            await register(formData);
+        } catch (err) {
+            setError(err.message || "Registration failed. Please try again.");
+            console.error(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-      <div className="form-container">
-        {error && <div className="alert alert-error">{error}</div>}
+    return (
+        <div className="app-container">
+            <div className="page-container">
+                <div className="page-header">
+                    <h1>Create Account</h1>
+                    <p>Join us and start booking your tickets</p>
+                </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="form-group">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                id="firstName"
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="John"
-                required
-              />
+                <div className="form-container">
+                    {error && <div className="alert alert-error">{error}</div>}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="form-group">
+                                <label htmlFor="username">Full Name</label>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    placeholder="John Doe"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="mail">Email Address</label>
+                            <input
+                                id="mail"
+                                type="mail"
+                                name="mail"
+                                value={formData.mail}
+                                onChange={handleChange}
+                                placeholder="your@email.com"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="••••••••"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="confirmPassword">
+                                Confirm Password
+                            </label>
+                            <input
+                                id="confirmPassword"
+                                type="password"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="••••••••"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="citId">ID Number</label>
+                            <input
+                                id="citId"
+                                type="text"
+                                name="citId"
+                                value={formData.citId}
+                                onChange={handleChange}
+                                placeholder="12345678A"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn btn-primary w-full"
+                            disabled={loading}
+                        >
+                            {loading ? "Creating Account..." : "Create Account"}
+                        </button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <p>
+                            Already have an account?{" "}
+                            <Link
+                                to="/login"
+                                className="text-blue-500 no-underline"
+                            >
+                                Sign in
+                            </Link>
+                        </p>
+                    </div>
+                </div>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                id="lastName"
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Doe"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="your@email.com"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-            {loading ? 'Creating Account...' : 'Create Account'}
-          </button>
-        </form>
-
-        <div className="mt-6 text-center">
-          <p>
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-500 no-underline">
-              Sign in
-            </Link>
-          </p>
         </div>
-      </div>
-    </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Register
+export default Register;

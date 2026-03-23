@@ -8,27 +8,35 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                property: mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/auth/login
+            stateless: true
+            json_login:
+                check_path: /api/auth/login
+                username_path: mail
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\UserLoginAuthenticator
+            # custom_authenticator: App\Security\LoginAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                # by default, the feature is enabled by checking a checkbox in the
-                # login form, uncomment the following line to always enable it.
-                #always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -39,8 +47,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

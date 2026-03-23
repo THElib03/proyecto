@@ -5,20 +5,23 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_MAIL', fields: ['mail'])]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["user:read", "user:new"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
@@ -28,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password
@@ -47,6 +50,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'owner')]
     private Collection $tickets;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $joinDate = null;
+
+    #[ORM\Column(length: 9)]
+    private ?string $phone = null;
 
     public function __construct()
     {
@@ -177,6 +186,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $ticket->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJoinDate(): ?\DateTime
+    {
+        return $this->joinDate;
+    }
+
+    public function setJoinDate(\DateTime $joinDate): static
+    {
+        $this->joinDate = $joinDate;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

@@ -1,34 +1,81 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
-    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const [token, setToken] = useState(localStorage.getItem("sessionToken"));
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        checkAuth();
-    }, []);
+    const login = async (mail, password) => {
+        setLoading(true);
 
-    const checkAuth = async () => {
-        try{
-            const token = localStorage.getItem('token');
-            if(token){
-                setIsLogin(true);
+        try {
+            const passRes = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ mail, password }),
+            });
+
+            const passData = await passRes.json();
+
+            if(passRes.ok) {
+                console.log("OK");
+                setIsAuthenticated(true);
+                localStorage.setItem("sessionToken", passData.token);
+                setToken(passData.token);
             }
-        }
-        catch(err){
-            setError(err);
-            setIsLogin(false);
-        }
-        finally{
-            setLoading(false)
+        } catch (err) {
+            console.debug(err);
+            // if(passRes.status === 500) {
+            //     throw new Error("Internal server error. Please try again later.");
+            // }
+            throw new Error(err.message || "Invalid email or password");
+        } finally {
+            setLoading(false);
         }
     }
 
-    return <AuthContext.Provider value={{ /* values */}}>{children}</AuthContext.Provider>
+    const register = async (formData) => {
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData),
+            });
+
+            if(response.ok){
+                alert("Registration successful! You can now log in.");
+                navigate("/login");
+            }
+        } catch (err) {
+            console.error(err.message);
+            throw new Error(err.message ||"Registration failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const logout = () => {
+        localStorage.removeItem("sessionToken");
+        setToken(null);
+        setIsAuthenticated(false);
+        navigate("/");
+    }
+
+    return (
+        <AuthContext.Provider value={{ token, isAuthenticated, loading, login, register, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if(!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 }
