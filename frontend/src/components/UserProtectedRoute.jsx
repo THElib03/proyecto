@@ -17,10 +17,10 @@ const UserProtectedRoute = () => {
             headers: {'Authorization': `Bearer ${token}`},
         })
         .then(validateRes => { 
-            
             if(!validateRes.ok) {
                 throw new Error("Your session has expired. Please log in again.")
             }
+            console.log("User signature valid");
             setStatus('valid');
         })
         .catch(err => {
@@ -28,7 +28,7 @@ const UserProtectedRoute = () => {
             logout();
             setStatus('invalid');
         })
-    } , [token, logout]);
+    }, [token, logout]);
 
     if(status === 'loading') {
         return <div>Loading...</div>

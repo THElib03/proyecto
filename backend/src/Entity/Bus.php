@@ -24,10 +24,19 @@ class Bus
     private ?\DateTime $joinDate = null;
 
     #[ORM\Column]
-    private ?int $kmCount = null;
+    private ?int $kmCount = 0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $lastServ = null;
+
+    #[ORM\Column]
+    private ?int $numSeat = null;
+
+    public function __construct()
+    {
+        $this -> joinDate = new \DateTime();
+        $this -> lastServ = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +99,18 @@ class Bus
     public function setLastServ(\DateTime $lastServ): static
     {
         $this->lastServ = $lastServ;
+
+        return $this;
+    }
+
+    public function getNumSeat(): ?int
+    {
+        return $this->numSeat;
+    }
+
+    public function setNumSeat(int $numSeat): static
+    {
+        $this->numSeat = $numSeat;
 
         return $this;
     }

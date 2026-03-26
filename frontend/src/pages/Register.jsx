@@ -11,6 +11,7 @@ const Register = () => {
         password: "",
         confirmPassword: "",
         citId: "",
+        phone: "",
     });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -117,6 +118,19 @@ const Register = () => {
                                 value={formData.citId}
                                 onChange={handleChange}
                                 placeholder="12345678A"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="phone">Phone Number</label>
+                            <input
+                                id="phone"
+                                type="text"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                placeholder="612345678"
                                 required
                             />
                         </div>

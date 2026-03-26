@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $mail = null;
 
     #[ORM\Column(length: 9, nullable: true)]
-    private ?string $citizenID = null;
+    private ?string $citizenID = "";
 
     /**
      * @var Collection<int, Ticket>
@@ -52,14 +52,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $tickets;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $joinDate = null;
+    private ?\DateTime $joinDate;
 
     #[ORM\Column(length: 9)]
-    private ?string $phone = null;
+    private ?string $phone = "";
 
     public function __construct()
     {
-        $this->tickets = new ArrayCollection();
+        $this -> joinDate = new \DateTime();
+        $this -> tickets = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -1,27 +1,30 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
+    const [token, setToken] = useState(localStorage.getItem('sessionToken') || null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        fetchUserProfile();
-    }, []);
+        if (!token) {
+            console.log(token);
+        } else {
+            fetchUserProfile();
+        }
+    }, [token, navigate]);
 
     const fetchUserProfile = async () => {
         try {
             // TODO: Implement API call to fetch user profile
-            // const response = await fetch('/api/profile')
-            // const data = await response.json()
-            // setUser(data)
-            setUser({
-                name: "John Doe",
-                email: "john@example.com",
-                phone: "555-0001",
-                joinDate: "2024-01-15",
-                totalTickets: 5,
+            const userResponse = await fetch('/api/auth/validate', {
+                method: 'GET',
+                headers: {'Authorization': `Bearer ${token}`},
             });
+            const userData = await userResponse.json()
+            setUser(userData);
         } catch (err) {
             console.error("Error fetching profile:", err);
         } finally {
@@ -56,16 +59,13 @@ const Profile = () => {
                             <div className="card-body">
                                 <div className="mb-4">
                                     <p>
-                                        <strong>Name:</strong> {user.name}
+                                        <strong>Name:</strong> {user.username}
                                     </p>
                                     <p>
-                                        <strong>Email:</strong> {user.email}
+                                        <strong>Email:</strong> {user.mail}
                                     </p>
                                     <p>
-                                        <strong>Phone:</strong> {user.phone}
-                                    </p>
-                                    <p>
-                                        <strong>Member Since:</strong>{" "}
+                                        <strong>Member since:</strong>{" "}
                                         {user.joinDate}
                                     </p>
                                 </div>

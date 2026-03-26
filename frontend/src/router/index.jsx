@@ -1,7 +1,8 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 
 import RootLayout from "../layout/RootLayout";
 import UserLayout from "../layout/UserLayout";
+import AdminLayout from "../layout/AdminLayout";
 
 import UserProtectedRoute from "../components/UserProtectedRoute";
 import AdminProtectedRoute from "../components/AdminProtectedRoute";
@@ -79,9 +80,12 @@ export const router = createBrowserRouter([
                 element: <AdminProtectedRoute />,
                 children: [
                     {
-                        index: true,
                         element: <AdminLayout />,
                         children: [
+                            {
+                                index: true,
+                                element: <Admin />,
+                            },
                             {
                                 path: "buses",
                                 element: <Buses />,

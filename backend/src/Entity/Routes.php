@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RouteRepository::class)]
-class Route
+class Routes
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -63,9 +63,9 @@ class Route
 
     public function addRouteStation(RouteStations $routeStation): static
     {
-        if (!$this->routeStations->contains($routeStation)) {
-            $this->routeStations->add($routeStation);
-            $routeStation->setRoute($this);
+        if (!$this->routeStations -> contains($routeStation)) {
+            $this->routeStations -> add($routeStation);
+            $routeStation -> setRoute($this);
         }
 
         return $this;

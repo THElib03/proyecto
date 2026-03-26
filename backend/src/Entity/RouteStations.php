@@ -18,7 +18,7 @@ class RouteStations
 
     #[ORM\ManyToOne(inversedBy: 'routeStations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Route $route = null;
+    private ?Routes $route = null;
 
     #[ORM\ManyToOne(inversedBy: 'stationRoutes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,12 +41,12 @@ class RouteStations
         return $this;
     }
 
-    public function getRoute(): ?Route
+    public function getRoute(): ?Routes
     {
         return $this->route;
     }
 
-    public function setRoute(?Route $route): static
+    public function setRoute(?Routes $route): static
     {
         $this->route = $route;
 

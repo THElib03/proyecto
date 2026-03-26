@@ -55,7 +55,6 @@ const NavBar = () => {
                         </Link>
 
                         {/* User Menu */}
-                        {token ? ('right') : ('hidden')}
                         <div className="flex gap-4 items-center ml-auto pl-8 border-l border-white border-opacity-20">
                             {!token && (<Link
                                 to="/login"
@@ -65,11 +64,11 @@ const NavBar = () => {
                             </Link>)}
                             
                             {token && (
-                                <><Link to="/profile"
+                                <Link to="/profile"
                                     className={`text-white! no-underline font-medium px-3 py-2 rounded transition-colors ${isActive("/profile")}`}
                                 >
                                     Profile
-                                </Link></>
+                                </Link>
                             )}
                         </div>
                     </div>

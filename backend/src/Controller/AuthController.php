@@ -21,10 +21,10 @@ class AuthController extends AbstractController
             $data = json_decode($request -> getContent(), true);
 
             $user = new User();
-            $user->setUsername($data['username']);
-            $user->setMail($data['mail']);
+            $user -> setUsername($data['username']);
+            $user -> setMail($data['mail']);
             $user -> setCitizenID($data['citId']);
-            $user->setPassword($hashPass -> hashPassword($user, trim($data['password'])));
+            $user -> setPassword($hashPass -> hashPassword($user, trim($data['password'])));
 
             if (!isset($data['password'])) {
                 return $this->json(['error' => 'Introduzca una contraseña.'], Response::HTTP_BAD_REQUEST);
@@ -55,19 +55,37 @@ class AuthController extends AbstractController
     }
 
     #[Route('/validate', name: 'api_validate', methods: ['GET'])]
-    public function validate(): JsonResponse
+    public function validate(Request $request, UserRepository $userRepo): JsonResponse
     {
-        return $this->json(['message' => 'Session is valid'], Response::HTTP_OK);
+        $token = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $token);
+        $payload = json_decode(base64_decode(explode('.', $token)[1]), true);
+        $mail = $payload['username'];
+
+        $checkUser = $userRepo->findOneBy(['mail' => $mail]);
+
+        if (!isset($checkUser)) {
+            return $this->json(['error' => 'User not found.'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json([
+            'username' => $checkUser -> getUsername(),
+            'mail' => $checkUser -> getMail(),
+            'citId' => $checkUser -> getCitizenID(),
+            'joinDate' => $checkUser -> getJoinDate(),
+        ], Response::HTTP_OK);
     }
 
     #[Route('/admin', name: 'api_admin_validate', methods: ['POST'])]
     public function validateAdmin(Request $request, UserRepository $userRepo): JsonResponse
     {   
-        $data = json_decode($request->getContent(), true);
-        $checkUser = $userRepo->findOneBy(['mail' => $data['mail']]);
+        $token = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $token);
+        $payload = json_decode(base64_decode(explode('.', $token)[1]), true);
+        $checkUser = $userRepo->findOneBy(['mail' => $payload['username']]);
 
-        if (!isset($checkUser)) {
-            return $this->json(['error' => 'Correo electrónico o contraseña incorrectos.'], Response::HTTP_UNAUTHORIZED);
+        if (!isset($checkUser) || !in_array('ROLE_ADMIN', $checkUser -> getRoles())) {
+            return $this->json(['error' => 'Correo electrónico o contraseña incorrectos.'], Response::HTTP_FORBIDDEN);
         }
 
         return $this->json(['message' => 'Admin session is valid'], Response::HTTP_OK);

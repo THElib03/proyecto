@@ -1,13 +1,36 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
+import Error from '../pages/Error';
 
 //TODO: Adapt to whatever is necessary for admins.
 const AdminProtectedRoute = () => {
     const {isAuthenticated, token, logout} = useAuth();
     const [status, setStatus] = useState(token ? 'loading' : 'invalid');
 
-    useEffect(() => {});
+    useEffect(() => {
+        if(!token && !isAuthenticated) {
+            return;
+        }
+        
+        console.log("Validating user perms...");// get the middle part
+        console.log(JSON.parse(atob(token.split('.')[1]))?.username);
+        fetch('/api/auth/admin', {
+            method: 'POST',
+            headers: {'Authorization': `Bearer ${token}`},
+        })
+        .then(validateRes => { 
+            if(!validateRes.ok) {
+                return <Error/>;
+            }
+            setStatus('valid');
+        })
+        .catch(err => {
+            console.error(err.message);
+            logout();
+            setStatus('invalid');
+        })
+    }, [token, logout]);
 
     if(status === 'loading') {
         return <div>Loading...</div>
@@ -15,7 +38,7 @@ const AdminProtectedRoute = () => {
     if(status === 'invalid') {
         console.log("Not authenticated");
         logout();
-        return <Navigate to="/login" replace />;
+        return <Error/>;
     }
     return <Outlet />;
 };

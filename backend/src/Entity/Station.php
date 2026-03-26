@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StationRepository::class)]
-#[ApiResource]
 class Station
 {
     #[ORM\Id]
@@ -24,9 +23,9 @@ class Station
     private ?string $location = null;
 
     /**
-     * @var Collection<int, Route>
+     * @var Collection<int, Routes>
      */
-    #[ORM\ManyToMany(targetEntity: Route::class, inversedBy: 'stations')]
+    #[ORM\ManyToMany(targetEntity: Routes::class, inversedBy: 'stations')]
     private Collection $routes;
 
     /**
