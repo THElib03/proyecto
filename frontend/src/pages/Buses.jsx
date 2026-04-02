@@ -29,9 +29,8 @@ const Buses = () => {
             });
             if (!response.ok) throw new Error("Failed to fetch buses");
             const data = await response.json();
-            // Handle both array response and object with data property
-            const busesArray = Array.isArray(data) ? data : data.data || data.buses || [];
-            setBuses(busesArray);
+
+            setBuses(Array.isArray(data) ? data : data.data || data.buses || []);
         } catch (err) {
             console.error("Error fetching buses:", err);
         } finally {
