@@ -11,6 +11,7 @@ const Buses = () => {
         model: "",
         numSeat: "",
         status: "active",
+        kmCount: "",
     });
 
     useEffect(() => {
@@ -89,9 +90,14 @@ const Buses = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        // Extract yyyy-mm-dd from ISO format strings
+        return dateString.split("T")[0];
+    };
+
     const filteredBuses = buses.filter(
         (bus) =>
-            console.log(bus) ||
             bus.plateNum.toLowerCase().includes(searchTerm.toLowerCase()) ||
             bus.model.toLowerCase().includes(searchTerm.toLowerCase()),
     );
@@ -115,7 +121,6 @@ const Buses = () => {
                                 model: "",
                                 numSeat: "",
                                 status: "active",
-                                joinDate: "",
                                 kmCount: "",
                                 lastServ: "",
                             });
@@ -140,6 +145,7 @@ const Buses = () => {
                                         value={formData.plateNum}
                                         onChange={handleInputChange}
                                         placeholder="1234 ABC"
+                                        disabled={!!editingId}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -150,6 +156,7 @@ const Buses = () => {
                                         value={formData.model}
                                         onChange={handleInputChange}
                                         placeholder="Mercedes Sprinter"
+                                        disabled={!!editingId}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -160,6 +167,7 @@ const Buses = () => {
                                         value={formData.numSeat}
                                         onChange={handleInputChange}
                                         placeholder="50"
+                                        disabled={!!editingId}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -177,6 +185,17 @@ const Buses = () => {
                                             Inactive
                                         </option>
                                     </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Tachometer (km)</label>
+                                    <input
+                                        type="number"
+                                        name="kmCount"
+                                        value={formData.kmCount}
+                                        onChange={handleInputChange}
+                                        placeholder="0"
+                                        disabled={!editingId}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -239,7 +258,7 @@ const Buses = () => {
                                         <td>{bus.plateNum}</td>
                                         <td>{bus.model}</td>
                                         <td>{bus.kmCount}</td>
-                                        <td>{bus.lastServ}</td>
+                                        <td>{formatDate(bus.lastServ)}</td>
                                         <td>{bus.numSeat}</td>
                                         <td>{bus.status || 'Active'}</td>
                                         <td>
@@ -260,7 +279,7 @@ const Buses = () => {
                                                         handleDelete(bus.id)
                                                     }
                                                 >
-                                                    Delete
+                                                    Retire
                                                 </button>
                                             </div>
                                         </td>
