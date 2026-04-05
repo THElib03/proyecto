@@ -51,6 +51,7 @@ const Register = () => {
 
                 <div className="form-container">
                     {error && <div className="alert alert-error">{error}</div>}
+                    {console.log(error)}
 
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-2 gap-4">

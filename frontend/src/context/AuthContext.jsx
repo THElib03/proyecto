@@ -21,17 +21,16 @@ export const AuthProvider = ({ children }) => {
 
             const passData = await passRes.json();
 
-            if(passRes.ok) {
-                console.log("OK");
-                setIsAuthenticated(true);
-                localStorage.setItem("sessionToken", passData.token);
-                setToken(passData.token);
+            if(!passRes.ok) {
+                throw new Error(passData.error || "Invalid email or password");
             }
+
+            console.log("OK");
+            setIsAuthenticated(true);
+            localStorage.setItem("sessionToken", passData.token);
+            setToken(passData.token);
         } catch (err) {
             console.debug(err);
-            // if(passRes.status === 500) {
-            //     throw new Error("Internal server error. Please try again later.");
-            // }
             throw new Error(err.message || "Invalid email or password");
         } finally {
             setLoading(false);
@@ -46,13 +45,17 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(formData),
             });
 
-            if(response.ok){
-                alert("Registration successful! You can now log in.");
-                navigate("/login");
+            const data = await response.json();
+
+            if(!response.ok) {
+                throw new Error(data.error || "Registration failed. Please try again.");
             }
+
+            alert("Registration successful! You can now log in.");
+            navigate("/login");
         } catch (err) {
             console.error(err.message);
-            throw new Error(err.message ||"Registration failed. Please try again.");
+            throw new Error(err.message || "Registration failed. Please try again.");
         } finally {
             setLoading(false);
         }

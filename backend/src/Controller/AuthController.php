@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,22 +21,52 @@ class AuthController extends AbstractController
         try{
             $data = json_decode($request -> getContent(), true);
 
+            $requiredFields = ['username', 'mail', 'citId', 'password', 'phone'];
+            foreach ($requiredFields as $field) {
+                if (empty($data[$field])) {
+                    return $this->json(
+                        ['error' => "El campo $field es requerido."],
+                        Response::HTTP_BAD_REQUEST
+                    );
+                }
+            }
+
             $user = new User();
             $user -> setUsername($data['username']);
             $user -> setMail($data['mail']);
             $user -> setCitizenID($data['citId']);
+            $user->setPhone($data['phone']);
             $user -> setPassword($hashPass -> hashPassword($user, trim($data['password'])));
-
-            if (!isset($data['password'])) {
-                return $this->json(['error' => 'Introduzca una contraseña.'], Response::HTTP_BAD_REQUEST);
-            }
 
             $entityManager->persist($user);
             $entityManager->flush();
             return $this -> json(['message' => 'Se ha registrado su nueva cuenta.'], Response::HTTP_OK);
         }
+        catch(UniqueConstraintViolationException $e){
+            if (str_contains($e->getMessage(), 'UNIQ_IDENTIFIER_MAIL')) {
+                return $this->json(
+                    ['error' => 'Este email ya está registrado.'],
+                    Response::HTTP_CONFLICT
+                );
+            } elseif (str_contains($e->getMessage(), 'UNIQ_IDENTIFIER_CIT_ID')) {
+                return $this->json(
+                    ['error' => 'Este número de identificación ya existe.'],
+                    Response::HTTP_CONFLICT
+                );
+            }
+            // Generic duplicate error
+            return $this->json(
+                ['error' => 'Los datos proporcionados ya existen en el sistema.'],
+                Response::HTTP_CONFLICT
+            );
+        }
         catch (\Exception $e) {
-            return $this->json(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+            error_log('Registration error: ' . $e->getMessage());
+            
+            return $this->json(
+                ['error' => 'Ocurrió un error durante el registro. Intente nuevamente más tarde.'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
     }
 
