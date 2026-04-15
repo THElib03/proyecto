@@ -25,6 +25,9 @@ final class Version20260402155508 extends AbstractMigration
         $this->addSql('ALTER TABLE station ADD address VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE station ADD phone VARCHAR(9) NOT NULL, ADD city VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE user CHANGE join_date join_date DATE NOT NULL');
+        $this->addSql('ALTER TABLE bus ADD delist TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE routes ADD delist TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE station ADD delist TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema): void

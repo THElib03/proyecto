@@ -21,13 +21,13 @@ const Stations = () => {
     const fetchStations = async () => {
         setLoading(true);
         try {
-            const stationResponse = await fetch("/api/stations", {
+            const stationResponse = await fetch("/api/station", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-            if (!stationResponse.ok) throw new Error("Failed to fetch buses");
+            if (!stationResponse.ok) throw new Error("Failed to fetch stations");
             const stationData = await stationResponse.json();
 
             setStations(Array.isArray(stationData) ? stationData : stationData.data || []);
@@ -45,10 +45,28 @@ const Stations = () => {
 
     const handleSave = async () => {
         try {
-            // TODO: Implement API call to save/update station
-            console.log("Save station:", formData);
+            const method = editingId ? "PUT" : "POST";
+            const url = editingId ? `/api/station/${editingId}/edit` : "/api/station/new";
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) throw new Error("Failed to save station");
+            
+            await fetchStations();
             setShowForm(false);
-            setFormData({ name: "", city: "", location: "", address: "", phone: "" });
+            setFormData({
+                name: "",
+                city: "",
+                location: "",
+                address: "",
+                phone: ""
+            });
             setEditingId(null);
         } catch (err) {
             console.error("Error saving station:", err);
@@ -128,6 +146,7 @@ const Stations = () => {
                                         value={formData.city}
                                         onChange={handleInputChange}
                                         placeholder="New York"
+                                        disabled={!!editingId}
                                     />
                                 </div>
                                 <div className="form-group">

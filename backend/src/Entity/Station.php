@@ -43,6 +43,9 @@ class Station
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
+    #[ORM\Column]
+    private ?bool $delist = null;
+
     public function __construct()
     {
         $this->routes = new ArrayCollection();
@@ -140,6 +143,18 @@ class Station
     public function setCity(string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function isDelist(): ?bool
+    {
+        return $this->delist;
+    }
+
+    public function setDelist(bool $delist): static
+    {
+        $this->delist = $delist;
 
         return $this;
     }

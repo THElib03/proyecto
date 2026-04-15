@@ -5,6 +5,7 @@ const Buses = () => {
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [showRetired, setShowRetired] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({
         plateNum: "",
@@ -15,7 +16,21 @@ const Buses = () => {
     });
 
     useEffect(() => {
-        fetchBuses();
+        // fetchBuses();
+        setLoading(true);
+        fetch('/api/bus', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Fetched buses:" , data);
+            setBuses(Array.isArray(data) ? data : data.data || data.buses || []);
+        })
+        .catch(err => console.error("Error fetching buses:", err))
+        .finally(() => setLoading(false));
     }, []);
 
     const fetchBuses = async () => {
@@ -75,7 +90,7 @@ const Buses = () => {
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleRetire = async (id) => {
         if (confirm("Are you sure?")) {
             try {
                 const response = await fetch(`/api/bus/${id}`, {
@@ -95,11 +110,13 @@ const Buses = () => {
         return dateString.split("T")[0];
     };
 
-    const filteredBuses = buses.filter(
-        (bus) =>
+    const filteredBuses = buses.filter((bus) => {
+        const matchesSearch =
             bus.plateNum.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            bus.model.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+            bus.model.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDelisted = showRetired ? true : !bus.delist;
+        return matchesSearch && matchesDelisted;
+    });
 
     return (
         <div className="app-container">
@@ -127,6 +144,11 @@ const Buses = () => {
                     >
                         + Add Bus
                     </button>
+                    <button
+                        className={`btn ${showRetired ? "btn-danger" : "btn-secondary"}`}
+                        onClick={() => setShowRetired(!showRetired)}
+                    >
+                        {showRetired ? "Hide retired buses" : "Show retired buses"}                    </button>
                 </div>
 
                 {showForm && (
@@ -220,7 +242,7 @@ const Buses = () => {
                     </div>
                 )}
 
-                <div className="mb-6">
+                <div className="mb-6 p-4 rounded">
                     <input
                         type="text"
                         className="search-input"
@@ -275,7 +297,7 @@ const Buses = () => {
                                                 <button
                                                     className="btn btn-sm btn-danger"
                                                     onClick={() =>
-                                                        handleDelete(bus.id)
+                                                        handleRetire(bus.id)
                                                     }
                                                 >
                                                     Retire

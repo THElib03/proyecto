@@ -68,7 +68,7 @@ final class BusController extends AbstractController
     public function delete(Bus $bus, EntityManagerInterface $entityManager): JsonResponse
     {
         try {
-            $entityManager->remove($bus);
+            $bus -> setDelist(true);
             $entityManager->flush();
             
             return $this->json(['message' => 'Bus deleted successfully'], Response::HTTP_OK);

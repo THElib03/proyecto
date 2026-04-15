@@ -30,6 +30,9 @@ class Routes
     #[ORM\OneToMany(targetEntity: RouteStations::class, mappedBy: 'route', orphanRemoval: true)]
     private Collection $routeStations;
 
+    #[ORM\Column]
+    private ?bool $delist = null;
+
     public function __construct()
     {
         $this->stations = new ArrayCollection();
@@ -79,6 +82,18 @@ class Routes
                 $routeStation->setRoute(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDelist(): ?bool
+    {
+        return $this->delist;
+    }
+
+    public function setDelist(bool $delist): static
+    {
+        $this->delist = $delist;
 
         return $this;
     }

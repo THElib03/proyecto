@@ -32,6 +32,9 @@ class Bus
     #[ORM\Column]
     private ?int $numSeat = null;
 
+    #[ORM\Column]
+    private ?bool $delist = false;
+
     public function __construct()
     {
         $this -> joinDate = new \DateTime();
@@ -111,6 +114,18 @@ class Bus
     public function setNumSeat(int $numSeat): static
     {
         $this->numSeat = $numSeat;
+
+        return $this;
+    }
+
+    public function isDelist(): ?bool
+    {
+        return $this->delist;
+    }
+
+    public function setDelist(bool $delist): static
+    {
+        $this->delist = $delist;
 
         return $this;
     }

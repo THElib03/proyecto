@@ -17,6 +17,7 @@ import Promos from "../pages/Promos";
 import Admin from "../pages/Admin";
 import Buses from "../pages/Buses";
 import Routes from "../pages/Routes";
+import RouteStations from "../pages/RouteStations";
 import Stations from "../pages/Stations";
 import MyTickets from "../pages/MyTickets";
 import Profile from "../pages/Profile";
@@ -93,6 +94,10 @@ export const router = createBrowserRouter([
                             {
                                 path: "routes",
                                 element: <Routes />,
+                            },
+                            {
+                                path: "routes/:routeId/stations",
+                                element: <RouteStations />,
                             },
                             {
                                 path: "stations",

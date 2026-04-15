@@ -1,11 +1,51 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
+    const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
+    const [showStickySearch, setShowStickySearch] = useState(false);
+    const [stickySearchData, setStickySearchData] = useState({
+        source: "",
+        destination: "",
+        departureDate: "",
+        returnDate: "",
+    });
     const { token } = useAuth();
     const isActive = (path) => (location.pathname === path ? "active" : "");
+
+    // Detect scroll position
+    useEffect(() => {
+        const handleScroll = () => {
+            // Show sticky search when scrolled past ~350px
+            if (window.scrollY > 350) {
+                setShowStickySearch(true);
+            } else {
+                setShowStickySearch(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const handleStickySearchInputChange = (e) => {
+        const { name, value } = e.target;
+        setStickySearchData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleStickySearch = () => {
+        if (stickySearchData.source && stickySearchData.destination) {
+            const params = new URLSearchParams({
+                source: stickySearchData.source,
+                destination: stickySearchData.destination,
+                departureDate: stickySearchData.departureDate,
+                returnDate: stickySearchData.returnDate,
+            });
+            navigate(`/search?${params.toString()}`);
+        }
+    };
 
     return (
         <nav className="sticky top-0 z-100 w-full! bg-blue-500 py-4 shadow-md">
@@ -74,6 +114,58 @@ const NavBar = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Sticky Search Bar - appears when scrolling past main search */}
+            {showStickySearch && (
+                <div className="bg-blue-600 border-t border-blue-400 px-8 py-3 animate-fadeIn">
+                    <div className="max-w-7xl mx-auto flex gap-3 items-end justify-center md:justify-start flex-wrap">
+                        <div className="flex-1 min-w-[150px]">
+                            <input
+                                type="text"
+                                name="source"
+                                value={stickySearchData.source}
+                                onChange={handleStickySearchInputChange}
+                                placeholder="From..."
+                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div className="flex-1 min-w-[150px]">
+                            <input
+                                type="text"
+                                name="destination"
+                                value={stickySearchData.destination}
+                                onChange={handleStickySearchInputChange}
+                                placeholder="To..."
+                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div className="flex-1 min-w-[150px]">
+                            <input
+                                type="date"
+                                name="departureDate"
+                                value={stickySearchData.departureDate}
+                                onChange={handleStickySearchInputChange}
+                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div className="flex-1 min-w-[150px]">
+                            <input
+                                type="date"
+                                name="returnDate"
+                                value={stickySearchData.returnDate}
+                                onChange={handleStickySearchInputChange}
+                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <button
+                            onClick={handleStickySearch}
+                            className="px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 };

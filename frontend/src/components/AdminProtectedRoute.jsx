@@ -13,15 +13,15 @@ const AdminProtectedRoute = () => {
             return;
         }
         
-        console.log("Validating user perms...");// get the middle part
-        console.log(JSON.parse(atob(token.split('.')[1]))?.username);
+        console.log("Validating user perms...");
         fetch('/api/auth/admin', {
             method: 'POST',
             headers: {'Authorization': `Bearer ${token}`},
         })
         .then(validateRes => { 
             if(!validateRes.ok) {
-                return <Error/>;
+                setStatus('invalid');
+                return;
             }
             setStatus('valid');
         })
