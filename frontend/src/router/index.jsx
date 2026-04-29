@@ -18,6 +18,7 @@ import Admin from "../pages/Admin";
 import Buses from "../pages/Buses";
 import Routes from "../pages/Routes";
 import RouteStations from "../pages/RouteStations";
+import RouteTravels from "../pages/RouteTravels";
 import Stations from "../pages/Stations";
 import MyTickets from "../pages/MyTickets";
 import Profile from "../pages/Profile";
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
                             {
                                 path: "routes/:routeId/stations",
                                 element: <RouteStations />,
+                            },
+                            {
+                                path: "routes/:routeId/travels",
+                                element: <RouteTravels />,
                             },
                             {
                                 path: "stations",

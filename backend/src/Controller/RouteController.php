@@ -264,4 +264,30 @@ final class RouteController extends AbstractController
 
         return $this->json($data);
     }
+
+    #[Route('/{id}/travels', name: 'app_route_travels_index', methods: ['GET'])]
+    public function getTravels(Routes $route): JsonResponse
+    {
+        $travels = $route -> getTravel() -> toArray();
+
+        $data = array_map(function ($travel) {
+            $bus = $travel -> getBusId();
+            return [
+                'id' => (int)$travel -> getId(),
+                'departureTime' => $travel -> getDepartureTime() ? $travel -> getDepartureTime() -> format('H:i') : null,
+                'validUntil' => $travel -> getValidUntil() ? $travel -> getValidUntil() -> format('Y-m-d') : null,
+                'bus' => $bus ? [
+                    'id' => (int)$bus -> getId(),
+                    'plateNum' => (string)$bus -> getPlateNum(),
+                    'model' => (string)$bus -> getModel(),
+                ] : null,
+                'workDays' => (string)$travel -> getWorkDays(),
+                'delist' => (bool)$travel -> isDelist(),
+                'reverse' => $travel -> isReverse(),
+                //add valid_until, reverse and route
+            ];
+        }, $travels);
+
+        return $this -> json($data);
+    }
 }

@@ -33,10 +33,17 @@ class Routes
     #[ORM\Column]
     private ?bool $delist = null;
 
+    /**
+     * @var Collection<int, Travel>
+     */
+    #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'route_id', orphanRemoval: true)]
+    private Collection $travel;
+
     public function __construct()
     {
         $this->stations = new ArrayCollection();
         $this->routeStations = new ArrayCollection();
+        $this->travel = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +101,36 @@ class Routes
     public function setDelist(bool $delist): static
     {
         $this->delist = $delist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Travel>
+     */
+    public function getTravel(): Collection
+    {
+        return $this->travel;
+    }
+
+    public function addTravel(Travel $travel): static
+    {
+        if (!$this->travel->contains($travel)) {
+            $this->travel->add($travel);
+            $travel->setRouteId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTravel(Travel $travel): static
+    {
+        if ($this->travel->removeElement($travel)) {
+            // set the owning side to null (unless already changed)
+            if ($travel->getRouteId() === $this) {
+                $travel->setRouteId(null);
+            }
+        }
 
         return $this;
     }

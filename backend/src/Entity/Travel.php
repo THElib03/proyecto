@@ -16,20 +16,34 @@ class Travel
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date = null;
-
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTime $startHour = null;
-
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTime $endHour = null;
+    private ?\DateTime $departure_time = null;
 
     /**
      * @var Collection<int, Ticket>
      */
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'travel')]
     private Collection $tickets;
+
+    #[ORM\ManyToOne(inversedBy: 'travel')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Bus $bus_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'travel')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Routes $route_id = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $valid_until = null;
+
+    #[ORM\Column]
+    private ?bool $delist = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $workDays = null;
+
+    #[ORM\Column]
+    private ?bool $reverse = false;
 
     public function __construct()
     {
@@ -39,42 +53,6 @@ class Travel
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTime
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTime $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getStartHour(): ?\DateTime
-    {
-        return $this->startHour;
-    }
-
-    public function setStartHour(\DateTime $startHour): static
-    {
-        $this->startHour = $startHour;
-
-        return $this;
-    }
-
-    public function getEndHour(): ?\DateTime
-    {
-        return $this->endHour;
-    }
-
-    public function setEndHour(\DateTime $endHour): static
-    {
-        $this->endHour = $endHour;
-
-        return $this;
     }
 
     /**
@@ -103,6 +81,90 @@ class Travel
                 $ticket->setTravel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBusId(): ?bus
+    {
+        return $this->bus_id;
+    }
+
+    public function setBusId(?bus $bus_id): static
+    {
+        $this->bus_id = $bus_id;
+
+        return $this;
+    }
+
+    public function getRouteId(): ?Routes
+    {
+        return $this->route_id;
+    }
+
+    public function setRouteId(?Routes $route_id): static
+    {
+        $this->route_id = $route_id;
+
+        return $this;
+    }
+
+    public function getValidUntil(): ?\DateTime
+    {
+        return $this->valid_until;
+    }
+
+    public function setValidUntil(\DateTime $valid_until): static
+    {
+        $this->valid_until = $valid_until;
+
+        return $this;
+    }
+
+    public function getDepartureTime(): ?\DateTime
+    {
+        return $this->departure_time;
+    }
+
+    public function setDepartureTime(\DateTime $departure_time): static
+    {
+        $this->departure_time = $departure_time;
+
+        return $this;
+    }
+
+    public function isDelist(): ?bool
+    {
+        return $this->delist;
+    }
+
+    public function setDelist(bool $delist): static
+    {
+        $this->delist = $delist;
+
+        return $this;
+    }
+
+    public function getWorkDays(): ?string
+    {
+        return $this->workDays;
+    }
+
+    public function setWorkDays(string $workDays): static
+    {
+        $this->workDays = $workDays;
+
+        return $this;
+    }
+
+    public function isReverse(): ?bool
+    {
+        return $this->reverse;
+    }
+
+    public function setReverse(bool $reverse): static
+    {
+        $this->reverse = $reverse;
 
         return $this;
     }

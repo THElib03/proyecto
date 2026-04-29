@@ -201,6 +201,14 @@ const Routes = () => {
                                                 <button
                                                     className="btn btn-sm btn-primary"
                                                     onClick={() => {
+                                                        navigate(`/admin/routes/${route.id}/travels`);
+                                                    }}
+                                                >
+                                                    See Travels
+                                                </button>
+                                                <button
+                                                    className="btn btn-sm btn-primary"
+                                                    onClick={() => {
                                                         setFormData(route);
                                                         setEditingId(route.id);
                                                         setShowForm(true);

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RouteStationsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RouteStationsRepository::class)]
@@ -23,6 +24,9 @@ class RouteStations
     #[ORM\ManyToOne(inversedBy: 'stationRoutes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Station $station = null;
+
+    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $time_to_next = null;
 
     public function getId(): ?int
     {
@@ -61,6 +65,18 @@ class RouteStations
     public function setStation(?Station $station): static
     {
         $this->station = $station;
+
+        return $this;
+    }
+
+    public function getTimeToNext(): ?\DateTimeImmutable
+    {
+        return $this->time_to_next;
+    }
+
+    public function setTimeToNext(\DateTimeImmutable $time_to_next): static
+    {
+        $this->time_to_next = $time_to_next;
 
         return $this;
     }
