@@ -9,6 +9,7 @@ const RouteStations = () => {
     const [loading, setLoading] = useState(false);
     const [routeName, setRouteName] = useState("");
     const [selectedStationId, setSelectedStationId] = useState("");
+    const [timeToNext, setTimeToNext] = useState("");
 
     useEffect(() => {
         fetchRouteData();
@@ -60,11 +61,13 @@ const RouteStations = () => {
                 },
                 body: JSON.stringify({
                     stationId: parseInt(selectedStationId),
+                    timeToNext: timeToNext,
                 }),
             });
 
             if (!response.ok) throw new Error("Failed to add station");
             setSelectedStationId("");
+            setTimeToNext("");
             await fetchRouteData();
         } catch (err) {
             console.error("Error adding station:", err);
@@ -117,6 +120,26 @@ const RouteStations = () => {
         (station) => !stationIdsInRoute.includes(station.id)
     );
 
+    // Calculate total time from all timeToNext values
+    const calculateTotalTime = () => {
+        let totalMinutes = 0;
+        
+        routeStations.forEach((rs) => {
+            if (rs.timeToNext) {
+                const [hours, minutes] = rs.timeToNext.split(':').map(Number);
+                totalMinutes += hours * 60 + minutes;
+            }
+        });
+        const hours = Math.floor(totalMinutes / 60);
+        const mins = totalMinutes % 60;
+
+        return hours > 0
+            ? `${hours}h ${mins}m`
+            : mins > 0
+              ? `${mins}m`
+              : "0m";
+    };
+
     return (
         <div className="app-container">
             <div className="page-container">
@@ -156,6 +179,15 @@ const RouteStations = () => {
                                     ))}
                                 </select>
                             </div>
+                            <div className="form-group">
+                                <label>Expected Time for the Next Station</label>
+                                <input
+                                    type="time"
+                                    name="timeToNext"
+                                    value={timeToNext}
+                                    onChange={(e) => setTimeToNext(e.target.value)}
+                                />
+                            </div>
                             <div style={{ display: "flex", alignItems: "flex-end" }}>
                                 <button
                                     className="btn btn-success"
@@ -178,7 +210,14 @@ const RouteStations = () => {
                 ) : (
                     <div className="card">
                         <div className="card-header">
-                            <h3>Stations in Route ({routeStations.length})</h3>
+                            <div className="flex items-center justify-between">
+                                <h3>Stations in Route ({routeStations.length})</h3>
+                                {routeStations.length > 0 && (
+                                    <span style={{ fontSize: "0.9em", color: "#666" }}>
+                                        Total Route Time: {calculateTotalTime()}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <div className="card-body">
                             <div className="space-y-2">
@@ -208,6 +247,9 @@ const RouteStations = () => {
                                             <div style={{ fontSize: "0.9em", color: "#666" }}>
                                                 {routeStation.station.city} •{" "}
                                                 {routeStation.station.address}
+                                                {routeStation.timeToNext && (
+                                                    <> • Time to next: {routeStation.timeToNext}</>
+                                                )}
                                             </div>
                                         </div>
                                         <button

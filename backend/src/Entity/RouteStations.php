@@ -15,7 +15,7 @@ class RouteStations
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $position = null;
+    private ?int $position = 1;
 
     #[ORM\ManyToOne(inversedBy: 'routeStations')]
     #[ORM\JoinColumn(nullable: false)]
@@ -27,6 +27,11 @@ class RouteStations
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
     private ?\DateTimeImmutable $time_to_next = null;
+
+    public function __construct()
+    {
+        $this -> time_to_next = new \DateTimeImmutable("00:30:00");
+    }
 
     public function getId(): ?int
     {

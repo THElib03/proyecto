@@ -20,7 +20,7 @@ class Station
     private ?string $name = null;
 
     #[ORM\Column(length: 500)]
-    private ?string $location = null;
+    private ?string $location = "40.1234,-3.1234";
 
     /**
      * @var Collection<int, Routes>
@@ -35,16 +35,16 @@ class Station
     private Collection $stationRoutes;
 
     #[ORM\Column(length: 255)]
-    private ?string $address = null;
+    private ?string $address = "Calle de la Estación, 1, 18012 Granada";
 
     #[ORM\Column(length: 9)]
-    private ?string $phone = null;
+    private ?string $phone = "616161616";
 
     #[ORM\Column(length: 255)]
-    private ?string $city = null;
+    private ?string $city = "Granada";
 
     #[ORM\Column]
-    private ?bool $delist = null;
+    private ?bool $delist = false;
 
     public function __construct()
     {

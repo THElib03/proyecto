@@ -27,6 +27,7 @@ const Routes = () => {
             });
             if (!routeResponse.ok) throw new Error("Failed to fetch routes");
             const routeData = await routeResponse.json();
+            console.log("Fetched routes:", routeData);
 
             setRoutes(Array.isArray(routeData) ? routeData : routeData.data || routeData.routes || []);
         } catch (err) {
@@ -85,6 +86,22 @@ const Routes = () => {
         }
     };
 
+    const handleToggleHighlight = async (id) => {
+        try {
+            const response = await fetch(`/api/route/${id}/toggle-highlight`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) throw new Error("Failed to toggle highlight");
+            await fetchRoutes();
+        } catch (err) {
+            console.error("Error toggling highlight:", err);
+        }
+    };
+
     const filteredRoutes = routes.filter(
         (route) =>
             route.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -94,7 +111,15 @@ const Routes = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Routes Management</h1>
+                    <div className="flex items-center justify-between">
+                        <h1>Routes Management</h1>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate("/admin")}
+                        >
+                            ← Back to Admin
+                        </button>
+                    </div>
                     <p>Manage travel routes and schedules</p>
                 </div>
 
@@ -205,6 +230,19 @@ const Routes = () => {
                                                     }}
                                                 >
                                                     See Travels
+                                                </button>
+                                                <button
+                                                    className="btn btn-sm btn-primary"
+                                                    onClick={() => handleToggleHighlight(route.id)}
+                                                    title="Toggle highlight"
+                                                    style={{
+                                                        fontSize: '1.8em',
+                                                        color: route.highlight ? '#FFD700' : 'white',
+                                                        lineHeight: '1',
+                                                        padding: '4px 8px'
+                                                    }}
+                                                >
+                                                    ★
                                                 </button>
                                                 <button
                                                     className="btn btn-sm btn-primary"

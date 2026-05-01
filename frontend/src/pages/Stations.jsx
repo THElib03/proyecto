@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Stations = () => {
+    const navigate = useNavigate();
     const [stations, setStations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -12,6 +14,7 @@ const Stations = () => {
         location: "",
         address: "",
         phone: "",
+        timeToNext: "",
     });
 
     useEffect(() => {
@@ -65,7 +68,8 @@ const Stations = () => {
                 city: "",
                 location: "",
                 address: "",
-                phone: ""
+                phone: "",
+                timeToNext: "",
             });
             setEditingId(null);
         } catch (err) {
@@ -96,7 +100,15 @@ const Stations = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Stations Management</h1>
+                    <div className="flex items-center justify-between">
+                        <h1>Stations Management</h1>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate("/admin")}
+                        >
+                            ← Back to Admin
+                        </button>
+                    </div>
                     <p>Manage bus stations and terminals</p>
                 </div>
 
@@ -112,6 +124,7 @@ const Stations = () => {
                                 location: "",
                                 address: "",
                                 phone: "",
+                                timeToNext: "",
                             });
                         }}
                     >

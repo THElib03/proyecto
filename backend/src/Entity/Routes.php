@@ -16,7 +16,7 @@ class Routes
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $name = "";
 
     /**
      * @var Collection<int, Station>
@@ -31,13 +31,16 @@ class Routes
     private Collection $routeStations;
 
     #[ORM\Column]
-    private ?bool $delist = null;
+    private ?bool $delist = false;
 
     /**
      * @var Collection<int, Travel>
      */
     #[ORM\OneToMany(targetEntity: Travel::class, mappedBy: 'route_id', orphanRemoval: true)]
     private Collection $travel;
+
+    #[ORM\Column]
+    private ?bool $highlight = false;
 
     public function __construct()
     {
@@ -131,6 +134,18 @@ class Routes
                 $travel->setRouteId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isHighlight(): ?bool
+    {
+        return $this->highlight;
+    }
+
+    public function setHighlight(bool $highlight): static
+    {
+        $this->highlight = $highlight;
 
         return $this;
     }

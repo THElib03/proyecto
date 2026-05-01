@@ -74,6 +74,7 @@ const RouteTravels = () => {
 
             const payload = {
                 ...formData,
+                departure_time: formData.departure_time || "12:00",
                 route_id: parseInt(routeId),
                 bus_id: parseInt(formData.bus_id),
             };
@@ -104,7 +105,7 @@ const RouteTravels = () => {
 
     const handleEdit = (travel) => {
         setFormData({
-            departure_time: travel.departureTime || "",
+            departure_time: travel.departureTime || "12:00",
             valid_until: travel.validUntil || "",
             bus_id: travel.bus?.id || "",
             work_days: travel.workDays || "",
@@ -145,14 +146,19 @@ const RouteTravels = () => {
                retDate.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
-    console.log("Travels state:", travels);
-    console.log("Filtered travels:", filteredTravels);
-
     return (
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Travels for Route: {routeName}</h1>
+                    <div className="flex items-center justify-between">
+                        <h1>Travels for Route: {routeName}</h1>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate("/admin")}
+                        >
+                            ← Back to Admin
+                        </button>
+                    </div>
                     <p>View and manage travels on this route</p>
                 </div>
 

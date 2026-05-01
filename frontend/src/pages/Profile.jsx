@@ -32,6 +32,11 @@ const Profile = () => {
         }
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        return dateString.split("T")[0];
+    };
+
     if (loading) {
         return (
             <div className="app-container">
@@ -66,7 +71,7 @@ const Profile = () => {
                                     </p>
                                     <p>
                                         <strong>Member since:</strong>{" "}
-                                        {user.joinDate}
+                                        {formatDate(user.joinDate)}
                                     </p>
                                 </div>
                             </div>

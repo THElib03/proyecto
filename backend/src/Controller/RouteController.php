@@ -7,6 +7,7 @@ use App\Entity\RouteStations;
 use App\Repository\RouteRepository;
 use App\Repository\RouteStationsRepository;
 use App\Repository\StationRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,7 @@ final class RouteController extends AbstractController
                 'id' => $route->getId(),
                 'name' => $route->getName(),
                 'delist' => $route->isDelist(),
+                'highlight' => $route->isHighlight(),   
             ];
         }, $routes);
         
@@ -50,6 +52,42 @@ final class RouteController extends AbstractController
         ];
 
         return $this->json($responseData, Response::HTTP_CREATED);
+    }
+
+    #[Route('/highlighted', name: 'app_route_highlighted', methods: ['GET'])]
+    public function getHighlightedRoutes(RouteRepository $routeRepository, Request $request): JsonResponse
+    {
+        $limit = $request->query->getInt('limit', 6);
+        $offset = $request->query->getInt('offset', 0);
+
+        // Get all highlighted routes using QueryBuilder to avoid Doctrine issues
+        $allRoutes = $routeRepository->createQueryBuilder('r')
+            ->where('r.highlight = :highlight')
+            ->andWhere('r.delist = :delist')
+            ->setParameter('highlight', true)
+            ->setParameter('delist', false)
+            ->orderBy('r.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        // Filter routes that have stations or travels
+        $validRoutes = array_filter($allRoutes, function ($route) {
+            return $route->getRouteStations()->count() > 0 || $route->getTravel()->count() > 0;
+        });
+
+        // Apply pagination after filtering
+        $paginatedRoutes = array_slice($validRoutes, $offset, $limit);
+
+        $data = array_map(function ($route) {
+            return [
+                'id' => $route->getId(),
+                'name' => $route->getName(),
+                'delist' => $route->isDelist(),
+                'highlight' => $route->isHighlight(),
+            ];
+        }, $paginatedRoutes);
+
+        return $this->json($data);
     }
 
     #[Route('/{id}', name: 'app_route_show', methods: ['GET'])]
@@ -108,7 +146,8 @@ final class RouteController extends AbstractController
                     'city' => $rs->getStation()->getCity(),
                     'address' => $rs->getStation()->getAddress(),
                     'phone' => $rs->getStation()->getPhone(),
-                ]
+                ],
+                'timeToNext' => $rs->getTimeToNext() ? $rs->getTimeToNext()->format('H:i') : null,
             ];
         }, $routeStations);
 
@@ -151,6 +190,7 @@ final class RouteController extends AbstractController
         $routeStation->setRoute($route);
         $routeStation->setStation($station);
         $routeStation->setPosition($maxPosition + 1);
+        $routeStation -> setTimeToNext(DateTimeImmutable::createFromFormat('H:i', $data['timeToNext'] ?? '00:30') ?: new \DateTimeImmutable('00:30'));
 
         $entityManager->persist($routeStation);
         $entityManager->flush();
@@ -164,7 +204,8 @@ final class RouteController extends AbstractController
                 'city' => $routeStation->getStation()->getCity(),
                 'address' => $routeStation->getStation()->getAddress(),
                 'phone' => $routeStation->getStation()->getPhone(),
-            ]
+            ],
+            'timeToNext' => $routeStation->getTimeToNext() ? $routeStation->getTimeToNext()->format('H:i') : null,
         ];
 
         return $this->json($data, Response::HTTP_CREATED);
@@ -289,5 +330,21 @@ final class RouteController extends AbstractController
         }, $travels);
 
         return $this -> json($data);
+    }
+
+    #[Route('/{id}/toggle-highlight', name: 'app_route_toggle_highlight', methods: ['PUT'])]
+    public function toggleHighlight(Routes $route, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $route->setHighlight(!$route->isHighlight());
+        $entityManager->flush();
+
+        $responseData = [
+            'id' => $route->getId(),
+            'name' => $route->getName(),
+            'delist' => $route->isDelist(),
+            'highlight' => $route->isHighlight(),
+        ];
+
+        return $this->json($responseData);
     }
 }

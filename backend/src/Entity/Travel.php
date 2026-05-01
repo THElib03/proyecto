@@ -37,10 +37,10 @@ class Travel
     private ?\DateTime $valid_until = null;
 
     #[ORM\Column]
-    private ?bool $delist = null;
+    private ?bool $delist = false;
 
     #[ORM\Column(length: 255)]
-    private ?string $workDays = null;
+    private ?string $workDays = "Mon";
 
     #[ORM\Column]
     private ?bool $reverse = false;
