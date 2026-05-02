@@ -19,7 +19,7 @@ const NavBar = () => {
     useEffect(() => {
         const handleScroll = () => {
             // Show sticky search when scrolled past ~350px
-            if (window.scrollY > 350) {
+            if (window.scrollY > 380) {
                 setShowStickySearch(true);
             } else {
                 setShowStickySearch(false);
@@ -48,8 +48,8 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="sticky top-0 z-100 w-full! bg-blue-500 py-4 shadow-md">
-            <div className="mx-auto w-full! px-8 flex justify-between items-center">
+        <nav className="sticky top-0 z-100 w-full! bg-blue-500 shadow-md">
+            <div className="mx-auto w-full! px-8 py-4 flex justify-between items-center">
                 <Link
                     to="/"
                     className="text-xl font-bold text-white! no-underline cursor-pointer"
@@ -117,7 +117,7 @@ const NavBar = () => {
 
             {/* Sticky Search Bar - appears when scrolling past main search */}
             {showStickySearch && (
-                <div className="bg-blue-600 border-t border-blue-400 px-8 py-3 animate-fadeIn">
+                <div className="bg-blue-600 border-t border-blue-400 px-8 py-3 animate-fadeIn transition-all duration-300 ease-out">
                     <div className="max-w-7xl mx-auto flex gap-3 items-end justify-center md:justify-start flex-wrap">
                         <div className="flex-1 min-w-[150px]">
                             <input
@@ -126,7 +126,7 @@ const NavBar = () => {
                                 value={stickySearchData.source}
                                 onChange={handleStickySearchInputChange}
                                 placeholder="From..."
-                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <div className="flex-1 min-w-[150px]">
@@ -136,7 +136,7 @@ const NavBar = () => {
                                 value={stickySearchData.destination}
                                 onChange={handleStickySearchInputChange}
                                 placeholder="To..."
-                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <div className="flex-1 min-w-[150px]">
@@ -145,7 +145,7 @@ const NavBar = () => {
                                 name="departureDate"
                                 value={stickySearchData.departureDate}
                                 onChange={handleStickySearchInputChange}
-                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <div className="flex-1 min-w-[150px]">
@@ -154,7 +154,7 @@ const NavBar = () => {
                                 name="returnDate"
                                 value={stickySearchData.returnDate}
                                 onChange={handleStickySearchInputChange}
-                                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <button
