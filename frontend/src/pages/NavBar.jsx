@@ -101,13 +101,13 @@ const NavBar = () => {
                             className={`text-white! no-underline font-medium px-3 py-2 rounded transition-colors ${isActive("/bonds")}`}
                         >
                             Bonds
-                        </Link> */}
+                        </Link> 
                         <Link
                             to="/promos"
                             className={`text-white! no-underline font-medium px-3 py-2 rounded transition-colors ${isActive("/promos")}`}
                         >
                             Promos
-                        </Link>
+                        </Link>*/}
 
                         {/* User Menu */}
                         <div className="flex gap-4 items-center ml-auto pl-8 border-l border-white border-opacity-20">

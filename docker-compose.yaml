@@ -34,27 +34,28 @@ services:
 
     db:
         image: mysql:8.0
+        container_name: db
         ports:
-         - "3306:3306"
+        - "3306:3306"
         environment:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: proyecto
-          MYSQL_USER: saal
-          MYSQL_PASSWORD: dosu
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: MMV_DB
+            MYSQL_USER: alumnoDAW
+            MYSQL_PASSWORD: passMMV
         volumes:
-         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-         - database_data:/var/lib/mysql
+        - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+        - database_data:/var/lib/mysql
         networks:
-         - mainNet
+        - app-networkt
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
          - "8080:81"
         environment:
-          PMA_HOST: db
-          PMA_USER: saal
-          PMA_PASSWORD: dosu
+            PMA_HOST: db
+            PMA_USER: saal
+            PMA_PASSWORD: dosu
         depends_on:
          - db
         networks:

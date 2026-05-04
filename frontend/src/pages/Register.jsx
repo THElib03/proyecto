@@ -25,12 +25,37 @@ const Register = () => {
         e.preventDefault();
         setError("");
 
-        if (formData.password !== formData.confirmPassword) {
-            setError("Passwords do not match");
+        const { username, mail, password, confirmPassword, citId, phone } = formData;
+
+        if (!username || !mail || !password || !citId || !phone) {
+            setError("All fields are required.");
             return;
         }
-        setLoading(true);
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(mail)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
+        const idRegex = /^\d{8}[a-zA-Z]$/;
+        if (!idRegex.test(citId)) {
+            setError("ID Number must be 8 digits followed by a letter (e.g., 12345678A).");
+            return;
+        }
+
+        const phoneRegex = /^\d+$/;
+        if (!phoneRegex.test(phone)) {
+            setError("Phone number must contain only numbers.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
+
+        setLoading(true);
         try {
             await register(formData);
         } catch (err) {
@@ -42,7 +67,7 @@ const Register = () => {
     };
 
     return (
-        <div className="app-container">
+        <div className="app-container min-h-screen flex items-center justify-center p-4">
             <div className="page-container">
                 <div className="page-header">
                     <h1>Create Account</h1>
@@ -119,6 +144,8 @@ const Register = () => {
                                 value={formData.citId}
                                 onChange={handleChange}
                                 placeholder="12345678A"
+                                pattern="\d{8}[a-zA-Z]"
+                                title="8 numbers followed by 1 letter"
                                 required
                             />
                         </div>

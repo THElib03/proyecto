@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
+    const { logout } = useAuth();
     const [token, setToken] = useState(localStorage.getItem('sessionToken') || null);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -15,6 +17,13 @@ const Profile = () => {
             fetchUserProfile();
         }
     }, [token, navigate]);
+
+    const handleLogout = async () => {
+        if (window.confirm("Are you sure you want to log out?")) {
+            await logout();
+            navigate("/login");
+        }
+    };
 
     const fetchUserProfile = async () => {
         try {
@@ -130,6 +139,14 @@ const Profile = () => {
                                         >
                                             🎫 My Tickets
                                         </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="text-red-500 bg-transparent border-none p-0 cursor-pointer font-inherit hover:underline"
+                                        >
+                                            🚪 Logout
+                                        </button>
                                     </li>
                                 </ul>
                             </div>

@@ -24,6 +24,13 @@ const Search = () => {
     });
 
     useEffect(() => {
+        const token = localStorage.getItem('sessionToken');
+        if (!token) {
+            alert("You must be logged in to search and buy trips.");
+            navigate("/login?message=Please log in to book your trip");
+            return; 
+        }
+
         const fetchAllStations = async () => {
             try {
                 const response = await fetch("/api/station");

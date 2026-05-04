@@ -19,6 +19,14 @@ const Book = () => {
     const returnId = searchParams.get("returnTravelId");
 
     useEffect(() => {
+        const token = localStorage.getItem('sessionToken');
+        console.log("Session Token:", token);
+        if (!token) {
+            console.warn("No session token found. Redirecting to login.");
+            navigate("/login?message=Please log in to book your trip");
+            return; 
+        }
+
         const fetchData = async () => {
             setLoading(true);
             try {

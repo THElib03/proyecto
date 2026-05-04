@@ -1,145 +1,127 @@
 # Saal
 
-Saal is a comprehensive bus ticket booking and management system designed to streamline transportation services. The platform enables bus operators to manage routes, stations, schedules, and ticket sales while providing customers with an intuitive interface to search, book, and purchase bus tickets.
+Saal es un sistema integral de gestión y reserva de billetes de autobús diseñado para optimizar los servicios de transporte. La plataforma permite a los operadores gestionar rutas, estaciones, horarios y ventas, ofreciendo a los clientes una interfaz intuitiva para buscar y comprar billetes.
 
-## Features
+## Características
 
-- Route management with multiple stations and scheduling
-- Real-time bus availability and ticket booking
-- Highlighted routes for featured travel options
-- Station management across different cities
-- Travel schedule administration with work day configuration
-- Admin dashboard for system management
-- RESTful API backend with Symfony
-- Modern React frontend with responsive design
+- **Gestión de rutas:** Soporte para múltiples paradas y planificación de horarios.
+- **Disponibilidad en tiempo real:** Consulta de plazas y reserva inmediata.
+- **Rutas destacadas:** Opción para promocionar trayectos específicos.
+- **Administración de estaciones:** Control de paradas en diferentes ciudades.
+- **Configuración de calendarios:** Gestión de días laborales y frecuencias.
+- **Panel de administración:** Control total del sistema para operadores.
+- **Arquitectura moderna:** Backend RESTful con Symfony y frontend en React con diseño responsivo.
 
-## Download
+## Configuración del Entorno y Puertos
 
-### Releases
+El proyecto utiliza Docker para orquestar los servicios. A continuación se detallan los puertos asignados por defecto:
 
-You can download the latest stable release from the GitHub releases page:
+| Servicio | URL / Acceso | Puerto |
+|---|---|---|
+| Frontend (React) | http://localhost:5173 | 5173 |
+| Backend (API Symfony) | http://localhost:8000 | 8000 |
+| Base de Datos (PostgreSQL) | localhost | 5432 |
 
-1. Visit the project's GitHub repository
-2. Navigate to the "Releases" section
-3. Download the latest stable version archive (ZIP or TAR.GZ)
-4. Extract the archive to your desired location
+## Instrucciones de Uso
 
-### Source Code
+### Requisitos Previos
 
-To get the latest development version:
-
-```bash
-git clone https://github.com/yourusername/saal.git
-cd saal
-```
-
-## Usage
-
-Saal is ideal for a variety of transportation and ticketing scenarios:
-
-### Bus Operating Companies
-- Manage multiple routes across different regions
-- Schedule regular and seasonal trips
-- Track bus fleet availability and maintenance schedules
-- Generate revenue reports and ticket sales analytics
-
-### Travel Agencies
-- Resell bus tickets to customers
-- Manage group bookings and special rates
-- Track booking confirmations and cancellations
-
-### Tourism and Tour Operators
-- Organize chartered bus services
-- Manage multi-day itineraries with scheduled stops
-- Highlight premium routes and exclusive travel packages
-
-### Corporate Transportation
-- Organize employee shuttle services
-- Manage regular commute routes
-- Track attendance and usage patterns
-
-## Building
-
-### Prerequisites
-
-- Docker and Docker Compose
+- Docker y Docker Compose
 - Git
-- Node.js (for local frontend development without Docker)
-- PHP 8.4+ (for local backend development without Docker)
+- Make *(opcional, para comandos abreviados)*
 
-### Quick Start with Docker
+### Inicio Rápido (Docker)
 
-1. Clone the repository and navigate to the project directory:
+1. **Clonar el repositorio:**
 
 ```bash
-git clone https://github.com/yourusername/saal.git
+git clone https://github.com/tu-usuario/saal.git
 cd saal
 ```
 
-2. Start all services together:
+2. **Levantar los servicios:**
+
+   Si utilizas Docker Compose directamente:
+
+   ```bash
+   docker compose up --build -d
+   ```
+
+   Si utilizas el archivo Makefile incluido:
+
+   ```bash
+   make setup
+   ```
+
+3. **Ejecutar Migraciones:**
+
+   Es necesario preparar la base de datos tras el primer inicio:
+
+   ```bash
+   docker compose exec backend php bin/console doctrine:migrations:migrate --no-interaction
+   ```
+
+### Acceso a la Versión Desplegada
+
+*(Si el proyecto cuenta con una versión en la nube, insertar aquí la URL, ej: [https://saal-demo.com](https://saal-demo.com))*
+
+## Credenciales y Datos de Prueba
+
+Para facilitar la evaluación de todas las funcionalidades, se han preconfigurado los siguientes datos de acceso:
+
+### Usuarios de Acceso (Frontend/Admin)
+
+- **Administrador:**
+  - Usuario: `admin@saal.com`
+  - Contraseña: `admin123`
+
+- **Usuario Estándar:**
+  - Usuario: `user@saal.com`
+  - Contraseña: `user123`
+
+### Datos de Prueba
+
+El sistema incluye datos precargados (vía fixtures o migraciones) que incluyen:
+
+- **Ciudades:** Madrid, Barcelona, Valencia, Sevilla.
+- **Rutas:** Conexiones directas entre las ciudades principales.
+- **Horarios:** Salidas diarias configuradas en horario de mañana y tarde.
+
+## Gestión de Servicios
+
+### Backend
+
+Para ejecutar comandos de Symfony o limpiar caché:
 
 ```bash
-docker compose up --build
+docker compose exec backend php bin/console cache:clear
 ```
 
-This will start the database, backend (Symfony API), and frontend (React) services in a single command.
+### Frontend
 
-3. Access the application:
-   - Frontend: `http://localhost:5173`
-   - Backend API: `http://localhost:8000`
-   - Database: Port 5432 (internal)
-
-4. To stop all services:
-
-```bash
-docker compose down
-```
-
-### Individual Service Management
-
-If you need to work with individual services or run migrations:
-
-#### Backend
-
-To run backend migrations after the stack is running:
-
-```bash
-docker compose exec app php bin/console doctrine:migrations:migrate
-```
-
-#### Frontend
-
-To rebuild only the frontend:
+Para reconstruir solo la interfaz de usuario:
 
 ```bash
 docker compose up --build frontend
 ```
 
-#### Database
+### Base de Datos
 
-To reset the database:
+Para resetear el entorno por completo:
 
 ```bash
-docker compose down
-docker compose up --build db backend frontend
+docker compose down -v
+docker compose up --build
 ```
 
-## Environment Configuration
+## Notas Adicionales
 
-Each service has its own configuration:
+- **Uso de Makefile:** Si el sistema dispone de un archivo Makefile, puedes usar `make help` para ver todos los comandos disponibles (como `make stop`, `make restart`, o `make logs`).
+- **Variables de Entorno:** Las configuraciones sensibles se encuentran en `backend/.env`. Para entornos de producción, asegúrese de cambiar la `APP_SECRET` y las credenciales de la base de datos.
+- **Documentación Específica:**
+  - API Backend: `backend/README.md`
+  - Frontend: `frontend/README.md`
 
-- Backend: See `backend/.env` for Symfony configuration
-- Frontend: Configure API endpoint in frontend source code
-- Database: Adjust connection settings in `db/compose.yaml`
+## Soporte
 
-## Documentation
-
-Detailed documentation for each component is available in their respective directories:
-
-- Backend API documentation: `backend/README.md`
-- Frontend documentation: `frontend/README.md`
-- Database schema: `db/init.sql`
-
-## Support
-
-For issues, feature requests, or questions, please open an issue on the GitHub repository.
+Para reportar errores o solicitar nuevas funcionalidades, por favor abra un *Issue* en el repositorio de GitHub.

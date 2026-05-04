@@ -90,7 +90,7 @@ button:focus-visible {
     }
 
     .page-container {
-        @apply w-full bg-white rounded-lg p-8 shadow-md animate-fadeIn;
+        @apply w-full max-w-md bg-white rounded-lg p-8 shadow-md animate-fadeIn;
     }
     .page-header {
         @apply mb-8 pb-4 border-b-2 border-blue-500;

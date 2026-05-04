@@ -16,6 +16,12 @@ const Login = () => {
         setError("");
         setLoading(true);
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(mail)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
         try{
             await login(mail, password);
             alert("Login successful! Redirecting...");
@@ -29,7 +35,7 @@ const Login = () => {
     };
 
     return (
-        <div className="app-container">
+        <div className="app-container min-h-screen flex items-center justify-center p-4">
             <div className="page-container">
                 <div className="page-header">
                     <h1>Sign In</h1>
