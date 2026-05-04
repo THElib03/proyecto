@@ -20,7 +20,7 @@ El proyecto utiliza Docker para orquestar los servicios. A continuación se deta
 |---|---|---|
 | Frontend (React) | http://localhost:5173 | 5173 |
 | Backend (API Symfony) | http://localhost:8000 | 8000 |
-| Base de Datos (PostgreSQL) | localhost | 5432 |
+| Base de Datos (MariaDB) | localhost | 3306 |
 
 ## Instrucciones de Uso
 
@@ -28,14 +28,13 @@ El proyecto utiliza Docker para orquestar los servicios. A continuación se deta
 
 - Docker y Docker Compose
 - Git
-- Make *(opcional, para comandos abreviados)*
 
 ### Inicio Rápido (Docker)
 
 1. **Clonar el repositorio:**
 
 ```bash
-git clone https://github.com/tu-usuario/saal.git
+git clone https://github.com/THElib03/saal.git
 cd saal
 ```
 
@@ -63,7 +62,7 @@ cd saal
 
 ### Acceso a la Versión Desplegada
 
-*(Si el proyecto cuenta con una versión en la nube, insertar aquí la URL, ej: [https://saal-demo.com](https://saal-demo.com))*
+[13.60.189.110](Fuera de servicio) mediante AWS.
 
 ## Credenciales y Datos de Prueba
 
@@ -71,20 +70,21 @@ Para facilitar la evaluación de todas las funcionalidades, se han preconfigurad
 
 ### Usuarios de Acceso (Frontend/Admin)
 
+No se han podido establecer usuarios ya creados.
 - **Administrador:**
-  - Usuario: `admin@saal.com`
-  - Contraseña: `admin123`
+  - Usuario: ``
+  - Contraseña: ``
 
 - **Usuario Estándar:**
-  - Usuario: `user@saal.com`
-  - Contraseña: `user123`
+  - Usuario: ``
+  - Contraseña: ``
 
 ### Datos de Prueba
 
 El sistema incluye datos precargados (vía fixtures o migraciones) que incluyen:
 
 - **Ciudades:** Madrid, Barcelona, Valencia, Sevilla.
-- **Rutas:** Conexiones directas entre las ciudades principales.
+- **Rutas:** Conexiones directas y regionales entre las ciudades principales.
 - **Horarios:** Salidas diarias configuradas en horario de mañana y tarde.
 
 ## Gestión de Servicios
@@ -115,12 +115,7 @@ docker compose up --build
 ```
 
 ## Notas Adicionales
-
-- **Uso de Makefile:** Si el sistema dispone de un archivo Makefile, puedes usar `make help` para ver todos los comandos disponibles (como `make stop`, `make restart`, o `make logs`).
 - **Variables de Entorno:** Las configuraciones sensibles se encuentran en `backend/.env`. Para entornos de producción, asegúrese de cambiar la `APP_SECRET` y las credenciales de la base de datos.
-- **Documentación Específica:**
-  - API Backend: `backend/README.md`
-  - Frontend: `frontend/README.md`
 
 ## Soporte
 
