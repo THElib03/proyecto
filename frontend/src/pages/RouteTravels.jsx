@@ -15,6 +15,7 @@ const RouteTravels = () => {
         valid_until: "",
         bus_id: "",
         work_days: "",
+        reverse: false
     });
 
     const [buses, setBuses] = useState([]);
@@ -63,11 +64,32 @@ const RouteTravels = () => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const { name, type, value, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     const handleSave = async () => {
+        // Validation checks
+        if (!formData.departure_time.trim()) {
+            alert("Please enter a departure time");
+            return;
+        }
+        if (!formData.valid_until.trim()) {
+            alert("Please select a valid until date");
+            return;
+        }
+        if (!formData.bus_id) {
+            alert("Please select a bus");
+            return;
+        }
+        if (!formData.work_days.trim()) {
+            alert("Please enter work days");
+            return;
+        }
+
         try {
             const method = editingId ? "PUT" : "POST";
             const url = editingId ? `/api/travel/${editingId}` : "/api/travel";
@@ -96,6 +118,7 @@ const RouteTravels = () => {
                 valid_until: "",
                 bus_id: "",
                 work_days: "",
+                reverse: false,
             });
             setEditingId(null);
         } catch (err) {
@@ -109,6 +132,7 @@ const RouteTravels = () => {
             valid_until: travel.validUntil || "",
             bus_id: travel.bus?.id || "",
             work_days: travel.workDays || "",
+            reverse: travel.reverse || false,
         });
         setEditingId(travel.id);
         setShowForm(true);
@@ -177,9 +201,9 @@ const RouteTravels = () => {
                             setFormData({
                                 departure_time: "",
                                 valid_until: "",
-                                end_hour: "",
                                 bus_id: "",
                                 work_days: "",
+                                reverse: false,
                             });
                         }}
                     >
@@ -210,6 +234,7 @@ const RouteTravels = () => {
                                         name="valid_until"
                                         value={formData.valid_until}
                                         onChange={handleInputChange}
+                                        required={!editingId}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -218,6 +243,7 @@ const RouteTravels = () => {
                                         name="bus_id"
                                         value={formData.bus_id}
                                         onChange={handleInputChange}
+                                        required={!editingId}
                                     >
                                         <option value="">-- Select a bus --</option>
                                         {buses.map((bus) => (
@@ -235,6 +261,7 @@ const RouteTravels = () => {
                                         value={formData.work_days}
                                         onChange={handleInputChange}
                                         placeholder="e.g., Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+                                        required={!editingId}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -299,6 +326,7 @@ const RouteTravels = () => {
                                     <th>Valid Until</th>
                                     <th>Bus</th>
                                     <th>Work Days</th>
+                                    <th>Reverse</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -310,6 +338,7 @@ const RouteTravels = () => {
                                         <td>{formatDate(travel.validUntil) || "--"}</td>
                                         <td>{travel.bus?.plateNum || "N/A"}</td>
                                         <td>{travel.workDays || "-"}</td>
+                                        <td>{travel.reverse ? "Yes" : "No"}</td>
                                         <td>
                                             <div className="table-actions">
                                                 <button

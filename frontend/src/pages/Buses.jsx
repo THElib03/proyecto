@@ -148,7 +148,8 @@ const Buses = () => {
                         className={`btn ${showRetired ? "btn-danger" : "btn-secondary"}`}
                         onClick={() => setShowRetired(!showRetired)}
                     >
-                        {showRetired ? "Hide retired buses" : "Show retired buses"}                    </button>
+                        {showRetired ? "Hide retired buses" : "Show retired buses"}                    
+                    </button>
                 </div>
 
                 {showForm && (

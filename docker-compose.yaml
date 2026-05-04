@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile_react
+        container_name: react
+        ports:
+         - 3000:3000
+        volumes:
+         - ./frontend:/app
+         - /app/node_modules
+        environment:
+         - CHOKIDAR_USEPOLLING=true
+        depends_on:
+         - backend
+        networks:
+         - mainNet
+    
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile_symfony
+        container_name: symfone
+        depends_on:
+         - db
+        command: bash -c "composer install && php -S 0.0.0.0:8000 -t public"
+        ports:
+         - 8000:8000
+        volumes:
+         - ./backend:/app
+        networks:
+         - mainNet
+
+    db:
+        image: mysql:8.0
+        ports:
+         - "3306:3306"
+        environment:
+         - MYSQL_ROOT_PASSWORD: root
+         - MYSQL_DATABASE: proyecto
+         - MYSQL_USER: saal
+         - MYSQL_PASSWORD: dosu
+        volumes:
+         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+         - database_data:/var/lib/mysql
+        networks:
+         - mainNet
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+         - "8080:80"
+        environment:
+         - PMA_HOST: db
+         - PMA_USER: saal
+         - PMA_PASSWORD: dosu
+        depends_on:
+         - db
+        networks:
+         - mainNet
+- database
+networks:
+- app-network
+            
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile_nginx
+        container_name: nginx
+        ports:
+         - 80:80
+        networks:
+         - mainNet
+
+networks:
+    mainNet:
+        driver: bridge
