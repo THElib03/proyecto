@@ -12,7 +12,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Search from "../pages/Search";
-import Bonds from "../pages/Bonds";
+import Book from "../pages/Book";
 import Promos from "../pages/Promos";
 import Admin from "../pages/Admin";
 import Buses from "../pages/Buses";
@@ -47,8 +47,8 @@ export const router = createBrowserRouter([
                 element: <Search />,
             },
             {
-                path: "bonds",
-                element: <Bonds />,
+                path: "book",
+                element: <Book />,
             },
             {
                 path: "promos",

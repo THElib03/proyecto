@@ -7,6 +7,7 @@ const Routes = () => {
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [showRetired, setShowRetired] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
@@ -26,9 +27,8 @@ const Routes = () => {
                 },
             });
             if (!routeResponse.ok) throw new Error("Failed to fetch routes");
+            
             const routeData = await routeResponse.json();
-            console.log("Fetched routes:", routeData);
-
             setRoutes(Array.isArray(routeData) ? routeData : routeData.data || routeData.routes || []);
         } catch (err) {
             console.error("Error fetching routes:", err);
@@ -102,10 +102,11 @@ const Routes = () => {
         }
     };
 
-    const filteredRoutes = routes.filter(
-        (route) =>
-            route.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const filteredRoutes = routes.filter((route) => {
+        const matchesSearch = route.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDelisted = showRetired ? true : !route.delist;
+        return matchesSearch && matchesDelisted;
+    });
 
     return (
         <div className="app-container">
@@ -135,6 +136,12 @@ const Routes = () => {
                         }}
                     >
                         + Add Route
+                    </button>
+                    <button
+                        className={`btn ${showRetired ? "btn-danger" : "btn-secondary"}`}
+                        onClick={() => setShowRetired(!showRetired)}
+                    >
+                        {showRetired ? "Hide retired routes" : "Show retired routes"}
                     </button>
                 </div>
 

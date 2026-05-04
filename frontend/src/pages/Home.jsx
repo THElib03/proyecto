@@ -6,11 +6,33 @@ const Home = () => {
     const [formData, setFormData] = useState({
         source: "",
         destination: "",
+        returnDate: "",
         departureDate: "",
     });
+    const [displayText, setDisplayText] = useState({
+        source: "",
+        destination: ""
+    });
+    const [stations, setStations] = useState([]);
     const [popularRoutes, setPopularRoutes] = useState([]);
     const [offset, setOffset] = useState(0);
     const [isLoadingRoutes, setIsLoadingRoutes] = useState(true);
+    const today = new Date().toLocaleDateString('en-CA');
+
+    useEffect(() => {
+        const fetchStations = async () => {
+            try {
+                const response = await fetch("/api/station", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                if (!response.ok) throw new Error("Failed to fetch stations");
+                const data = await response.json();
+                setStations(Array.isArray(data) ? data : data.data || []);
+            } catch (err) { console.error("Error fetching stations:", err); }
+        };
+        fetchStations();
+    }, []);
 
     useEffect(() => {
         fetchPopularRoutes(0);
@@ -46,17 +68,30 @@ const Home = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const selectedStation = stations.find(s => `${s.city}, ${s.name}` === value);
+    
+        setDisplayText((prev) => ({ ...prev, [name]: value }));
+        if (selectedStation) {
+            // If it matches a station, store the ID
+            setFormData((prev) => ({ ...prev, [name]: selectedStation.id }));
+        } else {
+            // Otherwise, store the value as-is (for manual typing)
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSearch = () => {
-        if (formData.source && formData.destination) {
-            const params = new URLSearchParams({
-                source: formData.source,
-                destination: formData.destination,
-                departureDate: formData.departureDate,
-            });
+        if (formData.source && formData.destination && formData.departureDate) {
+            const params = new URLSearchParams();
+            params.append("from", formData.source);
+            params.append("to", formData.destination);
+            params.append("date", formData.departureDate);
+            if (formData.returnDate) {
+                params.append("returnDate", formData.returnDate);
+            }
             navigate(`/search?${params.toString()}`);
+        } else {
+            alert("Please fill in all required fields");
         }
     };
 
@@ -85,12 +120,18 @@ const Home = () => {
                                 <input
                                     type="text"
                                     name="source"
-                                    value={formData.source}
+                                    value={displayText.source}
                                     onChange={handleInputChange}
-                                    placeholder="New York"
+                                    list="home-stations-list"
+                                    placeholder="Sevilla"
                                     className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                 />
                             </div>
+                            <datalist id="home-stations-list">
+                                {stations.filter((s) => !s.delist).map((s) => (
+                                    <option key={s.id} value={`${s.city}, ${s.name}`} />
+                                ))}
+                            </datalist>
                             <div className="mb-6">
                                 <label className="block mb-2 font-medium text-slate-800">
                                     To
@@ -98,9 +139,10 @@ const Home = () => {
                                 <input
                                     type="text"
                                     name="destination"
-                                    value={formData.destination}
+                                    value={displayText.destination}
                                     onChange={handleInputChange}
-                                    placeholder="Boston"
+                                    list="home-stations-list"
+                                    placeholder="Granada"
                                     className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                 />
                             </div>
@@ -112,6 +154,20 @@ const Home = () => {
                                     type="date"
                                     name="departureDate"
                                     value={formData.departureDate}
+                                    min={today}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <label className="block mb-2 font-medium text-slate-800">
+                                    Return Date (Optional)
+                                </label>
+                                <input
+                                    type="date"
+                                    name="returnDate"
+                                    value={formData.returnDate}
+                                    min={formData.departureDate || today}
                                     onChange={handleInputChange}
                                     className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                                 />

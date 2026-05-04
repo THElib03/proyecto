@@ -9,11 +9,13 @@ const NavBar = () => {
     const [stickySearchData, setStickySearchData] = useState({
         source: "",
         destination: "",
-        departureDate: "",
+        departureDate: "", // Keep departureDate
         returnDate: "",
     });
+    const [stations, setStations] = useState([]);
     const { token } = useAuth();
-    const isActive = (path) => (location.pathname === path ? "active" : "");
+    const isActive = (path) => (location.pathname === path ? "active" : ""); // Keep this line
+    const today = new Date().toLocaleDateString('en-CA'); // Corrected date format
 
     // Detect scroll position
     useEffect(() => {
@@ -27,6 +29,16 @@ const NavBar = () => {
         };
 
         window.addEventListener("scroll", handleScroll);
+
+        const fetchStations = async () => {
+            try {
+                const response = await fetch("/api/station");
+                const data = await response.json();
+                setStations(Array.isArray(data) ? data : data.data || []);
+            } catch (err) { console.error("Error fetching stations in Nav:", err); }
+        };
+        fetchStations();
+
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
@@ -37,12 +49,15 @@ const NavBar = () => {
 
     const handleStickySearch = () => {
         if (stickySearchData.source && stickySearchData.destination) {
-            const params = new URLSearchParams({
-                source: stickySearchData.source,
-                destination: stickySearchData.destination,
-                departureDate: stickySearchData.departureDate,
-                returnDate: stickySearchData.returnDate,
-            });
+            const params = new URLSearchParams();
+            params.append("source", stickySearchData.source);
+            params.append("destination", stickySearchData.destination);
+            params.append("from", stickySearchData.source);
+            params.append("to", stickySearchData.destination);
+            params.append("departureDate", stickySearchData.departureDate);
+            if (stickySearchData.returnDate) {
+                params.append("returnDate", stickySearchData.returnDate);
+            }
             navigate(`/search?${params.toString()}`);
         }
     };
@@ -54,7 +69,7 @@ const NavBar = () => {
                     to="/"
                     className="text-xl font-bold text-white! no-underline cursor-pointer"
                 >
-                    🚌 BusBooking
+                    <img src="/logo.png" alt="BusBooking Logo" className="h-12" />
                 </Link>
                 <div className="flex w-full justify-end items-center gap-8 md:gap-0">
                     {/* Mobile Menu Toggle */}
@@ -81,12 +96,12 @@ const NavBar = () => {
                         >
                             Search
                         </Link>
-                        <Link
+                        {/* <Link
                             to="/bonds"
                             className={`text-white! no-underline font-medium px-3 py-2 rounded transition-colors ${isActive("/bonds")}`}
                         >
                             Bonds
-                        </Link>
+                        </Link> */}
                         <Link
                             to="/promos"
                             className={`text-white! no-underline font-medium px-3 py-2 rounded transition-colors ${isActive("/promos")}`}
@@ -125,16 +140,23 @@ const NavBar = () => {
                                 name="source"
                                 value={stickySearchData.source}
                                 onChange={handleStickySearchInputChange}
+                                list="nav-stations-list"
                                 placeholder="From..."
                                 className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
+                        <datalist id="nav-stations-list">
+                            {stations.map((s) => (
+                                <option key={s.id} value={s.name} />
+                            ))}
+                        </datalist>
                         <div className="flex-1 min-w-[150px]">
                             <input
                                 type="text"
                                 name="destination"
                                 value={stickySearchData.destination}
                                 onChange={handleStickySearchInputChange}
+                                list="nav-stations-list"
                                 placeholder="To..."
                                 className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
@@ -144,6 +166,7 @@ const NavBar = () => {
                                 type="date"
                                 name="departureDate"
                                 value={stickySearchData.departureDate}
+                                min={today}
                                 onChange={handleStickySearchInputChange}
                                 className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
@@ -153,6 +176,7 @@ const NavBar = () => {
                                 type="date"
                                 name="returnDate"
                                 value={stickySearchData.returnDate}
+                                min={stickySearchData.departureDate || today}
                                 onChange={handleStickySearchInputChange}
                                 className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />

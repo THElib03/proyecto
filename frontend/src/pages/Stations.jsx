@@ -7,6 +7,7 @@ const Stations = () => {
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const [showRetired, setShowRetired] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
@@ -80,7 +81,15 @@ const Stations = () => {
     const handleRetire = async (id) => {
         if (confirm("Are you sure?")) {
             try {
-                // TODO: Implement API call to delete station
+                const response = await fetch(`/api/station/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.ok) throw new Error("Failed to delete station");
+
                 setStations((prev) =>
                     prev.filter((station) => station.id !== id),
                 );
@@ -90,11 +99,14 @@ const Stations = () => {
         }
     };
 
-    const filteredStations = stations.filter(
-        (station) =>
+    const filteredStations = stations.filter((station) => {
+        const matchesSearch =
             station.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            station.city.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+            station.city.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesDelisted = showRetired ? true : !station.delist;
+        return matchesSearch && matchesDelisted;
+    });
 
     return (
         <div className="app-container">
@@ -129,6 +141,12 @@ const Stations = () => {
                         }}
                     >
                         + Add Station
+                    </button>
+                    <button
+                        className={`btn ${showRetired ? "btn-danger" : "btn-secondary"}`}
+                        onClick={() => setShowRetired(!showRetired)}
+                    >
+                        {showRetired ? "Hide retired stations" : "Show retired stations"}
                     </button>
                 </div>
 
