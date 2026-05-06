@@ -36,7 +36,7 @@ const Login = () => {
 
     return (
         <div className="app-container min-h-screen flex items-center justify-center p-4">
-            <div className="page-container">
+            <div className="page-container max-w-lg">
                 <div className="page-header">
                     <h1>Sign In</h1>
                     <p>Welcome back! Please login to your account</p>
