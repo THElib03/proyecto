@@ -281,7 +281,6 @@ const Search = () => {
                                     <button
                                         className="btn btn-primary"
                                         onClick={() => {
-                                            console.log("Selected trip:", trip);
                                             handleSelectTrip(trip);
                                         }}
                                     >

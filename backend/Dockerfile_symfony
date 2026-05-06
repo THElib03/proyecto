@@ -12,6 +12,8 @@ RUN composer update
 RUN php bin/console doctrine:migrations:diff --no-interaction || true
 RUN php bin/console doctrine:migrations:migrate --no-interaction || true
 RUN chmod -R 777 /app/var
+RUN mkdir -p config/jwt
+RUN php bin/console lexik:jwt:generate-keypair
 
 EXPOSE 8000
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

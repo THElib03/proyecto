@@ -39,14 +39,15 @@ services:
         - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: MMV_DB
-            MYSQL_USER: alumnoDAW
-            MYSQL_PASSWORD: passMMV
+            MYSQL_DATABASE: proyecto
+            MYSQL_USER: saal
+            MYSQL_PASSWORD: dosu
         volumes:
         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
         - database_data:/var/lib/mysql
         networks:
-        - app-networkt
+        - mainNet
+        restart: on-failure
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

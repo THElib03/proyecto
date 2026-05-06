@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
                 throw new Error(passData.error || "Invalid email or password");
             }
 
-            console.log("OK");
             setIsAuthenticated(true);
             localStorage.setItem("sessionToken", passData.token);
             setToken(passData.token);
