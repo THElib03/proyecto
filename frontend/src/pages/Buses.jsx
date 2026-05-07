@@ -26,7 +26,6 @@ const Buses = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log("Fetched buses:" , data);
             setBuses(Array.isArray(data) ? data : data.data || data.buses || []);
         })
         .catch(err => console.error("Error fetching buses:", err))

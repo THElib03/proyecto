@@ -84,10 +84,21 @@ final class RouteController extends AbstractController
                 'name' => $route->getName(),
                 'delist' => $route->isDelist(),
                 'highlight' => $route->isHighlight(),
+                'names' => $this->getRandomStationNames($route),
             ];
         }, $paginatedRoutes);
 
         return $this->json($data);
+    }
+
+    private function getRandomStationNames(Routes $route, int $limit = 3): array
+    {
+        $stationNames = [];
+        foreach ($route->getRouteStations() as $routeStation) {
+            $stationNames[] = $routeStation->getStation()->getCity();
+        }
+        shuffle($stationNames);
+        return array_slice($stationNames, 0, $limit);
     }
 
     #[Route('/{id}', name: 'app_route_show', methods: ['GET'])]

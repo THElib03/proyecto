@@ -22,7 +22,7 @@ const TripColumn = ({ trip, title, type }) => (
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase">From</p>
                             <p className="text-lg font-semibold">{trip.origin?.city}</p>
-                            <p className="text-sm text-slate-600">{trip.origin?.name}</p>
+                            <p className="text-sm text-slate-600">{trip.origin?.address}</p>
                         </div>
                         <div className="text-right">
                             <p className="text-xs font-bold text-slate-400 uppercase">Departure</p>
@@ -40,11 +40,10 @@ const TripColumn = ({ trip, title, type }) => (
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase">To</p>
                             <p className="text-lg font-semibold">{trip.destination?.city}</p>
-                            <p className="text-sm text-slate-600">{trip.destination?.name}</p>
+                            <p className="text-sm text-slate-600">{trip.destination?.address}</p>
                         </div>
                         <div className="text-right">
                             <p className="text-sm font-medium text-slate-700">Bus: {trip.bus?.plateNum}</p>
-                            <p className="text-xs text-slate-500">{trip.bus?.model}</p>
                         </div>
                     </div>
                 </div>

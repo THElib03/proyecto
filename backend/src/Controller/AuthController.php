@@ -100,7 +100,7 @@ class AuthController extends AbstractController
         }
 
         return $this->json([
-            'username' => $checkUser -> getUsername(),
+            'username' => $checkUser -> getUsernameFix(),
             'mail' => $checkUser -> getMail(),
             'citId' => $checkUser -> getCitizenID(),
             'joinDate' => $checkUser -> getJoinDate(),

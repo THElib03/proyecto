@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import HighlightRoute from "../components/HighlightRoute";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -107,7 +108,7 @@ const Home = () => {
 
             {/* Search Section */}
             <div className="bg-white rounded-lg p-8 shadow-md animate-fadeIn">
-                <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow mb-8">
+                <div className="bg-white rounded-lg p-6 shadow transition-transform mb-8">
                     <div className="border-b border-slate-200 pb-4 mb-4">
                         <h3 className="text-blue-500 text-xl">Search Trips</h3>
                     </div>
@@ -200,37 +201,7 @@ const Home = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                            {popularRoutes.map((route) => (
-                                <div
-                                    key={route.id}
-                                    className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg"
-                                >
-                                    <div className="border-b border-slate-200 pb-4 mb-4">
-                                        <h3 className="text-blue-500 text-xl">
-                                            {route.name}
-                                        </h3>
-                                    </div>
-                                    <div className="leading-relaxed">
-                                        <p className="text-2xl text-blue-600 font-bold">
-                                            Featured Route
-                                        </p>
-                                    </div>
-                                    <div className="border-t border-slate-200 pt-4 mt-4">
-                                        <button
-                                            className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
-                                            onClick={() => {
-                                                navigate(
-                                                    `/admin/routes/${route.id}/stations`,
-                                                );
-                                            }}
-                                        >
-                                            View Route
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <HighlightRoute popularRoutes={popularRoutes} />
                         <div className="flex justify-center mb-8">
                             <button
                                 className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700"
@@ -254,7 +225,7 @@ const Home = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg">
+                        <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg">
                             <div className="border-b border-slate-200 pb-4 mb-4">
                                 <h3 className="text-blue-500 text-xl">
                                     Travel Bonds
@@ -275,7 +246,7 @@ const Home = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="bg-white rounded-lg p-6 shadow transition-transform transition-shadow hover:-translate-y-1 hover:shadow-lg">
+                        <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg">
                             <div className="border-b border-slate-200 pb-4 mb-4">
                                 <h3 className="text-blue-500 text-xl">
                                     Promotions

@@ -113,7 +113,7 @@ const PaymentForm = ({ totalPrice, onBack, onPaymentSuccess }) => {
                             <div className="chip"></div>
                             {cardType !== -1 && <img src={CARDS[cardType].src} alt="brand" className="h-10 object-contain" />}
                         </div>
-                        <div className={`text-2xl tracking-[0.2em] my-6 font-mono transition-colors ${focused === 'number' ? 'text-white' : 'text-white/80'}`}>
+                        <div className={`text-2xl tracking-[0.1em] my-1 font-mono transition-colors ${focused === 'number' ? 'text-white' : 'text-white/80'}`}>
                             {number || "•••• •••• •••• ••••"}
                         </div>
                         <div className="flex justify-between items-end">

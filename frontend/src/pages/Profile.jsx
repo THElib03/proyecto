@@ -12,7 +12,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (!token) {
-            console.log(token);
+            navigate("/login");
         } else {
             fetchUserProfile();
         }

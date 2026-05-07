@@ -12,7 +12,6 @@ const Book = () => {
     const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
     const [outboundTrip, setOutboundTrip] = useState(null);
     const [returnTrip, setReturnTrip] = useState(null);
-    const [stations, setStations] = useState([]);
 
     const passengers = parseInt(searchParams.get("passengers") || "1");
     const outboundId = searchParams.get("outboundTravelId");
@@ -20,7 +19,6 @@ const Book = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('sessionToken');
-        console.log("Session Token:", token);
         if (!token) {
             console.warn("No session token found. Redirecting to login.");
             navigate("/login?message=Please log in to book your trip");
@@ -34,7 +32,6 @@ const Book = () => {
                 const statRes = await fetch("/api/station");
                 const statData = await statRes.json();
                 const allStations = Array.isArray(statData) ? statData : statData.data || [];
-                setStations(allStations);
 
                 // Fetch outbound trip details
                 const outRes = await fetch(`/api/travel/${outboundId}`);
@@ -47,7 +44,9 @@ const Book = () => {
                     departureTime: searchParams.get("outboundDeparture"),
                     arrivalTime: searchParams.get("outboundArrival"),
                     origin: allStations.find(s => s.id === parseInt(searchParams.get("outboundStat1"))),
-                    destination: allStations.find(s => s.id === parseInt(searchParams.get("outboundStat2")))
+                    originName: allStations.find(s => s.id === parseInt(searchParams.get("outboundStat1")))?.name || "Unknown",
+                    destination: allStations.find(s => s.id === parseInt(searchParams.get("outboundStat2"))),
+                    destinationName: allStations.find(s => s.id === parseInt(searchParams.get("outboundStat2")))?.name || "Unknown",
                 });
 
                 // Fetch return trip if applicable
@@ -62,7 +61,9 @@ const Book = () => {
                         departureTime: searchParams.get("returnDeparture"),
                         arrivalTime: searchParams.get("returnArrival"),
                         origin: allStations.find(s => s.id === parseInt(searchParams.get("returnStat1"))),
-                        destination: allStations.find(s => s.id === parseInt(searchParams.get("returnStat2")))
+                        originName: allStations.find(s => s.id === parseInt(searchParams.get("returnStat1")))?.name || "Unknown",
+                        destination: allStations.find(s => s.id === parseInt(searchParams.get("returnStat2"))),
+                        destinationName: allStations.find(s => s.id === parseInt(searchParams.get("returnStat2")))?.name || "Unknown"
                     });
                 }
             } catch (err) {

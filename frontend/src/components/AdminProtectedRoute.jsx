@@ -13,7 +13,6 @@ const AdminProtectedRoute = () => {
             return;
         }
         
-        console.log("Validating user perms...");
         fetch('/api/auth/admin', {
             method: 'POST',
             headers: {'Authorization': `Bearer ${token}`},

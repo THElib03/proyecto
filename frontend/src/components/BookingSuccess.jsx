@@ -26,7 +26,7 @@ const BookingSuccess = ({ totalPrice }) => {
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button
                             className="btn btn-primary btn-lg"
-                            onClick={() => navigate('/my-tickets')}
+                            onClick={() => navigate('/profile/my-tickets')}
                         >
                             View My Tickets
                         </button>

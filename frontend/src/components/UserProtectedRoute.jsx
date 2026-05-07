@@ -11,7 +11,6 @@ const UserProtectedRoute = () => {
             return;
         }
         
-        console.log("Validating user signature...");
         fetch('/api/auth/validate', {
             method: 'GET',
             headers: {'Authorization': `Bearer ${token}`},
