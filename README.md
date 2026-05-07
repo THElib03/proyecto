@@ -62,7 +62,7 @@ cd saal
 
 ### Acceso a la Versión Desplegada
 
-[13.60.189.110](Fuera de servicio) mediante AWS.
+Acceda a la versión desplegada del proyecto [Saal](http://51.21.253.193) mediante AWS.
 
 ## Credenciales y Datos de Prueba
 

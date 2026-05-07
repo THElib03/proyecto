@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+  THEME DEFINITIONS (Tailwind v4)
+  ==========================================================================
+*/
+@theme {
+    /* Fresh & Energetic Palette */
+    --color-primary-teal: #008080;
+    --color-accent-sky: #00D4FF;
+    --color-slate-blue: #4A6FA5;
+    
+    /* Animations */
+    --animate-fadeIn: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+  STANDARD CSS (For non-Tailwind elements)
+  ==========================================================================
+*/
+a {
+    font-weight: 500;
+    color: var(--color-primary-teal);
+    text-decoration: inherit;
+}
+a:hover {
+    color: var(--color-accent-sky);
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+/* button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+} 
+button:hover {
+    border-color: var(--color-accent-sky);
+} */
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
+    a:hover {
+        color: var(--color-accent-sky);
+    }
+    button {
+        background-color: #f7f7f7;
+        color: #213547;
+    }
+}
+
+/* ==========================================================================
+  TAILWIND LAYERS
+  ==========================================================================
+*/
+
+@layer base {
+    body {
+        @apply bg-slate-50 text-slate-800 antialiased;
+    }
+    #root {
+        @apply flex flex-col w-full min-h-screen bg-slate-200;
+    }
+}
+
+@layer components {
+    /* Layout */
+    .app-container {
+        @apply p-8 w-full;
+    }
+
+    .page-container {
+        @apply w-full bg-white rounded-lg p-8 shadow-md animate-fadeIn;
+    }
+    
+    .page-header {
+        @apply mb-8 pb-4 border-b-2 border-[var(--color-primary-teal)];
+    }
+    .page-header h1, .page-header h2 {
+        @apply text-2xl text-[var(--color-primary-teal)] font-bold mb-2;
+    }
+    .page-header p {
+        @apply text-[var(--color-slate-blue)] text-sm;
+    }
+
+    /* Forms */
+    .form-container {
+        @apply max-w-md;
+    }
+    .form-group {
+        @apply mb-6;
+    }
+    .form-group label {
+        @apply block mb-2 font-medium text-slate-800;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        @apply w-full p-3 border border-slate-300 rounded-md text-base transition-all;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        @apply outline-none border-[var(--color-accent-sky)] ring-4 ring-[var(--color-accent-sky)]/20;
+    }
+    .form-error {
+        @apply text-red-600 text-xs mt-1;
+    }
+    .form-success {
+        @apply text-green-600 text-xs mt-1;
+    }
+
+    /* Buttons */
+    .btn {
+        @apply px-6 py-3 rounded-md text-base font-semibold cursor-pointer transition-all inline-block text-center;
+    }
+    .btn-primary {
+        @apply bg-[var(--color-accent-sky)] text-slate-900 hover:brightness-90 shadow-sm active:scale-95;
+    }
+    .btn-secondary {
+        @apply bg-[var(--color-slate-blue)] text-white hover:opacity-90;
+    }
+    .btn-success {
+        @apply bg-green-600 text-white hover:bg-green-700;
+    }
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700;
+    }
+    .btn-sm {
+        @apply px-4 py-2 text-sm;
+    }
+    .btn-group {
+        @apply flex gap-2 mb-6;
+    }
+
+    /* Tables */
+    .table-container {
+        @apply overflow-x-auto mb-8;
+    }
+    .table {
+        @apply w-full border-collapse bg-white rounded-md overflow-hidden;
+    }
+    .table thead {
+        @apply bg-teal-50 border-b-2 border-[var(--color-primary-teal)]/20;
+    }
+    .table th {
+        @apply p-4 text-left font-semibold text-[var(--color-primary-teal)];
+    }
+    .table td {
+        @apply p-4 border-b border-slate-100;
+    }
+    .table tbody tr:hover {
+        @apply bg-slate-50;
+    }
+    .table-actions {
+        @apply flex gap-2;
+    }
+
+    /* Cards */
+    .card {
+        @apply bg-white rounded-lg p-6 shadow transition-transform transition-shadow;
+    }
+    .card:hover {
+        @apply transform -translate-y-1 shadow-lg;
+    }
+    .card-header {
+        @apply border-b border-slate-100 pb-4 mb-4;
+    }
+    .card-header h3 {
+        @apply text-[var(--color-primary-teal)] text-xl font-bold;
+    }
+    .card-body {
+        @apply leading-relaxed;
+    }
+    .card-footer {
+        @apply border-t border-slate-100 pt-4 mt-4;
+    }
+
+    /* Alerts */
+    .alert {
+        @apply p-4 rounded mb-6 border-l-4;
+    }
+    .alert-success {
+        @apply bg-green-50 text-green-800 border-green-500;
+    }
+    .alert-error {
+        @apply bg-red-50 text-red-800 border-red-500;
+    }
+    .alert-info {
+        @apply bg-teal-50 text-teal-900 border-[var(--color-primary-teal)];
+    }
+
+    /* Search */
+    .search-container {
+        @apply flex gap-4 mb-8 flex-wrap items-end;
+    }
+    .search-input {
+        @apply flex-1 min-w-[200px] p-3 border border-slate-300 rounded-md transition-all;
+    }
+    .search-input:focus {
+        @apply outline-none border-[var(--color-accent-sky)] ring-4 ring-[var(--color-accent-sky)]/20;
+    }
+
+    /* States */
+    .loading {
+        @apply text-center p-8 text-slate-600;
+    }
+    .empty-state {
+        @apply text-center p-12 text-slate-500;
+    }
+    .empty-state h3 {
+        @apply text-[var(--color-slate-blue)] mb-2 font-semibold;
+    }
+}
+
+@layer utilities {
+    .grid-3 {
+        @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+    }
+    .grid-2 {
+        @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+    }
+}

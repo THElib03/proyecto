@@ -68,7 +68,7 @@ const Register = () => {
 
     return (
         <div className="app-container min-h-screen flex items-center justify-center p-4">
-            <div className="page-container">
+            <div className="page-container max-w-lg">
                 <div className="page-header">
                     <h1>Create Account</h1>
                     <p>Join us and start booking your tickets</p>
@@ -79,19 +79,17 @@ const Register = () => {
                     {console.log(error)}
 
                     <form onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="form-group">
-                                <label htmlFor="username">Full Name</label>
-                                <input
-                                    id="username"
-                                    type="text"
-                                    name="username"
-                                    value={formData.username}
-                                    onChange={handleChange}
-                                    placeholder="John Doe"
-                                    required
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="username">Full Name</label>
+                            <input
+                                id="username"
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="John Doe"
+                                required
+                            />
                         </div>
 
                         <div className="form-group">

@@ -99,23 +99,23 @@ const Home = () => {
     return (
         <div className="flex-1 p-8 mx-auto w-full max-w-7xl">
             {/* Hero Section */}
-            <div className="bg-blue-600 text-white py-12 px-8 text-center">
-                <h1 className="text-5xl mb-4">Book Your Bus Ticket</h1>
-                <p className="text-xl">
+            <div className="bg-[var(--color-primary-teal)] text-white py-12 px-6 text-center rounded-t-lg">
+                <h1 className="text-4xl mb-4 font-bold">Book Your Bus Ticket</h1>
+                <p className="text-xl opacity-90">
                     Find and book buses to your favorite destinations
                 </p>
             </div>
 
             {/* Search Section */}
-            <div className="bg-white rounded-lg p-8 shadow-md animate-fadeIn">
-                <div className="bg-white rounded-lg p-6 shadow transition-transform mb-8">
-                    <div className="border-b border-slate-200 pb-4 mb-4">
-                        <h3 className="text-blue-500 text-xl">Search Trips</h3>
+            <div className="page-container -mt-4 shadow-xl">
+                <div className="card ">
+                    <div className="card-header">
+                        <h3>Search Trips</h3>
                     </div>
-                    <div className="leading-relaxed">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-                            <div className="mb-6">
-                                <label className="block mb-2 font-medium text-slate-800">
+                    <div className="card-body">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+                            <div className="form-group">
+                                <label>
                                     From
                                 </label>
                                 <input
@@ -125,7 +125,8 @@ const Home = () => {
                                     onChange={handleInputChange}
                                     list="home-stations-list"
                                     placeholder="Sevilla"
-                                    className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                    className="search-input w-full"
+                                    // className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-[--color-accent-sky] focus:ring-4 focus:ring-[--color-accent-sky]/20"
                                 />
                             </div>
                             <datalist id="home-stations-list">
@@ -144,7 +145,7 @@ const Home = () => {
                                     onChange={handleInputChange}
                                     list="home-stations-list"
                                     placeholder="Granada"
-                                    className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                    className="search-input w-full"
                                 />
                             </div>
                             <div className="mb-6">
@@ -157,7 +158,7 @@ const Home = () => {
                                     value={formData.departureDate}
                                     min={today}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                    className="search-input w-full"
                                 />
                             </div>
                             <div className="mb-6">
@@ -170,11 +171,11 @@ const Home = () => {
                                     value={formData.returnDate}
                                     min={formData.departureDate || today}
                                     onChange={handleInputChange}
-                                    className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                                    className="search-input w-full"
                                 />
                             </div>
                             <button
-                                className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700"
+                                className="btn btn-primary w-full md:w-auto"
                                 onClick={handleSearch}
                             >
                                 Search
@@ -184,11 +185,11 @@ const Home = () => {
                 </div>
 
                 {/* Popular Routes */}
-                <div className="mb-8 pb-4 border-b-2 border-blue-500">
-                    <h2 className="text-2xl text-blue-500 mb-2">
+                <div className="page-header mt-8">
+                    <h2>
                         Popular Routes
                     </h2>
-                    <p className="text-slate-600 text-sm">
+                    <p>
                         Check out our most popular destinations
                     </p>
                 </div>
@@ -196,7 +197,7 @@ const Home = () => {
                 {isLoadingRoutes ? (
                     <div className="text-center py-8">Loading routes...</div>
                 ) : popularRoutes.length === 0 ? (
-                    <div className="text-center py-8 text-slate-600">
+                    <div className="empty-state">
                         No highlighted routes available
                     </div>
                 ) : (
@@ -204,7 +205,7 @@ const Home = () => {
                         <HighlightRoute popularRoutes={popularRoutes} />
                         <div className="flex justify-center mb-8">
                             <button
-                                className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700"
+                                className="btn btn-secondary"
                                 onClick={() => fetchPopularRoutes(offset)}
                             >
                                 Show More Routes
@@ -215,52 +216,38 @@ const Home = () => {
 
                 {/* Quick Links */}
                 <div className="mt-12">
-                    <div className="mb-8 pb-4 border-b-2 border-blue-500">
-                        <h2 className="text-2xl text-blue-500 mb-2">
-                            Special Offers
-                        </h2>
-                        <p className="text-slate-600 text-sm">
-                            Don't miss our current deals
-                        </p>
+                    <div className="page-header">
+                        <h2>Special Offers</h2>
+                        <p>Don't miss our current deals</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg">
-                            <div className="border-b border-slate-200 pb-4 mb-4">
-                                <h3 className="text-blue-500 text-xl">
-                                    Travel Bonds
-                                </h3>
+                    <div className="grid-2">
+                        <div className="card">
+                            <div className="card-header">
+                                <h3>Travel Bonds</h3>
                             </div>
-                            <div className="leading-relaxed">
-                                <p>
-                                    Get exclusive discounts with our monthly
-                                    travel bonds
-                                </p>
+                            <div className="card-body">
+                                <p>Get exclusive discounts with our monthly travel bonds</p>
                             </div>
-                            <div className="border-t border-slate-200 pt-4 mt-4">
+                            <div className="card-footer">
                                 <button
-                                    className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
+                                    className="btn btn-primary"
                                     onClick={() => navigate("/bonds")}
                                 >
                                     Explore Bonds
                                 </button>
                             </div>
                         </div>
-                        <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg">
-                            <div className="border-b border-slate-200 pb-4 mb-4">
-                                <h3 className="text-blue-500 text-xl">
-                                    Promotions
-                                </h3>
+                        <div className="card">
+                            <div className="card-header">
+                                <h3>Promotions</h3>
                             </div>
-                            <div className="leading-relaxed">
-                                <p>
-                                    Check out our latest sales and promotional
-                                    offers
-                                </p>
+                            <div className="card-body">
+                                <p>Check out our latest sales and promotional offers</p>
                             </div>
-                            <div className="border-t border-slate-200 pt-4 mt-4">
+                            <div className="card-footer">
                                 <button
-                                    className="px-6 py-3 rounded-md text-base font-medium cursor-pointer transition-all inline-block text-center bg-blue-500 text-white hover:bg-blue-700 w-full"
+                                    className="btn btn-primary"
                                     onClick={() => navigate("/promos")}
                                 >
                                     View Promos
