@@ -89,6 +89,9 @@ const Login = () => {
                                 Create one
                             </Link>
                         </p>
+                        <p className="mt-4 text-sm text-slate-500 italic">
+                            Admin User: admin@saal.es | admin123
+                        </p>
                     </div>
                 </div>
             </div>
