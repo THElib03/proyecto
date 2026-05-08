@@ -1,47 +1,46 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyTickets = () => {
+    const navigate = useNavigate();
     const [tickets, setTickets] = useState([]);
+    const [stations, setStations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filter, setFilter] = useState("all");
+    const token = localStorage.getItem('sessionToken');
 
     useEffect(() => {
-        fetchTickets();
-    }, []);
+        if (!token) {
+            navigate("/login?message=Please log in to view your tickets");
+        } else {
+            fetchStations();
+            fetchTickets();
+        }
+    }, [token, navigate]);
+
+    const fetchStations = async () => {
+        try {
+            const response = await fetch("/api/station");
+            const data = await response.json();
+            setStations(Array.isArray(data) ? data : data.data || []);
+        } catch (err) {
+            console.error("Error fetching stations:", err);
+        }
+    };
 
     const fetchTickets = async () => {
         setLoading(true);
         try {
-            // TODO: Implement API call to fetch user tickets
-            // const response = await fetch('/api/my-tickets')
-            // const data = await response.json()
-            // setTickets(data)
-            setTickets([
-                {
-                    id: 1,
-                    route: "New York → Boston",
-                    departure: "2024-03-15 08:00",
-                    seat: "12A",
-                    status: "active",
-                    price: "$45",
+            const response = await fetch('/api/ticket/my', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 },
-                {
-                    id: 2,
-                    route: "Boston → Philadelphia",
-                    departure: "2024-03-20 14:30",
-                    seat: "5B",
-                    status: "active",
-                    price: "$65",
-                },
-                {
-                    id: 3,
-                    route: "New York → Boston",
-                    departure: "2024-02-28 08:00",
-                    seat: "8C",
-                    status: "completed",
-                    price: "$45",
-                },
-            ]);
+            });
+            if (!response.ok) throw new Error("Failed to fetch tickets");
+            const data = await response.json();
+            setTickets(Array.isArray(data) ? data : data.tickets || []);
         } catch (err) {
             console.error("Error fetching tickets:", err);
         } finally {
@@ -72,6 +71,11 @@ const MyTickets = () => {
             // TODO: Implement ticket cancellation
             console.log("Cancel ticket:", ticketId);
         }
+    };
+
+    const getStationName = (id) => {
+        const station = stations.find(s => s.id === parseInt(id));
+        return station ? `${station.city}, ${station.name}` : `Station #${id}`;
     };
 
     const filteredTickets =
@@ -115,20 +119,20 @@ const MyTickets = () => {
                         {filteredTickets.map((ticket) => (
                             <div key={ticket.id} className="card">
                                 <div className="card-header">
-                                    <h3>{ticket.route}</h3>
+                                    <h3>{getStationName(ticket.from)} → {getStationName(ticket.to)}</h3>
                                 </div>
                                 <div className="card-body">
                                     <div className="mb-3">
                                         <p>
                                             <strong>Departure:</strong>{" "}
-                                            {ticket.departure}
+                                            {ticket.date} {ticket.departure_time}
                                         </p>
                                         <p>
-                                            <strong>Seat:</strong> {ticket.seat}
+                                            <strong>Seat:</strong> {ticket.seat || "Unassigned"}
                                         </p>
                                         <p>
                                             <strong>Price:</strong>{" "}
-                                            {ticket.price}
+                                            {ticket.price}€
                                         </p>
                                         <p>
                                             <strong>Status:</strong>{" "}
