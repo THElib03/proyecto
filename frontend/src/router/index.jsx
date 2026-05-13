@@ -47,10 +47,6 @@ export const router = createBrowserRouter([
                 element: <Search />,
             },
             {
-                path: "book",
-                element: <Book />,
-            },
-            {
                 path: "promos",
                 element: <Promos />,
             },
@@ -74,6 +70,16 @@ export const router = createBrowserRouter([
                                 element: <Settings />,
                             },
                         ]
+                    }
+                ]
+            },
+            {
+                path: "book",
+                element: <UserProtectedRoute />,
+                children: [
+                    {
+                        index: true,
+                        element: <Book />,
                     }
                 ]
             },

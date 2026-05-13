@@ -104,6 +104,7 @@ class AuthController extends AbstractController
             'mail' => $checkUser -> getMail(),
             'citId' => $checkUser -> getCitizenID(),
             'joinDate' => $checkUser -> getJoinDate(),
+            'totalTicket' => count($checkUser->getTickets()),
         ], Response::HTTP_OK);
     }
 

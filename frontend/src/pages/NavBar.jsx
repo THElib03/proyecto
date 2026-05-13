@@ -69,7 +69,7 @@ const NavBar = () => {
                     to="/"
                     className="text-xl font-bold text-white! no-underline cursor-pointer"
                 >
-                    <img src="/logo.png" alt="BusBooking Logo" className="h-12" />
+                    <img src="/logo.png" alt="BusBooking Logo" className="w-32 h-12 shrink-0 object-contain" />
                 </Link>
                 <div className="flex w-full justify-end items-center gap-8 md:gap-0">
                     {/* Mobile Menu Toggle */}

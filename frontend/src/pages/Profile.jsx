@@ -101,7 +101,7 @@ const Profile = () => {
                             <div className="card-body">
                                 <div className="text-center py-4">
                                     <div className="text-5xl text-blue-500 mb-2">
-                                        {user.totalTickets}
+                                        {user.totalTicket || 0}
                                     </div>
                                     <p className="text-slate-600">
                                         Total Tickets Booked
@@ -126,7 +126,7 @@ const Profile = () => {
                                 <ul className="list-none p-0">
                                     <li className="mb-3">
                                         <Link
-                                            to="/settings"
+                                            to="profile/settings"
                                             className="text-blue-500 no-underline"
                                         >
                                             ⚙️ Settings
@@ -134,7 +134,7 @@ const Profile = () => {
                                     </li>
                                     <li className="mb-3">
                                         <Link
-                                            to="/my-tickets"
+                                            to="profile/my-tickets"
                                             className="text-blue-500 no-underline"
                                         >
                                             🎫 My Tickets
