@@ -9,7 +9,7 @@ const Footer = () => {
                     <a href="https://github.com/THElib03/proyecto" className="footer-link">
                         Saal's GitHub
                     </a>
-                    <a href="#" className="footer-link">
+                    <a href="/policy" className="footer-link">
                         Privacy Policy
                     </a>
                     <a href="#" className="footer-link">

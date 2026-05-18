@@ -23,6 +23,7 @@ import Stations from "../pages/Stations";
 import MyTickets from "../pages/MyTickets";
 import Profile from "../pages/Profile";
 import Settings from "../pages/Settings";
+import Policy from "../pages/Policy";
 
 export const router = createBrowserRouter([
     {
@@ -117,6 +118,10 @@ export const router = createBrowserRouter([
                         ]
                     },
                 ],
+            },
+            {
+                path: "policy",
+                element: <Policy />,
             },
         ],
     },
