@@ -19,10 +19,11 @@ const Admin = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {adminMetadata.map((section) => (
                         <Link
+                            key={section.key}
                             to={section.key}
-                            className="no-underline text-inherit"
+                            className="no-underline text-inherit flex"
                         >
-                            <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg">
+                            <div className="bg-white rounded-lg p-6 shadow transition-transform hover:-translate-y-1 hover:shadow-lg w-full">
                                 <div className="text-6xl mb-4">
                                     {section.icon}
                                 </div>

@@ -245,7 +245,7 @@ const Buses = () => {
                 <div className="mb-6 p-4 rounded">
                     <input
                         type="text"
-                        className="search-input"
+                        className="search-input w-full min-w-0 box-border"
                         placeholder="Search by license plate or model..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
