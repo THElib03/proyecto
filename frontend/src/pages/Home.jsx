@@ -14,6 +14,7 @@ const Home = () => {
         source: "",
         destination: ""
     });
+    const [showStickySearch, setShowStickySearch] = useState(false);
     const [stations, setStations] = useState([]);
     const [popularRoutes, setPopularRoutes] = useState([]);
     const [offset, setOffset] = useState(0);
@@ -21,6 +22,24 @@ const Home = () => {
     const today = new Date().toLocaleDateString('en-CA');
 
     useEffect(() => {
+        const handleScroll = () => {
+            const width = window.innerWidth;
+            let threshold = 380; // Default for Desktop (lg and up)
+
+            if (width < 640) {
+                threshold = 950; // Mobile: Search card is tall due to vertical stacking
+            } else if (width < 1024) {
+                threshold = 480; // Tablet: Search card uses 2 columns
+            }
+
+            if (window.scrollY > threshold) {
+                setShowStickySearch(true);
+            } else {
+                setShowStickySearch(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+
         const fetchStations = async () => {
             try {
                 const response = await fetch("/api/station", {
@@ -33,6 +52,8 @@ const Home = () => {
             } catch (err) { console.error("Error fetching stations:", err); }
         };
         fetchStations();
+
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     useEffect(() => {
@@ -106,6 +127,67 @@ const Home = () => {
                 </p>
             </div>
 
+            {/* Sticky Search Bar - appears when scrolling past main search */}
+            {showStickySearch && (
+                <div className="fixed top-20 left-0 w-full bg-blue-600 border-t border-blue-400 px-8 py-3 z-40 shadow-lg animate-fadeIn transition-all duration-300 ease-out">
+                    <div className="max-w-7xl mx-auto flex gap-3 items-end justify-center md:justify-start flex-wrap">
+                        <div className="flex-1 min-w-38">
+                            <input
+                                type="text"
+                                name="source"
+                                value={displayText.source}
+                                onChange={handleInputChange}
+                                list="nav-stations-list"
+                                placeholder="From..."
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <datalist id="nav-stations-list">
+                            {stations.filter((s) => !s.delist).map((s) => (
+                                    <option key={s.id} value={`${s.city}, ${s.name}`} />
+                                ))}
+                        </datalist>
+                        <div className="flex-1 min-w-38">
+                            <input
+                                type="text"
+                                name="destination"
+                                value={displayText.destination}
+                                onChange={handleInputChange}
+                                list="nav-stations-list"
+                                placeholder="To..."
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div className="flex-1 min-w-38">
+                            <input
+                                type="date"
+                                name="departureDate"
+                                value={formData.departureDate}
+                                min={today}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <div className="flex-1 min-w-38">
+                            <input
+                                type="date"
+                                name="returnDate"
+                                value={formData.returnDate}
+                                min={formData.departureDate || today}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            />
+                        </div>
+                        <button
+                            onClick={handleSearch}
+                            className="px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Search Section */}
             <div className="page-container -mt-4 shadow-xl">
                 <div className="card ">
@@ -124,8 +206,8 @@ const Home = () => {
                                     value={displayText.source}
                                     onChange={handleInputChange}
                                     list="home-stations-list"
-                                    placeholder="Sevilla"
-                                    className="search-input w-full"
+                                    placeholder="From..."
+                                    className="search-input w-full min-w-0 "
                                     // className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-[--color-accent-sky] focus:ring-4 focus:ring-[--color-accent-sky]/20"
                                 />
                             </div>
@@ -145,7 +227,7 @@ const Home = () => {
                                     onChange={handleInputChange}
                                     list="home-stations-list"
                                     placeholder="Granada"
-                                    className="search-input w-full"
+                                    className="search-input w-full min-w-0 "
                                 />
                             </div>
                             <div className="mb-6">
@@ -158,7 +240,7 @@ const Home = () => {
                                     value={formData.departureDate}
                                     min={today}
                                     onChange={handleInputChange}
-                                    className="search-input w-full"
+                                    className="search-input w-full min-w-0 "
                                 />
                             </div>
                             <div className="mb-6">
@@ -171,7 +253,7 @@ const Home = () => {
                                     value={formData.returnDate}
                                     min={formData.departureDate || today}
                                     onChange={handleInputChange}
-                                    className="search-input w-full"
+                                    className="search-input w-full min-w-0 "
                                 />
                             </div>
                             <button

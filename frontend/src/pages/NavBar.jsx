@@ -5,13 +5,6 @@ import { useAuth } from "../context/AuthContext";
 const NavBar = () => {
     const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
-    const [showStickySearch, setShowStickySearch] = useState(false);
-    const [stickySearchData, setStickySearchData] = useState({
-        source: "",
-        destination: "",
-        departureDate: "", // Keep departureDate
-        returnDate: "",
-    });
     const [stations, setStations] = useState([]);
     const { token } = useAuth();
     const isActive = (path) => (location.pathname === path ? "active" : ""); // Keep this line
@@ -19,17 +12,6 @@ const NavBar = () => {
 
     // Detect scroll position
     useEffect(() => {
-        const handleScroll = () => {
-            // Show sticky search when scrolled past ~350px
-            if (window.scrollY > 380) {
-                setShowStickySearch(true);
-            } else {
-                setShowStickySearch(false);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
         const fetchStations = async () => {
             try {
                 const response = await fetch("/api/station");
@@ -38,29 +20,9 @@ const NavBar = () => {
             } catch (err) { console.error("Error fetching stations in Nav:", err); }
         };
         fetchStations();
-
-        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const handleStickySearchInputChange = (e) => {
-        const { name, value } = e.target;
-        setStickySearchData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleStickySearch = () => {
-        if (stickySearchData.source && stickySearchData.destination) {
-            const params = new URLSearchParams();
-            params.append("source", stickySearchData.source);
-            params.append("destination", stickySearchData.destination);
-            params.append("from", stickySearchData.source);
-            params.append("to", stickySearchData.destination);
-            params.append("departureDate", stickySearchData.departureDate);
-            if (stickySearchData.returnDate) {
-                params.append("returnDate", stickySearchData.returnDate);
-            }
-            navigate(`/search?${params.toString()}`);
-        }
-    };
+    
 
     return (
         <nav className="sticky top-0 z-100 w-full! bg-blue-500 shadow-md">
@@ -130,66 +92,7 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {/* Sticky Search Bar - appears when scrolling past main search */}
-            {showStickySearch && (
-                <div className="bg-blue-600 border-t border-blue-400 px-8 py-3 animate-fadeIn transition-all duration-300 ease-out">
-                    <div className="max-w-7xl mx-auto flex gap-3 items-end justify-center md:justify-start flex-wrap">
-                        <div className="flex-1 min-w-[150px]">
-                            <input
-                                type="text"
-                                name="source"
-                                value={stickySearchData.source}
-                                onChange={handleStickySearchInputChange}
-                                list="nav-stations-list"
-                                placeholder="From..."
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                            />
-                        </div>
-                        <datalist id="nav-stations-list">
-                            {stations.map((s) => (
-                                <option key={s.id} value={s.name} />
-                            ))}
-                        </datalist>
-                        <div className="flex-1 min-w-[150px]">
-                            <input
-                                type="text"
-                                name="destination"
-                                value={stickySearchData.destination}
-                                onChange={handleStickySearchInputChange}
-                                list="nav-stations-list"
-                                placeholder="To..."
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                            />
-                        </div>
-                        <div className="flex-1 min-w-[150px]">
-                            <input
-                                type="date"
-                                name="departureDate"
-                                value={stickySearchData.departureDate}
-                                min={today}
-                                onChange={handleStickySearchInputChange}
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                            />
-                        </div>
-                        <div className="flex-1 min-w-[150px]">
-                            <input
-                                type="date"
-                                name="returnDate"
-                                value={stickySearchData.returnDate}
-                                min={stickySearchData.departureDate || today}
-                                onChange={handleStickySearchInputChange}
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                            />
-                        </div>
-                        <button
-                            onClick={handleStickySearch}
-                            className="px-4 py-2 text-sm font-medium rounded-md bg-blue-500 text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
-                        >
-                            Search
-                        </button>
-                    </div>
-                </div>
-            )}
+            
         </nav>
     );
 };
