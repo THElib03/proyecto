@@ -24,16 +24,22 @@ const Home = () => {
     useEffect(() => {
         const handleScroll = () => {
             const width = window.innerWidth;
-            let threshold = 380; // Default for Desktop (lg and up)
+            let threshold = 420; // Default for Desktop (lg and up)
 
             if (width < 640) {
-                threshold = 950; // Mobile: Search card is tall due to vertical stacking
+                console.log("<640 called");
+                threshold = 920; // Mobile: Search card is tall due to vertical stacking
             } else if (width < 1024) {
-                threshold = 480; // Tablet: Search card uses 2 columns
+                console.log("<1024 called");
+                threshold = 550; // Tablet: Search card uses 2 columns
+            } else {
+                console.log("general size called");
             }
+
 
             if (window.scrollY > threshold) {
                 setShowStickySearch(true);
+                console.log("showing sticky search");
             } else {
                 setShowStickySearch(false);
             }
@@ -208,7 +214,6 @@ const Home = () => {
                                     list="home-stations-list"
                                     placeholder="From..."
                                     className="search-input w-full min-w-0 "
-                                    // className="w-full p-3 border border-slate-300 rounded-md text-base transition-colors focus:outline-none focus:border-[--color-accent-sky] focus:ring-4 focus:ring-[--color-accent-sky]/20"
                                 />
                             </div>
                             <datalist id="home-stations-list">
@@ -256,12 +261,14 @@ const Home = () => {
                                     className="search-input w-full min-w-0 "
                                 />
                             </div>
-                            <button
-                                className="btn btn-primary w-full md:w-auto"
-                                onClick={handleSearch}
-                            >
-                                Search
-                            </button>
+                            <div className="sm:col-span-2 lg:col-span-4 flex justify-center mt-4">
+                                <button
+                                    className="btn btn-primary w-full md:w-64"
+                                    onClick={handleSearch}
+                                >
+                                    Search
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
