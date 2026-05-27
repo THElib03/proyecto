@@ -85,8 +85,10 @@ const MyTickets = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>My Tickets</h1>
-                    <p>View and manage your bookings</p>
+                    <div>
+                        <h1>My Tickets</h1>
+                        <p>View and manage your bookings</p>
+                    </div>
                 </div>
 
                 <div className="mb-8 flex gap-2 flex-wrap">

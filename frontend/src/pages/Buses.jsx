@@ -133,7 +133,7 @@ const Buses = () => {
                         className="btn btn-secondary mx-auto sm:mx-0"
                         onClick={() => navigate("/admin")}
                     >
-                        ← Back to Routes
+                        ← Back to Admin
                     </button>
                 </div>
 
@@ -254,10 +254,10 @@ const Buses = () => {
                     </div>
                 )}
 
-                <div className="mb-6 p-4 rounded">
+                <div className="search-container">
                     <input
                         type="text"
-                        className="search-input w-full min-w-0 box-border"
+                        className="search-input"
                         placeholder="Search by license plate or model..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

@@ -204,18 +204,18 @@ const RouteTravels = () => {
                     >
                         + Add Travel
                     </button>
-
-                    <div className="mb-6">
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search by departure or return date..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
                 </div>
 
+                <div className="search-container">
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search by departure or return date..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                
                 {showForm && (
                     <div className="card mb-8">
                         <div className="card-header">

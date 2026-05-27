@@ -32,3 +32,6 @@ backend/assets/vendor/
 
 ### PSD
 *.psd
+
+### CSS
+index.css

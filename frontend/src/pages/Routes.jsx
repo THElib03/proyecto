@@ -188,7 +188,7 @@ const Routes = () => {
                     </div>
                 )}
 
-                <div className="my-6">
+                <div className="search-container">
                     <input
                         type="text"
                         className="search-input"
