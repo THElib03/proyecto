@@ -152,9 +152,11 @@ const Book = () => {
                     <BookingSuccess totalPrice={totalPrice} />
                 ) : (
                     <>
-                <div className="page-header mb-8">
-                    <h1>{showPayment ? "Payment Information" : "Confirm Your Booking"}</h1>
-                    <p>{showPayment ? "Enter your card details to complete the purchase" : "Review your travel details before proceeding to payment"}</p>
+                <div className="page-header">
+                    <div>
+                        <h1>{showPayment ? "Payment Information" : "Confirm Your Booking"}</h1>
+                        <p>{showPayment ? "Enter your card details to complete the purchase" : "Review your travel details before proceeding to payment"}</p>
+                    </div>
                 </div>
 
                 {showPayment ? (

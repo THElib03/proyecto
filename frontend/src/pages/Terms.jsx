@@ -7,15 +7,13 @@ const Terms = () => {
         <div className="app-container">
             <div className="page-container max-w-7xl mx-auto px-4 sm:px-10">
                 <div className="page-header">
-                    <div className="flex items-center justify-between">
-                        <h1>Privacy Policy</h1>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate("/home")}
-                        >
-                            ← Back to main page
-                        </button>
-                    </div>
+                    <h1>Privacy Policy</h1>
+                    <button
+                        className="btn btn-secondary mx-auto sm:mx-0"
+                        onClick={() => navigate("/")}
+                    >
+                        ← Back to main page
+                    </button>
                 </div>
 
                 <div className="card my-8 p-5">

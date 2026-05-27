@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Buses = () => {
+    const navigate = useNavigate();
+
     const [buses, setBuses] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
@@ -121,8 +124,17 @@ const Buses = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Buses Management</h1>
-                    <p>Manage your bus fleet</p>
+                    <div>
+                        <h1>Buses Management</h1>
+                        <p>Manage your bus fleet</p>
+                    </div>
+
+                    <button
+                        className="btn btn-secondary mx-auto sm:mx-0"
+                        onClick={() => navigate("/admin")}
+                    >
+                        ← Back to Routes
+                    </button>
                 </div>
 
                 <div className="btn-group">

@@ -86,6 +86,7 @@ body {
     
     .page-header {
         @apply mb-8 pb-4 border-b-2 border-[var(--color-primary-teal)];
+        @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4;
     }
     .page-header h1, .page-header h2 {
         @apply  text-2xl sm:text-4xl text-[var(--color-primary-teal)] font-bold mb-2;

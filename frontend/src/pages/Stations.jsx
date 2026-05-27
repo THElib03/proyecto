@@ -112,16 +112,16 @@ const Stations = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <div className="flex items-center justify-between">
+                    <div>
                         <h1>Stations Management</h1>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate("/admin")}
-                        >
-                            ← Back to Admin
-                        </button>
+                        <p>Manage bus stations and terminals</p>
                     </div>
-                    <p>Manage bus stations and terminals</p>
+                    <button
+                        className="btn btn-secondary mx-auto sm:mx-0"
+                        onClick={() => navigate("/admin")}
+                    >
+                        ← Back to Admin
+                    </button>
                 </div>
 
                 <div className="btn-group">

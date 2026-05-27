@@ -12,8 +12,10 @@ const Admin = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Admin Dashboard</h1>
-                    <p>Manage buses, routes, and stations</p>
+                    <div>
+                        <h1>Admin Dashboard</h1>
+                        <p>Manage buses, routes, and stations</p>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

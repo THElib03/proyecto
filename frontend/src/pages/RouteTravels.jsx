@@ -174,27 +174,22 @@ const RouteTravels = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <div className="flex items-center justify-between">
+                    <div>
                         <h1>Travels for Route: {routeName}</h1>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate("/admin")}
-                        >
-                            ← Back to Admin
-                        </button>
+                        <p>View and manage travels on this route</p>
                     </div>
-                    <p>View and manage travels on this route</p>
-                </div>
-
-                <div className="btn-group">
+                    
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary mx-auto sm:mx-0"
                         onClick={() => navigate("/admin/routes")}
                     >
                         ← Back to Routes
                     </button>
+                </div>
+
+                <div className="btn-group">
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-primary my-auto"
                         onClick={() => {
                             setShowForm(true);
                             setEditingId(null);
@@ -209,6 +204,16 @@ const RouteTravels = () => {
                     >
                         + Add Travel
                     </button>
+
+                    <div className="mb-6">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search by departure or return date..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 {showForm && (
@@ -298,16 +303,6 @@ const RouteTravels = () => {
                         </div>
                     </div>
                 )}
-
-                <div className="mb-6">
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search by departure or return date..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
 
                 {loading ? (
                     <div className="loading">Loading travels...</div>

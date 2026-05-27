@@ -144,18 +144,19 @@ const RouteStations = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>Manage Stations for Route: {routeName}</h1>
-                    <p>Organize and manage stations in this route</p>
-                </div>
+                    <div>
+                        <h1>Manage Stations for Route: {routeName}</h1>
+                        <p>Organize and manage stations in this route</p>
+                    </div>
 
-                <div className="btn-group">
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary mx-auto sm:mx-0"
                         onClick={() => navigate("/admin/routes")}
                     >
                         ← Back to Routes
                     </button>
                 </div>
+
 
                 <div className="card mb-8">
                     <div className="card-header">
