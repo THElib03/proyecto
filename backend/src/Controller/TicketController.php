@@ -39,10 +39,10 @@ final class TicketController extends AbstractController
             $ticket->setOwner($user);
             $ticket->setFromId($stationRepo->find($ticketInfo['from'] ?? 1));
             $ticket->setToId($stationRepo->find($ticketInfo['to'] ?? 1));
-            $ticket->setDate(new \DateTimeImmutable($ticketInfo['date']));
-            $ticket->setDeparture(new \DateTimeImmutable($ticketInfo['departure_time']));
-            $ticket->setArrival(new \DateTimeImmutable($ticketInfo['arrival_time']));
-            $ticket->setPrice((float) $ticketInfo['price']);
+            $ticket->setDate(new \DateTimeImmutable($ticketInfo['date'] ?? '2026-01-01'));
+            $ticket->setDeparture(new \DateTimeImmutable($ticketInfo['departure_time'] ?? '00:00'));
+            $ticket->setArrival(new \DateTimeImmutable($ticketInfo['arrival_time'] ?? '00:00'));
+            $ticket->setPrice((float) $ticketInfo['price'] ?? 10.0);
             $ticket->setPurchaseDate(new \DateTimeImmutable());
             
             // Basic seat assignment logic; could be enhanced with a real seat map

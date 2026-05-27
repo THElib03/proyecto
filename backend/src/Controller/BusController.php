@@ -27,9 +27,9 @@ final class BusController extends AbstractController
             $data = json_decode($request->getContent(), true);
             $bus = new Bus();
             
-            $bus->setPlateNum($data['plateNum'] ?? null);
-            $bus->setModel($data['model'] ?? null);
-            $bus->setNumSeat($data['numSeat'] ?? null);
+            $bus->setPlateNum($data['plateNum'] ?? "1234BCD");
+            $bus->setModel($data['model'] ?? "Unknown");
+            $bus->setNumSeat($data['numSeat'] ?? 0);
             // $bus->setStatus($data['status'] ?? 'active');
             
             $entityManager->persist($bus);
@@ -53,7 +53,7 @@ final class BusController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
             
-            if (isset($data['kmCount'])) $bus->setKmCount($data['kmCount']);
+            if (isset($data['kmCount'])) $bus->setKmCount($data['kmCount']) ?? $bus->getKmCount();
             // if (isset($data['status'])) $bus->setStatus($data['status']);
             
             $entityManager->flush();

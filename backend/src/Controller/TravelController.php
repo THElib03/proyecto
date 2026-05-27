@@ -42,15 +42,14 @@ final class TravelController extends AbstractController
         
         // Set dates and times
         if (!empty($data['departure_time'])) {
-            $departure = \DateTime::createFromFormat('H:i', $data['departure_time']);
-            $travel -> setDepartureTime($departure);
+            $travel -> setDepartureTime(\DateTime::createFromFormat('H:i', $data['departure_time']));
         }
         if (!empty($data['valid_until'])) {
             $travel -> setValidUntil(new \DateTime($data['valid_until']));
         }
         
         // Set work days
-        $travel -> setWorkDays($data['work_days'] ?? ''); 
+        $travel -> setWorkDays($data['work_days'] ?? 'Mon'); 
         
         // Set bus and route
         if (!empty($data['bus_id'])) {
@@ -58,12 +57,18 @@ final class TravelController extends AbstractController
             if ($bus) {
                 $travel -> setBusId($bus);
             }
+            else {
+                $travel -> setBusId($busRepository -> find(1));
+            }
         }
         
         if (!empty($data['route_id'])) {
             $route = $routesRepository -> find($data['route_id']);
             if ($route) {
                 $travel ->setRouteId($route);
+            }
+            else{
+                $travel -> setRouteId($routesRepository -> find(1));
             }
         }
         
@@ -101,18 +106,14 @@ final class TravelController extends AbstractController
         $data = json_decode($request->getContent(), true);
         
         if (!empty($data['departure_time'])) {
-            $departure = \DateTime::createFromFormat('H:i', $data['departure_time']);
-            $travel->setDepartureTime($departure);
+            $travel->setDepartureTime(\DateTime::createFromFormat('H:i', $data['departure_time']));
         }
         if (!empty($data['valid_until'])) {
             $travel->setValidUntil(new \DateTime($data['valid_until']));
         }
-        if (!empty($data['end_hour'])) {
-            $endHour = \DateTime::createFromFormat('H:i', $data['end_hour']);
-        }
         
         if (!empty($data['work_days'])) {
-            $travel->setWorkDays($data['work_days']);
+            $travel->setWorkDays($data['work_days'] ?? 'Mon');
         }
         
         if (!empty($data['bus_id'])) {
@@ -120,11 +121,14 @@ final class TravelController extends AbstractController
             if ($bus) {
                 $travel->setBusId($bus);
             }
+            else{
+                $travel->setBusId($busRepository->find(1));
+            }
         }
         
         // Handle reverse field
         if (isset($data['reverse'])) {
-            $travel->setReverse($data['reverse']);
+            $travel->setReverse($data['reverse'] ?? false);
         }
         
         $entityManager->flush();

@@ -40,7 +40,7 @@ final class RouteController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $route = new Routes();
         
-        $route->setName($data['name'] ?? null);
+        $route->setName($data['name'] ?? "New Route");
 
         $entityManager->persist($route);
         $entityManager->flush();
