@@ -85,14 +85,14 @@ body {
     }
     
     .page-header {
-        @apply mb-8 pb-4 border-b-2 border-[var(--color-primary-teal)];
+        @apply mb-8 pb-4 border-b-2 border-primary-teal;
         @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4;
     }
     .page-header h1, .page-header h2 {
-        @apply  text-2xl sm:text-4xl text-[var(--color-primary-teal)] font-bold mb-2;
+        @apply  text-2xl sm:text-4xl text-primary-teal font-bold mb-2;
     }
     .page-header p {
-        @apply text-[var(--color-slate-blue)] text-sm sm:text-base;
+        @apply text-slate-blue text-sm sm:text-base;
     }
 
     /* Forms */
@@ -113,7 +113,7 @@ body {
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-        @apply outline-none border-[var(--color-accent-sky)] ring-4 ring-[var(--color-accent-sky)]/20;
+        @apply outline-none border-accent-sky ring-4 ring-accent-sky/20;
     }
     .form-error {
         @apply text-red-600 text-xs mt-1;
@@ -127,10 +127,10 @@ body {
         @apply px-6 py-3 rounded-md text-base font-semibold cursor-pointer transition-all inline-block text-center;
     }
     .btn-primary {
-        @apply bg-[var(--color-accent-sky)] text-slate-900 hover:brightness-90 shadow-sm active:scale-95;
+        @apply bg-accent-sky text-slate-900 hover:brightness-90 shadow-sm active:scale-95;
     }
     .btn-secondary {
-        @apply bg-[var(--color-slate-blue)] text-white hover:opacity-90;
+        @apply bg-slate-blue text-white hover:opacity-90;
     }
     .btn-success {
         @apply bg-green-600 text-white hover:bg-green-700;
@@ -153,10 +153,10 @@ body {
         @apply w-full border-collapse bg-white rounded-md overflow-hidden;
     }
     .table thead {
-        @apply bg-teal-50 border-b-2 border-[var(--color-primary-teal)]/20;
+        @apply bg-teal-50 border-b-2 border-primary-teal/20;
     }
     .table th {
-        @apply p-4 text-left font-semibold text-[var(--color-primary-teal)];
+        @apply p-4 text-left font-semibold text-primary-teal;
     }
     .table td {
         @apply p-4 border-b border-slate-100;
@@ -179,7 +179,7 @@ body {
         @apply border-b border-slate-100 pb-4 mb-4;
     }
     .card-header h3 {
-        @apply text-[var(--color-primary-teal)] text-xl font-bold;
+        @apply text-primary-teal text-xl font-bold;
     }
     .card-body {
         @apply leading-relaxed;
@@ -199,7 +199,7 @@ body {
         @apply bg-red-50 text-red-800 border-red-500;
     }
     .alert-info {
-        @apply bg-teal-50 text-teal-900 border-[var(--color-primary-teal)];
+        @apply bg-teal-50 text-teal-900 border-primary-teal;
     }
 
     /* Search */
@@ -210,7 +210,7 @@ body {
         @apply flex-1 max-w-xs min-w-5 p-3 border border-slate-300 rounded-md transition-all;
     }
     .search-input:focus {
-        @apply outline-none border-[var(--color-accent-sky)] ring-4 ring-[var(--color-accent-sky)]/20;
+        @apply outline-none border-accent-sky ring-4 ring-accent-sky/20;
     }
 
     /* States */
@@ -221,7 +221,7 @@ body {
         @apply text-center p-12 text-slate-500;
     }
     .empty-state h3 {
-        @apply text-[var(--color-slate-blue)] mb-2 font-semibold;
+        @apply text-slate-blue mb-2 font-semibold;
     }
 
     /* Footer Links */

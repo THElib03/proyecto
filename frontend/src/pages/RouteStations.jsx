@@ -163,10 +163,11 @@ const RouteStations = () => {
                         <h3>Add Station to Route</h3>
                     </div>
                     <div className="card-body">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="form-group flex flex-col">
                                 <label>Select Station</label>
                                 <select
+                                    className="mt-auto"
                                     value={selectedStationId}
                                     onChange={(e) =>
                                         setSelectedStationId(e.target.value)
@@ -180,18 +181,20 @@ const RouteStations = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group flex flex-col">
                                 <label>Expected Time for the Next Station</label>
                                 <input
+                                    className="mt-auto"
                                     type="time"
                                     name="timeToNext"
                                     value={timeToNext}
                                     onChange={(e) => setTimeToNext(e.target.value)}
                                 />
                             </div>
-                            <div style={{ display: "flex", alignItems: "flex-end" }}>
+                            <div className="form-group flex flex-col">
+                                <label className="hidden md:block">&nbsp;</label>
                                 <button
-                                    className="btn btn-success"
+                                    className="btn btn-success w-full flex items-center justify-center mt-auto"
                                     onClick={handleAddStation}
                                 >
                                     + Add Station
@@ -221,31 +224,17 @@ const RouteStations = () => {
                             </div>
                         </div>
                         <div className="card-body">
-                            <div className="space-y-2">
+                            <div className="space-y-3">
                                 {routeStations.map((routeStation) => (
                                     <div
                                         key={routeStation.id}
-                                        className="flex items-center gap-4 p-4 border rounded bg-gray-50"
+                                        className="flex flex-col sm:flex-row gap-4 p-4 border border-slate-200 rounded-lg bg-slate-50 shadow-sm"
                                     >
-                                        <div className="form-group" style={{ width: "80px" }}>
-                                            <label>Position</label>
-                                            <input
-                                                type="number"
-                                                min="1"
-                                                value={routeStation.position}
-                                                onChange={(e) =>
-                                                    handlePositionChange(
-                                                        routeStation.station.id,
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ fontWeight: "bold" }}>
+                                        <div className="flex-1 order-1">
+                                            <div className="text-bold text-lg">
                                                 {routeStation.station.name}
                                             </div>
-                                            <div style={{ fontSize: "0.9em", color: "#666" }}>
+                                            <div className=" text-sm text-gray-500">
                                                 {routeStation.station.city} •{" "}
                                                 {routeStation.station.address}
                                                 {routeStation.timeToNext && (
@@ -253,14 +242,30 @@ const RouteStations = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() =>
-                                                handleRemoveStation(routeStation.station.id)
-                                            }
-                                        >
-                                            Remove
-                                        </button>
+                                        <div className=" flex flex-row shrink-0 order-2">
+                                            <div className="form-group mb-0 mr-3 w-20">
+                                                <label>Position</label>
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    value={routeStation.position}
+                                                    className=" text-center"
+                                                    onChange={(e) =>
+                                                        handlePositionChange(
+                                                            routeStation.station.id,
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+
+                                            <button
+                                                className="btn btn-md btn-danger self-end min-w-0 w-auto ml-3 shadow-sm whitespace-nowrap"
+                                                onClick={() =>
+                                                    handleRemoveStation(routeStation.station.id)
+                                                }
+                                            >Remove</button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>

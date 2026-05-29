@@ -126,7 +126,7 @@ const Home = () => {
     return (
         <div className="flex-1 p-8 mx-auto w-full max-w-7xl">
             {/* Hero Section */}
-            <div className="bg-[var(--color-primary-teal)] text-white py-12 px-6 text-center rounded-t-lg">
+            <div className="bg-primary-teal text-white py-12 px-6 text-center rounded-t-lg">
                 <h1 className="text-4xl mb-4 font-bold">Book Your Bus Ticket</h1>
                 <p className="text-xl opacity-90">
                     Find and book buses to your favorite destinations
