@@ -275,12 +275,10 @@ const Home = () => {
 
                 {/* Popular Routes */}
                 <div className="page-header mt-8">
-                    <h2>
-                        Popular Routes
-                    </h2>
-                    <p>
-                        Check out our most popular destinations
-                    </p>
+                    <div>
+                        <h2>Popular Routes</h2>
+                        <p>Check out our most popular destinations</p>
+                    </div>
                 </div>
 
                 {isLoadingRoutes ? (
@@ -304,21 +302,23 @@ const Home = () => {
                 )}
 
                 {/* Quick Links */}
-                <div className="mt-12">
+                <div className="mt-8">
                     <div className="page-header">
-                        <h2>Special Offers</h2>
-                        <p>Don't miss our current deals</p>
+                        <div>
+                            <h2>Special Offers</h2>
+                            <p>Don't miss our current deals</p>
+                        </div>
                     </div>
 
-                    <div className="grid-2">
-                        <div className="card">
+                    <div className="flex flex-col md:flex-row gap-8">
+                        <div className="card flex-1 flex flex-col">
                             <div className="card-header">
-                                <h3>Travel Bonds</h3>
+                                <h3 className="text-2xl">Travel Bonds</h3>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body flex-1">
                                 <p>Get exclusive discounts with our monthly travel bonds</p>
                             </div>
-                            <div className="card-footer">
+                            <div className="card-footer flex items-center justify-center">
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => navigate("/bonds")}
@@ -327,14 +327,14 @@ const Home = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="card">
+                        <div className="card flex-1 flex flex-col">
                             <div className="card-header">
-                                <h3>Promotions</h3>
+                                <h3 className="text-2xl">Promotions</h3>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body flex-1">
                                 <p>Check out our latest sales and promotional offers</p>
                             </div>
-                            <div className="card-footer">
+                            <div className="card-footer flex items-center justify-center">
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => navigate("/promos")}
