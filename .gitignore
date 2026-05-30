@@ -30,8 +30,7 @@ backend/assets/vendor/
 /.php-cs-fixer.cache
 ###< php-cs-fixer/shim ###
 
-### PSD
+### Misc ###
 *.psd
-
-### CSS
 index.css
+PROYECTO.txt

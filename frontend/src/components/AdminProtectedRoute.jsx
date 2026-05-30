@@ -36,7 +36,6 @@ const AdminProtectedRoute = () => {
     }
     if(status === 'invalid') {
         console.log("Not authenticated");
-        logout();
         return <Error/>;
     }
     return <Outlet />;
