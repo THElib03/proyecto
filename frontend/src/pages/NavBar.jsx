@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
     const navigate = useNavigate();
+    const navRef = useRef(null);
+    const { token } = useAuth();
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [stations, setStations] = useState([]);
-    const { token } = useAuth();
-    const isActive = (path) => (location.pathname === path ? "active" : ""); // Keep this line
-    const today = new Date().toLocaleDateString('en-CA'); // Corrected date format
+    const isActive = (path) => (location.pathname === path ? "active" : "");
+    const today = new Date().toLocaleDateString('en-CA');
 
     // Detect scroll position
     useEffect(() => {
@@ -22,10 +23,31 @@ const NavBar = () => {
         fetchStations();
     }, []);
 
-    
+    // Handle closing menu on scroll or click outside
+    useEffect(() => {
+        if (!isNavOpen) return;
+
+        const handleClickOutside = (event) => {
+            if (navRef.current && !navRef.current.contains(event.target)) {
+                setIsNavOpen(false);
+            }
+        };
+
+        const handleScroll = () => {
+            setIsNavOpen(false);
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        window.addEventListener("scroll", handleScroll, { passive: true });
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [isNavOpen]);
 
     return (
-        <nav className="sticky top-0 z-100 w-full! bg-blue-500 shadow-md">
+        <nav ref={navRef} className="sticky top-0 z-100 w-full! bg-blue-500 shadow-md">
             <div className="mx-auto w-full! px-8 py-4 flex justify-between items-center">
                 <Link
                     to="/"
@@ -44,7 +66,12 @@ const NavBar = () => {
 
                     {/* Navigation Links */}
                     <div
-                        className={`${isNavOpen ? "flex" : "hidden"} md:flex gap-8 items-center flex-col md:flex-row md:flex-wrap absolute md:relative top-16 md:top-0 left-0 right-0 bg-blue-500 md:bg-transparent p-4 md:p-0 w-full md:w-auto`}
+                        className={`flex gap-8 items-center flex-col md:flex-row md:flex-wrap absolute md:relative top-16 md:top-0 left-0 right-0 bg-blue-500 md:bg-transparent p-4 md:p-0 w-full md:w-auto transition-all duration-300 ease-in-out
+                            ${isNavOpen 
+                                ? "opacity-100 translate-y-0 pointer-events-auto" 
+                                : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"}
+                        `}
+                        onClick={() => setIsNavOpen(false)}
                     >
                         <Link
                             to="/"
