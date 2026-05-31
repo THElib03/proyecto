@@ -72,6 +72,14 @@ body {
     a:hover {
         color: var(--color-accent-sky);
     }
+
+    input[type="date"]::-webkit-date-and-time-value {
+        width: 100%;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+        /* min-height: 1.5em; */
+    }
 }
 
 @layer components {
@@ -237,6 +245,7 @@ body {
         -moz-appearance: textfield;
         -webkit-appearance: textfield;
         /* appearance: textfield; */
+        min-width: 95%;
     }
 }
 
