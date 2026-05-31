@@ -60,8 +60,10 @@ const Profile = () => {
         <div className="app-container">
             <div className="page-container">
                 <div className="page-header">
-                    <h1>My Profile</h1>
-                    <p>View and manage your personal information</p>
+                    <div>
+                        <h1>My Profile</h1>
+                        <p>View and manage your personal information</p>
+                    </div>
                 </div>
 
                 {user && (

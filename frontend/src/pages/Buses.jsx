@@ -123,7 +123,7 @@ const Buses = () => {
     return (
         <div className="app-container">
             <div className="page-container">
-                <div className="page-header">
+                <div className="page-header mb-5">
                     <div>
                         <h1>Buses Management</h1>
                         <p>Manage your bus fleet</p>
