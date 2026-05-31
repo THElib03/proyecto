@@ -145,7 +145,7 @@ const Home = () => {
                                 onChange={handleInputChange}
                                 list="nav-stations-list"
                                 placeholder="From..."
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 min-w-0 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <datalist id="nav-stations-list">
@@ -161,7 +161,7 @@ const Home = () => {
                                 onChange={handleInputChange}
                                 list="nav-stations-list"
                                 placeholder="To..."
-                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 min-w-0 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <div className="flex-1 min-w-38">
@@ -171,7 +171,7 @@ const Home = () => {
                                 value={formData.departureDate}
                                 min={today}
                                 onChange={handleInputChange}
-                                className="iosdater w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 "
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 "
                             />
                         </div>
                         <div className="flex-1 min-w-38">
@@ -181,7 +181,7 @@ const Home = () => {
                                 value={formData.returnDate}
                                 min={formData.departureDate || today}
                                 onChange={handleInputChange}
-                                className="iosdater w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
                         <button

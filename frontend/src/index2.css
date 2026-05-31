@@ -73,12 +73,17 @@ body {
         color: var(--color-accent-sky);
     }
 
-    input[type="date"]::-webkit-date-and-time-value {
+    input::-webkit-date-and-time-value {
         width: 100%;
         text-align: left;
         margin: 0;
         padding: 0;
         /* min-height: 1.5em; */
+    }
+
+    input[type="date"] {
+        min-width: 0 !important; /* Overrides hidden user-agent minimums */
+        -webkit-appearance: none; /* Strips default iOS input bubble styling */
     }
 }
 
@@ -238,14 +243,6 @@ body {
     }
     .footer-link:hover {
         @apply text-accent-sky decoration-accent-sky;
-    }
-
-    /* iOS proper sizing */
-    .iosdater {
-        -moz-appearance: textfield;
-        -webkit-appearance: textfield;
-        /* appearance: textfield; */
-        min-width: 95%;
     }
 }
 
