@@ -223,7 +223,7 @@ const Search = () => {
                                     }
                                 />
                             </div>
-                            <div className="flex items-end">
+                            <div className="flex items-end md:col-start-2">
                                 <button
                                     className="btn btn-primary w-full"
                                     onClick={() => handleSearch(true)}
@@ -246,7 +246,7 @@ const Search = () => {
                     <div>
                         {results.map((trip) => (
                             <div key={trip.id} className="card mb-4">
-                                <div className="grid grid-cols-5 gap-4 items-center">
+                                <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 items-center">
                                     <div>
                                         <p className="text-lg font-bold">
                                             {trip.userDeparture}
@@ -272,14 +272,14 @@ const Search = () => {
                                         </p>
                                     </div>
 
-                                    <div className="text-right">
+                                    <div className="text-center sm:text-right col-span-2 sm:col-span-1">
                                         <p className="text-xl font-bold text-green-600">
                                             {trip.price}€ 
                                         </p>
                                         <p className="text-slate-600 text-sm">Price</p>
                                     </div>
                                     <button
-                                        className="btn btn-primary"
+                                        className="btn btn-primary w-full sm:w-auto whitespace-nowrap px-2 sm:px-6"
                                         onClick={() => {
                                             handleSelectTrip(trip);
                                         }}
