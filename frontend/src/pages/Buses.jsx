@@ -61,6 +61,12 @@ const Buses = () => {
     };
 
     const handleSave = async () => {
+        const plateRegex = /^\d{4}[A-Z]{3}$/;
+        if (!plateRegex.test(formData.plateNum)) {
+            alert("Invalid License Plate format. Expected 1234ABC (4 digits followed by 3 uppercase letters).");
+            return;
+        }
+
         try {
             const method = editingId ? "PUT" : "POST";
             const url = editingId ? `/api/bus/${editingId}` : "/api/bus/new";
@@ -177,7 +183,7 @@ const Buses = () => {
                                         name="plateNum"
                                         value={formData.plateNum}
                                         onChange={handleInputChange}
-                                        placeholder="1234 ABC"
+                                        placeholder="1234ABC"
                                         disabled={!!editingId}
                                     />
                                 </div>
