@@ -90,15 +90,15 @@ body {
 @layer components {
     /* Layout */
     .app-container {
-        @apply p-8 w-full;
+        @apply p-4 sm:p-8 w-full;
     }
 
     .page-container {
-        @apply w-full bg-white rounded-lg p-8 shadow-md animate-fadeIn;
+        @apply w-full bg-white rounded-lg p-4 sm:p-8 shadow-md animate-fadeIn;
     }
     
     .page-header {
-        @apply mb-8 pb-4 border-b-2 border-primary-teal;
+        @apply mb-4 sm:mb-8 pb-4 border-b-2 border-primary-teal;
         @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4;
     }
     .page-header h1, .page-header h2 {
@@ -183,7 +183,7 @@ body {
 
     /* Cards */
     .card {
-        @apply bg-white rounded-lg p-6 shadow transition-shadow;
+        @apply bg-white rounded-lg p-3 sm:p-6 shadow transition-shadow;
     }
     .card:hover {
         @apply transform -translate-y-1 shadow-lg;
@@ -217,7 +217,7 @@ body {
 
     /* Search */
     .search-container {
-        @apply flex gap-4 mb-8 flex-wrap items-end;
+        @apply flex gap-4 mb-4 sm:mb-8 flex-wrap items-end;
     }
     .search-input {
         @apply flex-1 max-w-xs min-w-5 p-3 border border-slate-300 rounded-md transition-all;
