@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <footer className="bg-blue-500 border-t border-slate-300 py-2 mt-12">
+        <footer className="bg-blue-500 border-t border-slate-300 py-2">
             <div className="w-full! mx-auto px-8 text-center">
                 <p className="text-slate-300">&copy; 2026 Saal Booking System. Copyleft under <a href="https://www.gnu.org/licenses/gpl-3.0.html" className="footer-link">GPL 3.0 License</a>.</p>
                 <div className="flex justify-center gap-8 mt-4">

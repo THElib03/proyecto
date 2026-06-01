@@ -222,30 +222,33 @@ const RouteTravels = () => {
                             <h3>{editingId ? "Edit Travel" : "Add New Travel"}</h3>
                         </div>
                         <div className="card-body">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="form-group">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="form-group flex flex-col">
                                     <label>Departure Time</label>
                                     <input
                                         type="time"
+                                        className="mt-auto"
                                         name="departure_time"
                                         value={formData.departure_time}
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group flex flex-col">
                                     <label>Valid Until</label>
                                     <input
                                         type="date"
+                                        className="mt-auto"
                                         name="valid_until"
                                         value={formData.valid_until}
                                         onChange={handleInputChange}
                                         required={!editingId}
                                     />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group flex flex-col">
                                     <label>Bus</label>
                                     <select
                                         name="bus_id"
+                                        className="mt-auto"
                                         value={formData.bus_id}
                                         onChange={handleInputChange}
                                         required={!editingId}
@@ -258,10 +261,11 @@ const RouteTravels = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group flex flex-col">
                                     <label>Work Days</label>
                                     <input
                                         type="text"
+                                        className="mt-auto"
                                         name="work_days"
                                         value={formData.work_days}
                                         onChange={handleInputChange}
@@ -269,21 +273,22 @@ const RouteTravels = () => {
                                         required={!editingId}
                                     />
                                 </div>
-                                <div className="form-group">
-                                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div className="form-group flex flex-col">
+                                    <label className="hidden md:block">&nbsp;</label>
+                                    <label className="mt-auto flex items-center gap-2 cursor-pointer py-2">
                                         <input
                                             type="checkbox"
                                             name="reverse"
                                             checked={formData.reverse || false}
                                             onChange={handleInputChange}
                                         />
-                                        Is the travel in reverse?
+                                        <span>Is the travel in reverse?</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div className="card-footer">
-                            <div className="btn-group">
+                            <div className="btn-group justify-center">
                                 <button
                                     className="btn btn-success"
                                     onClick={handleSave}
