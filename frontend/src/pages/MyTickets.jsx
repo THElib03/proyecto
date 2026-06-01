@@ -75,7 +75,7 @@ const MyTickets = () => {
 
     const getStationName = (id) => {
         const station = stations.find(s => s.id === parseInt(id));
-        return station ? `${station.city}, ${station.name}` : `Station #${id}`;
+        return station ? (station.name ? `${station.city} (${station.name})` : station.city) : `Station #${id}`;
     };
 
     const filteredTickets =

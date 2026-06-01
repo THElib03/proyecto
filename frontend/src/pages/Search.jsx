@@ -90,7 +90,7 @@ const Search = () => {
                     const matches = trip.duration.match(/(\d+)h\s+(\d+)m/);
                     const [hours, minutes] = matches ? [parseInt(matches[1]), parseInt(matches[2])] : [0, 0];
                     const totalMinutes = hours * 60 + minutes;
-                    price = (totalMinutes / 12.3).toFixed(2); // Calculate price based on duration
+                    price = (totalMinutes / 12.3).toFixed(2);
                 }
                 return { ...trip, price, travelDate: searchDate };
             });
@@ -174,9 +174,9 @@ const Search = () => {
                     </div>
                     <div className="card-body">
                         <div className="mb-4 text-lg font-semibold text-slate-700">
-                            {originStation ? `From: ${originStation.city}, ${originStation.name}` : `From: ${fromName || 'N/A'}`}
+                            {originStation ? `From: ${originStation.name ? `${originStation.city} (${originStation.name})` : originStation.city}` : `From: ${fromName || 'N/A'}`}
                             <br />
-                            {destinationStation ? `To: ${destinationStation.city}, ${destinationStation.name}` : `To: ${toName || 'N/A'}`}
+                            {destinationStation ? `To: ${destinationStation.name ? `${destinationStation.city} (${destinationStation.name})` : destinationStation.city}` : `To: ${toName || 'N/A'}`}
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

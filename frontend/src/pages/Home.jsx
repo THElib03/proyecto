@@ -24,22 +24,16 @@ const Home = () => {
     useEffect(() => {
         const handleScroll = () => {
             const width = window.innerWidth;
-            let threshold = 420; // Default for Desktop (lg and up)
+            let threshold = 420;
 
             if (width < 640) {
-                console.log("<640 called");
-                threshold = 920; // Mobile: Search card is tall due to vertical stacking
+                threshold = 920;
             } else if (width < 1024) {
-                console.log("<1024 called");
-                threshold = 550; // Tablet: Search card uses 2 columns
-            } else {
-                console.log("general size called");
+                threshold = 550;
             }
-
 
             if (window.scrollY > threshold) {
                 setShowStickySearch(true);
-                console.log("showing sticky search");
             } else {
                 setShowStickySearch(false);
             }
@@ -96,7 +90,9 @@ const Home = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        const selectedStation = stations.find(s => `${s.city}, ${s.name}` === value);
+        // const selectedStation = stations.find(s => `${s.city}, ${s.name}` === value);
+        const selectedStation = stations.find(s => (s.name ? `${s.city} (${s.name})` : s.city) === value);
+
     
         setDisplayText((prev) => ({ ...prev, [name]: value }));
         if (selectedStation) {
@@ -150,7 +146,8 @@ const Home = () => {
                         </div>
                         <datalist id="nav-stations-list">
                             {stations.filter((s) => !s.delist).map((s) => (
-                                    <option key={s.id} value={`${s.city}, ${s.name}`} />
+                                    // <option key={s.id} value={`${s.city}, ${s.name}`} />
+                                    <option key={s.id} value={s.name ? `${s.city} (${s.name})` : s.city} />
                                 ))}
                         </datalist>
                         <div className="flex-1 min-w-38">
@@ -218,7 +215,7 @@ const Home = () => {
                             </div>
                             <datalist id="home-stations-list">
                                 {stations.filter((s) => !s.delist).map((s) => (
-                                    <option key={s.id} value={`${s.city}, ${s.name}`} />
+                                    <option key={s.id} value={s.name ? `${s.city} (${s.name})` : s.city} />
                                 ))}
                             </datalist>
                             <div className="mb-6">
