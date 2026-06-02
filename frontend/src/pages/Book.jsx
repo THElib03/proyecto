@@ -168,7 +168,7 @@ const Book = () => {
                 ) : (
                     <>
                 {/* Summary Bar */}
-                <div className="bg-blue-600 rounded-xl p-6 text-white shadow-lg mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="bg-blue-600 rounded-xl p-6 text-white shadow-lg mb-8 flex flex-col min-[460px]:flex-row justify-between items-center gap-4">
                     <div className="flex gap-8">
                         <div>
                             <p className="text-blue-100 text-xs uppercase font-bold">Passengers</p>
@@ -203,7 +203,7 @@ const Book = () => {
                     )}
                 </div>
 
-                <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="mt-12 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <button 
                         className="btn btn-secondary w-full md:w-auto"
                         onClick={() => navigate(-1)}
@@ -211,7 +211,7 @@ const Book = () => {
                         ← Back to Search
                     </button>
                     <button 
-                        className="btn btn-primary btn-lg px-12 py-4 text-xl w-full md:w-auto shadow-xl hover:scale-105"
+                        className="btn btn-primary btn-lg px-8 sm:px-12 py-4 text-lg sm:text-xl w-full md:w-auto shadow-xl hover:scale-105"
                         onClick={() => setShowPayment(true)}
                     >
                         Confirm and Pay

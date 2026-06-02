@@ -88,7 +88,7 @@ const Profile = () => {
                             </div>
                             <div className="card-footer">
                                 <Link
-                                    to="/settings"
+                                    to="/profile/settings"
                                     className="btn btn-primary text-white!"
                                 >
                                     Edit Profile
@@ -112,7 +112,7 @@ const Profile = () => {
                             </div>
                             <div className="card-footer">
                                 <Link
-                                    to="/my-tickets"
+                                    to="/profile/my-tickets"
                                     className="btn btn-primary text-white! w-full text-center"
                                 >
                                     View My Tickets
@@ -128,7 +128,7 @@ const Profile = () => {
                                 <ul className="list-none p-0">
                                     <li className="mb-3">
                                         <Link
-                                            to="profile/settings"
+                                            to="/profile/settings"
                                             className="text-blue-500 no-underline"
                                         >
                                             ⚙️ Settings
@@ -136,7 +136,7 @@ const Profile = () => {
                                     </li>
                                     <li className="mb-3">
                                         <Link
-                                            to="profile/my-tickets"
+                                            to="/profile/my-tickets"
                                             className="text-blue-500 no-underline"
                                         >
                                             🎫 My Tickets

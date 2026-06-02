@@ -18,10 +18,10 @@ const TripColumn = ({ trip, title, type }) => (
             </div>
             <div className="card-body">
                 <div className="space-y-4">
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start gap-10">
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase">From</p>
-                            <p className="text-lg font-semibold">{trip.origin?.city}</p>
+                            <p className="text-lg font-semibold">{trip.origin?.name ? `${trip.origin?.city}, ${trip.origin?.name}` : trip.origin?.city}</p>
                             <p className="text-sm text-slate-600">{trip.origin?.address}</p>
                         </div>
                         <div className="text-right">
@@ -36,10 +36,10 @@ const TripColumn = ({ trip, title, type }) => (
                         <p className="text-sm text-slate-500 italic">Travel duration: {trip.duration}</p>
                     </div>
 
-                    <div className="flex justify-between items-end">
+                    <div className="flex justify-between items-end gap-8">
                         <div>
                             <p className="text-xs font-bold text-slate-400 uppercase">To</p>
-                            <p className="text-lg font-semibold">{trip.destination?.city}</p>
+                            <p className="text-lg font-semibold">{trip.destination?.name ? `${trip.destination?.city}, ${trip.destination?.name}` : trip.destination?.city}</p>
                             <p className="text-sm text-slate-600">{trip.destination?.address}</p>
                         </div>
                         <div className="text-right">
