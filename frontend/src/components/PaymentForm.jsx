@@ -144,8 +144,9 @@ const PaymentForm = ({ totalPrice, onBack, onPaymentSuccess }) => {
                             <div className="credit-card-back rounded-xl sm:rounded-2xl shadow-xl bg-slate-200 overflow-hidden text-slate-800">
                                 <div className="magnetic-strip"></div>
                                 <div className="mt-4 sm:mt-8 px-4 sm:px-6">
-                                    <div className="bg-white h-10 sm:h-12 w-full flex items-center justify-end px-4 rounded font-mono text-sm sm:text-base italic text-slate-500 shadow-inner">
-                                        <span className={`font-mono ${focused === 'cvv' ? 'text-[var(--color-primary-teal)] font-bold' : ''}`}>
+                                    <div className="bg-white h-10 sm:h-12 w-full flex items-center justify-between mb-12 px-4 rounded font-mono text-sm sm:text-base italic text-slate-500 shadow-inner">
+                                        <div className=' text-start'>CVC</div>
+                                        <span className={`font-mono ${focused === 'cvv' ? 'text-primary-teal font-bold' : ''}`}>
                                             {cvv || "•••"}
                                         </span>
                                     </div>
@@ -177,7 +178,8 @@ const PaymentForm = ({ totalPrice, onBack, onPaymentSuccess }) => {
                             className="search-input text-sm sm:text-base"
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => setName(e.target.value.substring(0, 35))}
+                            maxLength="35"
                             onFocus={() => setFocused('name')}
                             onBlur={() => setFocused(null)}
                             placeholder="John Doe"
@@ -220,7 +222,7 @@ const PaymentForm = ({ totalPrice, onBack, onPaymentSuccess }) => {
                             Pay {totalPrice}€
                         </button>
                         <button 
-                            className="text-[var(--color-slate-blue)] bg-transparent border-none text-sx sm:text-sm font-semibold hover:underline cursor-pointer" 
+                            className="text-slate-blue bg-transparent border-none text-sx sm:text-sm font-semibold hover:underline cursor-pointer" 
                             onClick={onBack}
                         >
                             ← Go back to review
