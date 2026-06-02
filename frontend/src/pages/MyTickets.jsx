@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 const MyTickets = () => {
     const navigate = useNavigate();
@@ -62,8 +63,39 @@ const MyTickets = () => {
     };
 
     const handleDownloadTicket = (ticketId) => {
-        // TODO: Implement ticket download
-        console.log("Download ticket:", ticketId);
+        const ticket = tickets.find((t) => t.id === ticketId);
+        if (!ticket) return;
+
+        const doc = new jsPDF();
+
+        // Header
+        // Image parameters: src, type, x, y, width, height
+        doc.addImage("/rick.png", "PNG", 85, 10, 40, 15);
+        doc.setFontSize(22);
+        doc.setTextColor(59, 130, 246); // Tailwind blue-500 equivalent
+        doc.text("SAAL TRAVEL TICKET", 105, 40, { align: "center" });
+
+        // Ticket Body
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Origin: ${getStationName(ticket.from)}`, 20, 60);
+        doc.text(`Destination: ${getStationName(ticket.to)}`, 20, 70);
+        doc.setDrawColor(200, 200, 200);
+        doc.line(20, 75, 190, 75);
+
+        doc.text(`Departure Date: ${ticket.date}`, 20, 90);
+        doc.text(`Time: ${ticket.departure}`, 20, 100);
+        doc.text(`Arrival: ${ticket.arrival || "N/A"}`, 120, 100);
+
+        doc.text(`Seat Number: ${ticket.seat || "Unassigned"}`, 20, 120);
+        doc.text(`Price: ${ticket.price}€`, 120, 120);
+
+        // Footer
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150);
+        doc.text("Thank you for traveling with us!", 105, 150, { align: "center" });
+
+        doc.save(`ticket_${ticketId}.pdf`);
     };
 
     const handleCancelTicket = (ticketId) => {
