@@ -73,13 +73,20 @@ const MyTickets = () => {
         }
     };
 
-    const getStationName = (id) => {
-        const station = stations.find(s => s.id === parseInt(id));
-        return station ? (station.name ? `${station.city} (${station.name})` : station.city) : `Station #${id}`;
+    const getStationName = (station) => {
+        if (!station) return "Unknown Station";
+        return station.name ? `${station.city} (${station.name})` : station.city;
+    };
+
+    const getTicketStatus = (ticket) => {
+        if (!ticket.date || !ticket.departure) return "active";
+        const departureDateTime = new Date(`${ticket.date}T${ticket.departure}:00`);
+        const cutoffTime = new Date(departureDateTime.getTime() + 2 * 60 * 60 * 1000);
+        return new Date() > cutoffTime ? "completed" : "active";
     };
 
     const filteredTickets =
-        filter === "all" ? tickets : tickets.filter((t) => t.status === filter);
+        filter === "all" ? tickets : tickets.filter((t) => getTicketStatus(t) === filter);
 
     return (
         <div className="app-container">
@@ -118,68 +125,68 @@ const MyTickets = () => {
                     </div>
                 ) : (
                     <div className="grid grid-2">
-                        {filteredTickets.map((ticket) => (
-                            <div key={ticket.id} className="card">
-                                <div className="card-header">
-                                    <h3>{getStationName(ticket.from)} → {getStationName(ticket.to)}</h3>
-                                </div>
-                                <div className="card-body">
-                                    <div className="mb-3">
-                                        <p>
-                                            <strong>Departure:</strong>{" "}
-                                            {ticket.date} {ticket.departure_time}
-                                        </p>
-                                        <p>
-                                            <strong>Seat:</strong> {ticket.seat || "Unassigned"}
-                                        </p>
-                                        <p>
-                                            <strong>Price:</strong>{" "}
-                                            {ticket.price}€
-                                        </p>
-                                        <p>
-                                            <strong>Status:</strong>{" "}
-                                            <span
-                                                style={{
-                                                    color: getStatusColor(
-                                                        ticket.status,
-                                                    ),
-                                                    fontWeight: "bold",
-                                                }}
-                                            >
-                                                {ticket.status
-                                                    .charAt(0)
-                                                    .toUpperCase() +
-                                                    ticket.status.slice(1)}
-                                            </span>
-                                        </p>
+                        {filteredTickets.map((ticket) => {
+                            const status = getTicketStatus(ticket);
+                            return (
+                                <div key={ticket.id} className="card">
+                                    <div className="card-header">
+                                        <h3>{getStationName(ticket.from)} → {getStationName(ticket.to)}</h3>
                                     </div>
-                                </div>
-                                <div className="card-footer">
-                                    <div className="btn-group flex-col">
-                                        <button
-                                            className="btn btn-sm btn-primary"
-                                            onClick={() =>
-                                                handleDownloadTicket(ticket.id)
-                                            }
-                                        >
-                                            Download
-                                        </button>
-                                        {ticket.status === "active" && (
+                                    <div className="card-body">
+                                        <div className="mb-3">
+                                            <p>
+                                                <strong>Departure:</strong>{" "}
+                                                {ticket.date} {ticket.departure}
+                                            </p>
+                                            <p>
+                                                <strong>Seat:</strong> {ticket.seat || "Unassigned"}
+                                            </p>
+                                            <p>
+                                                <strong>Price:</strong>{" "}
+                                                {ticket.price}€
+                                            </p>
+                                            <p>
+                                                <strong>Status:</strong>{" "}
+                                                <span
+                                                    style={{
+                                                        color: getStatusColor(
+                                                            status,
+                                                        ),
+                                                        fontWeight: "bold",
+                                                    }}
+                                                >
+                                                    {status.charAt(0).toUpperCase() + status.slice(1)}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="card-footer">
+                                        <div className="btn-group flex-col">
                                             <button
-                                                className="btn btn-sm btn-danger"
+                                                className="btn btn-sm btn-primary"
                                                 onClick={() =>
-                                                    handleCancelTicket(
-                                                        ticket.id,
-                                                    )
+                                                    handleDownloadTicket(ticket.id)
                                                 }
                                             >
-                                                Cancel
+                                                Download
                                             </button>
-                                        )}
+                                            {status === "active" && (
+                                                <button
+                                                    className="btn btn-sm btn-danger"
+                                                    onClick={() =>
+                                                        handleCancelTicket(
+                                                            ticket.id,
+                                                        )
+                                                    }
+                                                >
+                                                    Cancel
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </div>

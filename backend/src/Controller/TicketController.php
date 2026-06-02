@@ -55,4 +55,39 @@ final class TicketController extends AbstractController
 
         return $this->json(['status' => 'success', 'count' => count($ticketsData)], Response::HTTP_CREATED);
     }
+
+    #[Route('/my', name: 'api_ticket_my', methods: ['GET'])]
+    public function myTickets(): JsonResponse
+    {
+        $user = $this -> getUser();
+        if (!$user) {
+            return $this->json(['error' => 'Not authenticated'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $tickets = $user -> getTickets();
+        $data = array_map(function (Ticket $ticket) {
+            return [
+                'id' => $ticket->getId(),
+                'travelId' => $ticket->getTravel()?->getId(),
+                'from' => $ticket->getFromId() ? [
+                    'id' => $ticket->getFromId()->getId(),
+                    'name' => $ticket->getFromId()->getName(),
+                    'city' => $ticket->getFromId()->getCity(),
+                ] : null,
+                'to' => $ticket->getToId() ? [
+                    'id' => $ticket->getToId()->getId(),
+                    'name' => $ticket->getToId()->getName(),
+                    'city' => $ticket->getToId()->getCity(),
+                ] : null,
+                'date' => $ticket->getDate()?->format('Y-m-d'),
+                'departure' => $ticket->getDeparture()?->format('H:i'),
+                'arrival' => $ticket->getArrival()?->format('H:i'),
+                'price' => $ticket->getPrice(),
+                'purchaseDate' => $ticket->getPurchaseDate()?->format('Y-m-d H:i:s'),
+                'seat' => $ticket->getSeat(),
+            ];
+        }, $tickets->toArray());
+
+        return $this->json($data);
+    }
 }
