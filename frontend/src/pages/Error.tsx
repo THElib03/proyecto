@@ -4,8 +4,7 @@ const Error = () => {
     const navigate = useNavigate();
     const errorCode = 404;
     const errorTitle = "Page Not Found";
-    const errorDescription =
-        "The page you are looking for does not exist or has been moved.";
+    const errorDescription = "The page you are looking for does not exist or has been moved.";
 
     return (
         <div className="app-container">

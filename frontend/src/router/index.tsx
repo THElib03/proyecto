@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import RootLayout from "../layout/RootLayout";
 import UserLayout from "../layout/UserLayout";
@@ -128,6 +128,6 @@ export const router = createBrowserRouter([
                 path: "terms",
                 element: <Terms />,
             },
-        ],
+        ]
     },
 ]);
